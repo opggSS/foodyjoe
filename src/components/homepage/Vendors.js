@@ -1,5 +1,5 @@
 import React from 'react'
-import vendor_image from '../../assets/banner1.jpg'
+import vendor_image from '../../assets/images/banner1.jpg'
 import {Link} from 'react-router-dom'
 
 

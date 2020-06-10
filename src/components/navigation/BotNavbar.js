@@ -1,22 +1,37 @@
 import React from 'react'
 import { Grid } from 'antd-mobile';
-import {HomeOutlined ,UnorderedListOutlined, AccountBookOutlined } from '@ant-design/icons'
+import { HomeOutlined, UnorderedListOutlined, AccountBookOutlined } from '@ant-design/icons'
+
 
 export default function BotNavbar() {
-  return (
-    <div className="botNavbar">
-        <Grid className="row" center columnNum={4} >
-          <HomeOutlined />
-          <h6>首页</h6>
-        </Grid>
-        <Grid className="row" columnNum={4} >
-          <UnorderedListOutlined />
-          <h6>订单</h6>
-        </Grid>
-        <Grid className="row" columnNum={4} >
-          <AccountBookOutlined />
-          <h6>我的</h6>
-        </Grid>
-    </div>
-  )
+
+  const datas = [
+    {
+      icon: <HomeOutlined />,
+      title: '首页'
+    },
+    {
+      icon: <UnorderedListOutlined />,
+      title: '订单'
+    },
+    {
+      icon: <AccountBookOutlined />,
+      title: '我的'
+    },
+  ]
+
+return (
+  <div className="botNavbar">
+    <Grid
+      columnNum={3}
+      data={datas}
+      renderItem={data => (
+        <div className='row'>
+          {data.icon}
+          <h6>{data.title}</h6>
+        </div>
+      )}
+    />
+  </div>
+)
 }
