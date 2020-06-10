@@ -1,0 +1,81 @@
+$base-color: #c6538c;
+$base-color-light: rgba(198, 83, 140, .4);
+$text-color : #333;
+
+// Home Page  ///////////////////////////////////
+.topNav {
+  background: $base-color-light;
+  position: fixed;
+  top: 0 ;
+  left : 0;
+  width: 100%;
+  height: 2.5rem;
+  .searchBar{
+    text-align: center;
+    width: 90%;
+    margin-left: 5%;;
+    height: 2rem;
+    margin-top: .25rem;
+    border-radius: 1rem;
+
+  }
+
+}
+.homepageContainer {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+.banner {
+  min-height: 10rem;
+}
+.botNavbar{
+  border-top: 1px solid $base-color-light;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
+  padding-bottom: .2rem;
+  .row{
+    text-align: center;
+  }
+}
+.category {
+  .am-flexbox-item{
+    display: inline-block;
+  }
+  .row {
+    margin-top: 1rem;
+    text-align: center;
+    
+    h6{
+      color:$text-color ;
+    }
+  }
+}
+
+.special {
+  margin-top: 1rem;
+  
+  .title {
+    color: $text-color;
+    font-size: 1rem;
+    text-align: center;
+  }
+  img {
+    width: 32%;
+    &:not(:last-child) {
+      margin-right: 2%
+    }
+    display: inline-block !important;
+  }
+
+  
+}
+
+.vendors {
+  img {
+    width: 100%;
+  }
+}
+// end of Home Page  ///////////////////////////////////
