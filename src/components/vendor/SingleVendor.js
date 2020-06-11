@@ -91,15 +91,23 @@ export default function SingleVendor() {
             defaultActiveKey="1"
           // onChange={callback}
           >
-            <TabPane tab="Menu" key="1">
-              <Menu/>
-            </TabPane>
-            <TabPane tab="Ratings" key="2">
-              <Ratings/>
-            </TabPane>
-            <TabPane tab="About" key="3">
-              <About/>
-            </TabPane>
+              <TabPane tab="Menu" key="1">
+                <Menu />
+              </TabPane>
+              <TabPane tab="Ratings" key="2">
+                <Ratings />
+              </TabPane>
+              <TabPane tab="About" key="3">
+                <About
+                  address={data.address}
+                  city={data.city}
+                  province={data.province}
+                  mobile={data.mobile}
+                  business_hours={data.business_hours}
+                  longitude={data.longitude}
+                  latitude={data.latitude}
+                />
+              </TabPane>
           </Tabs>
         </div>
       </div>

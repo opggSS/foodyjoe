@@ -4,6 +4,7 @@ import Banner from './Banner'
 import Categories from './Categories'
 import Special from './Special'
 import Vendors from './Vendors'
+import BotNavbar from '../navigation/BotNavbar'
 export default function Homepage() {
   return (
     <div className='homepageContainer'>
@@ -12,6 +13,7 @@ export default function Homepage() {
       <Categories />
       <Special />
       <Vendors />
+      <BotNavbar/>
     </div>
   )
 }

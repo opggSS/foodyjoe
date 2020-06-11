@@ -10,6 +10,7 @@
     "antd": "^4.3.3",
     "antd-mobile": "^2.3.3",
     "axios": "^0.19.2",
+    "google-maps-react": "^2.0.6",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
