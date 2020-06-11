@@ -28,5 +28,5 @@ const About = ({ mobile, address, city, province, business_hours, longitude, lat
   )
 }
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyDqe6q-n5iTIAkGIjdSjxLjUqMKWAI0FKc'
+  apiKey: ''
 })(About);
