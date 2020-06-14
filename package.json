@@ -4,13 +4,16 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
+    "@svgr/webpack": "^5.4.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "antd": "^4.3.3",
     "antd-mobile": "^2.3.3",
     "axios": "^0.19.2",
+    "babel-plugin-inline-react-svg": "^1.1.1",
     "google-maps-react": "^2.0.6",
+    "lodash": "^4.17.15",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -18,6 +21,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {

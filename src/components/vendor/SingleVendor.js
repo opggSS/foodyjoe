@@ -8,18 +8,11 @@ import { Tabs } from 'antd';
 import Menu from './Menu.component'
 import About from './About.component'
 import Ratings from './Ratings.component'
+import ShortCart from '../cart/shortCart'
 
 const { TabPane } = Tabs;
 
-
-export default function SingleVendor() {
-
-  const tabs = [
-    { title: 'Menu' },
-    { title: 'Ratings' },
-    { title: 'About' }
-  ];
-
+const SingleVendor = () => {
   const data = {
     id: 1,
     shipping_cost: '0.0',
@@ -27,7 +20,7 @@ export default function SingleVendor() {
     address: '5890 no3 road',
     area_id: 4,
     business_hours: [
-      { from: "11:00", to: '23:28' },
+      { from: null, to: null },
       { from: "11:00", to: '23:28' },
       { from: "11:00", to: '23:28' },
       { from: "11:00", to: '23:28' },
@@ -40,7 +33,7 @@ export default function SingleVendor() {
     coupon_tags: ["全场7折", '满100减10'],
     latitude: 49.1708,
     longitude: -123.136,
-    // logo: "../../assets/images/haidilao.jpg",
+    logo: Logo,
     mobile: "6043706665",
     name: "海底捞火锅 | 全场七折",
     pickup_discount: 88,
@@ -56,11 +49,18 @@ export default function SingleVendor() {
     ],
     tags: ["川湘麻辣", "沪港澳汇"],
     tip_lists: [0.1, 0.15, 0.2, 0.25],
+    
+  }
+
+  const vendorInfo = {
+    vendorId: data.id,
+    vendorImage:data.logo,
+    vendorName: data.name
   }
 
   return (
     <div className='singleVendor'>
-      <div className='banner' style={{ backgroundImage: `url(${Logo})` }}>
+      <div className='banner' style={{ backgroundImage: `url(${data.logo})` }}>
         <div className='topbar'>
           <Link to="/">
             <img src={BackIcon} alt='sdf' />
@@ -75,13 +75,11 @@ export default function SingleVendor() {
       </div>
       <div className="overlay"></div>
       <div className="mainContainer">
-
-
         <div className="topContainer">
           <div className="title">{data.name}</div>
           <div className="rating">{data.rating}</div>
           <div className="tags">
-            {data.tags.map((tag) => (<span className="tag">{tag}</span>))}
+            {data.tags.map((tag, index) => (<span key={index} className="tag">{tag}</span>))}
           </div>
 
         </div>
@@ -92,7 +90,7 @@ export default function SingleVendor() {
           // onChange={callback}
           >
               <TabPane tab="Menu" key="1">
-                <Menu />
+                <Menu  vendorInfo={vendorInfo} />
               </TabPane>
               <TabPane tab="Ratings" key="2">
                 <Ratings />
@@ -111,6 +109,9 @@ export default function SingleVendor() {
           </Tabs>
         </div>
       </div>
+      <ShortCart />
     </div>
   )
 }
+
+export default SingleVendor

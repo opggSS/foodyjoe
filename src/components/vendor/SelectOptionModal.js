@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import Close from '../../assets/icons/close.svg'
-import { Modal } from 'antd-mobile';
+import { Modal } from 'antd-mobile'
+import { connect } from 'react-redux'
+import { addToCart } from '../../actions/addToCart'
+import { increment } from '../../actions/increment'
+import _ from 'lodash'
+
 const alert = Modal.alert;
 
-export default function DishModal({ attrs, handleCloseModal, basePrice }) {
+const SelectOptionModal = ({ handleCloseModal, addToCart, dish, vendorInfo, sameDishInCart, increment }) => {
+
   const selectedOptions = []
-  attrs.forEach(option => {
+  dish.selectables.forEach(option => {
     selectedOptions.push({
       name: option.name,
       option: []
@@ -14,29 +20,35 @@ export default function DishModal({ attrs, handleCloseModal, basePrice }) {
 
   const [selectedOption, setSelectedOption] = useState(selectedOptions)
   const [quantity, setQuantity] = useState(1)
-  const [itemPrice, setItemPrice] = useState(basePrice)
-  const [isFinishSelection, setIsFinishSelection] = useState(Array(attrs.length).fill(false))
+  const [itemPrice, setItemPrice] = useState(dish.dishPrice)
+  const [isFinishSelection, setIsFinishSelection] = useState(Array(dish.selectables.length).fill(false))
   const [isDone, setIsDone] = useState(false)
 
   const checkFinishSelection = () => {
+    let isFinish = true;
     isFinishSelection.forEach(flag => {
       if (!flag) {
-        setIsDone(false)
+        isFinish = false
         return
       }
     })
-    setIsDone(true)
+    setIsDone(isFinish)
   }
 
   useEffect(() => {
     let isFinishSelectionCopy = isFinishSelection.slice()
-    attrs.forEach((option, index) => {
+    dish.selectables.forEach((option, index) => {
       if (option.min === 0) {
         isFinishSelectionCopy[index] = true
         setIsFinishSelection(isFinishSelectionCopy)
       }
     })
-  }, [isFinishSelection, attrs]);
+
+  }, []);
+
+  useEffect(() => {
+    checkFinishSelection()
+  }, [isFinishSelection ]);
 
 
   const toggleSelection = (e, index, selection, max, min, option, price) => {
@@ -53,17 +65,16 @@ export default function DishModal({ attrs, handleCloseModal, basePrice }) {
 
       // added option
       if (elmClasses.contains('active')) {
-        if (selectedOption[index].option.length === min-1) {
+        if (selectedOption[index].option.length === min - 1) {
           isFinishSelectionCopy[index] = true;
           setIsFinishSelection(isFinishSelectionCopy)
-          checkFinishSelection()
         }
         selectedOptionCopy[index].option.push({
           name: selection
         })
         setItemPrice(itemPrice + price)
         setSelectedOption(selectedOptionCopy)
-        
+
       }
 
       //removed option
@@ -71,14 +82,12 @@ export default function DishModal({ attrs, handleCloseModal, basePrice }) {
         if (selectedOption[index].option.length === min) {
           isFinishSelectionCopy[index] = false
           setIsFinishSelection(isFinishSelectionCopy)
-          setIsDone(false)
           setQuantity(1)
         }
 
         selectedOptionCopy[index].option = selectedOptionCopy[index].option.filter((op) => op.name !== selection)
         setItemPrice(itemPrice - price)
         setSelectedOption(selectedOptionCopy)
-        
       }
     }
   }
@@ -103,34 +112,72 @@ export default function DishModal({ attrs, handleCloseModal, basePrice }) {
 
   const optionType = (min, max) => {
     if (min === 0) {
-      return `可选${max}项`
+      return `可选0~${max}项`
     }
+
     else if (min === max) {
       return `必选${max}项`
     }
     else {
-      return `可选${min}~${max}项`
+      return `必选${min}~${max}项`
     }
   }
-  return (
 
+  const handleAddtoCart = () => {
+    if (isDone) {
+      let flag = false 
+      sameDishInCart.length > 0 &&
+        sameDishInCart.some((dish) => {
+          if (_.isEqual(dish.selectables, selectedOption)) {
+            increment({
+              cartItemId: dish.cartItemId,
+              quantity: quantity
+            })
+            handleCloseModal()
+            flag = true
+            return true
+          }
+        })
+
+      if (flag) return
+
+      const cartObj = {
+        ...vendorInfo,
+        dishPrice: itemPrice,
+        quantity: quantity,
+        dishImage: dish.dishImage,
+        dishName: dish.dishName,
+        dishId: dish.dishId,
+        selectables: selectedOption,
+        cartItemId: Date.now()
+      }
+      addToCart(cartObj)
+      handleCloseModal()
+    }
+    else {
+      alert('请完成选择', '', [
+        { text: 'Ok' }
+      ])
+    }
+  }
+
+  return (
     <div className='dishModal'>
-      {console.log(selectedOption)}
       <div className="container">
         <div className="head">
           <img src={Close} alt='sdf' onClick={handleCloseModal} />
           <span className='title'>选择规格</span>
         </div>
-        {attrs.map((option, index) => {
+        {dish.selectables.map((option, index) => {
           return (
-            <div>
+            <div key={index}>
               <div className="optionTitle">
                 {option.name}
                 <span>{optionType(option.min, option.max)}</span>
               </div>
-              {option.values.map(selection => {
+              {option.values.map( (selection, i) => {
                 return (
-                  <div className="optionSelection" onClick={(e) => toggleSelection(e, index, selection.name, option.max, option.min, option.name, selection.price)} >
+                  <div key={i} className="optionSelection" onClick={(e) => toggleSelection(e, index, selection.name, option.max, option.min, option.name, selection.price)} >
                     {selection.name}{selection.price !== 0 && '($' + selection.price + ')'}
                   </div>
                 )
@@ -149,7 +196,7 @@ export default function DishModal({ attrs, handleCloseModal, basePrice }) {
         <div className="addToCart">
           <span className='text'>${itemPrice * quantity}</span>
           <div className='addition'>
-            <span onClick={() => console.log('add to cart')}>加入购物车</span>
+            <span onClick={handleAddtoCart}>加入购物车</span>
           </div>
         </div>
       </div>
@@ -157,3 +204,17 @@ export default function DishModal({ attrs, handleCloseModal, basePrice }) {
     </div>
   )
 }
+
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    sameDishInCart: state.cartState.dishes.map(dish => {
+      if (dish.dishId === ownProps.dish.dishId) {
+        return dish
+      }
+    })
+  }
+}
+
+
+export default connect(mapStateToProps, { addToCart, increment })(SelectOptionModal)
