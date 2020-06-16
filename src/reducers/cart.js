@@ -7,46 +7,64 @@ import {
 } from '../actions/types'
 
 const initialState = {
-  totalPrice: 0,
-  totalQuantity : 0,
-  vendorId: null,
-  vendorName: null,
-  vendorImage: null,
-  dishes: []
+  // vendor:dish.vendor,
+  // quantity: 1,
+  // dish,
+  // cartItemId: itemId
 }
 
 export default (state = initialState, action) => {
   let selectedDish = {}
   let dishes = {}
+  let vendorId
   switch (action.type) {
     case ADD_TO_CART:
+      vendorId = action.payload.vendor.id
+      dishes = state[vendorId] ? state[vendorId].dishes : []
       return {
-        totalPrice: state.totalPrice + action.payload.dishPrice * action.payload.quantity,
-        totalQuantity: state.totalQuantity + action.payload.quantity,
-        vendorId: action.payload.vendorId,
-        vendorImage:action.payload.vendorImage ,
-        vendorName: action.payload.vendorName ,
-        dishes: [
-          ...state.dishes,
-          action.payload
-        ]
+        ...state,
+        [vendorId]: {
+          ...state[vendorId],
+          // cart total price from a single vendor
+          totalPrice: action.payload.dish.price * action.payload.quantity + (state[vendorId] ? state[vendorId].totalPrice : 0),
+          // total items ordered from a single vendor
+          quantity: state[vendorId] ? state[vendorId].quantity + action.payload.quantity : action.payload.quantity,
+          //vendor Info
+          vendor: state[vendorId] ? state[vendorId].vendor : action.payload.vendor,
+          // dishes details ordered from a single vendor
+          dishes: [
+            ...dishes,
+            action.payload.dish
+          ]
+        }
+
       }
     case CLEAR_CART:
       return initialState
     case REMOVE_ITEM:
-      if (state.dishes.length === 1) return initialState
-      dishes = state.dishes.filter((dish) => dish.cartItemId !== action.payload)
-      selectedDish = state.dishes.find((dish) => dish.cartItemId === action.payload)
+      vendorId = action.payload.vendor.id
+      if (state[vendorId].dishes.length === 1) {
+        let newState = { ...state }
+        delete newState[vendorId]
+        return newState
+      }
+      dishes = state[vendorId].dishes.filter((dish) => dish.cartItemId !== action.payload.cartItemId)
+      selectedDish = state[vendorId].dishes.find((dish) => dish.cartItemId === action.payload.cartItemId)
       return {
         ...state,
-        totalPrice: state.totalPrice - selectedDish.dishPrice,
-        dishes: dishes
+        [vendorId]: {
+          ...state[vendorId],
+          totalPrice: state[vendorId].totalPrice - selectedDish.price,
+          dishes: dishes,
+          quantity: state[vendorId].quantity - 1,
+        }
       }
     case INCREMENT_ITEM:
-      selectedDish = state.dishes.find((dish) =>  dish.cartItemId === action.payload.cartItemId)
-      dishes = state.dishes.map(dish => {
+      vendorId = action.payload.vendor.id
+      selectedDish = state[vendorId].dishes.find((dish) => dish.cartItemId === action.payload.cartItemId)
+      dishes = state[vendorId].dishes.map(dish => {
         if (dish.cartItemId === action.payload.cartItemId) {
-          return { ...dish, quantity: dish.quantity +  action.payload.quantity }
+          return { ...dish, quantity: dish.quantity + action.payload.quantity }
         }
         else {
           return dish
@@ -54,15 +72,21 @@ export default (state = initialState, action) => {
       })
       return {
         ...state,
-        totalPrice: state.totalPrice + selectedDish.dishPrice,
-        totalQuantity: state.totalQuantity + 1,
-        dishes: dishes
+        [vendorId]: {
+          ...state[vendorId],
+          totalPrice: state[vendorId].totalPrice + selectedDish.price,
+          quantity: state[vendorId].quantity + 1,
+          dishes: dishes
+        }
       }
     case DECREMENT_ITEM:
-      selectedDish = state.dishes.find((dish) => dish.cartItemId === action.payload)
-      dishes = state.dishes.map(dish => {
-        if (dish.cartItemId === action.payload) {
-          return { ...dish, quantity: dish.quantity -1 }
+      vendorId = action.payload.vendor.id
+      console.log(action.payload.cartItemId)
+      selectedDish = state[vendorId].dishes.find((dish) => dish.cartItemId === action.payload.cartItemId)
+      dishes = state[vendorId].dishes.map(dish => {
+        if (dish.cartItemId === action.payload.cartItemId) {
+          console.log({ ...dish, quantity: dish.quantity - 1 })
+          return { ...dish, quantity: dish.quantity - 1 }
         }
         else {
           return dish
@@ -70,9 +94,12 @@ export default (state = initialState, action) => {
       })
       return {
         ...state,
-        totalPrice: state.totalPrice - selectedDish.dishPrice,
-        totalQuantity: state.totalQuantity -1 ,
-        dishes: dishes
+        [vendorId]: {
+          ...state[vendorId],
+          totalPrice: state[vendorId].totalPrice - selectedDish.price,
+          quantity: state[vendorId].quantity - 1,
+          dishes: dishes
+        }
       }
     default:
       return state

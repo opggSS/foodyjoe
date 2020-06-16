@@ -8,7 +8,7 @@ import _ from 'lodash'
 
 const alert = Modal.alert;
 
-const SelectOptionModal = ({ handleCloseModal, addToCart, dish, vendorInfo, sameDishInCart, increment }) => {
+const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, increment }) => {
 
   const selectedOptions = []
   dish.selectables.forEach(option => {
@@ -20,7 +20,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, vendorInfo, same
 
   const [selectedOption, setSelectedOption] = useState(selectedOptions)
   const [quantity, setQuantity] = useState(1)
-  const [itemPrice, setItemPrice] = useState(dish.dishPrice)
+  const [itemPrice, setItemPrice] = useState(dish.price)
   const [isFinishSelection, setIsFinishSelection] = useState(Array(dish.selectables.length).fill(false))
   const [isDone, setIsDone] = useState(false)
 
@@ -48,7 +48,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, vendorInfo, same
 
   useEffect(() => {
     checkFinishSelection()
-  }, [isFinishSelection ]);
+  }, [isFinishSelection]);
 
 
   const toggleSelection = (e, index, selection, max, min, option, price) => {
@@ -125,13 +125,14 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, vendorInfo, same
 
   const handleAddtoCart = () => {
     if (isDone) {
-      let flag = false 
+      let flag = false
       sameDishInCart.length > 0 &&
         sameDishInCart.some((dish) => {
           if (_.isEqual(dish.selectables, selectedOption)) {
             increment({
               cartItemId: dish.cartItemId,
-              quantity: quantity
+              quantity: quantity,
+              vendor:dish.vendor
             })
             handleCloseModal()
             flag = true
@@ -142,14 +143,15 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, vendorInfo, same
       if (flag) return
 
       const cartObj = {
-        ...vendorInfo,
-        dishPrice: itemPrice,
+        vendor: dish.vendor,
         quantity: quantity,
-        dishImage: dish.dishImage,
-        dishName: dish.dishName,
-        dishId: dish.dishId,
-        selectables: selectedOption,
-        cartItemId: Date.now()
+        dish: {
+          ...dish,
+          selectables: selectedOption,
+          quantity: quantity,
+          price: itemPrice,
+          cartItemId: Date.now()
+        },        
       }
       addToCart(cartObj)
       handleCloseModal()
@@ -175,7 +177,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, vendorInfo, same
                 {option.name}
                 <span>{optionType(option.min, option.max)}</span>
               </div>
-              {option.values.map( (selection, i) => {
+              {option.values.map((selection, i) => {
                 return (
                   <div key={i} className="optionSelection" onClick={(e) => toggleSelection(e, index, selection.name, option.max, option.min, option.name, selection.price)} >
                     {selection.name}{selection.price !== 0 && '($' + selection.price + ')'}
@@ -207,12 +209,16 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, vendorInfo, same
 
 
 const mapStateToProps = (state, ownProps) => {
+  const singleVendorCart = state.cartState[ownProps.dish.vendor.id]
+  console.log(singleVendorCart && singleVendorCart.dishes)
+  console.log(ownProps.dish)
   return {
-    sameDishInCart: state.cartState.dishes.map(dish => {
-      if (dish.dishId === ownProps.dish.dishId) {
+    sameDishInCart: singleVendorCart ? singleVendorCart.dishes.map(dish => {
+      if (dish.id === ownProps.dish.id) {
+        console.log(dish)
         return dish
       }
-    })
+    }) : []
   }
 }
 
