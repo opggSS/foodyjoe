@@ -1,4 +1,4 @@
-import {CLEAR_CART} from './types'
+import {CLEAR_CART} from '../types'
 
 export const clearCart = (payload) =>{
   return (dispatch) =>{

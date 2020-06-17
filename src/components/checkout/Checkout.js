@@ -11,7 +11,11 @@ const Checkout = ({ cart }) => {
   return (
     <div className="checkout">
       <div className="header">
-        <span> <BackDark /></span>
+        <span>
+          <Link to='/cart'>
+            <BackDark />
+          </Link>
+        </span>
           订单确认
         </div>
       <div className="segment">

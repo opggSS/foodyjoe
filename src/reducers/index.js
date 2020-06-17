@@ -1,5 +1,7 @@
 import {combineReducers} from 'redux'
 import cartReducer from './cart'
+import lastVisitedVendorIdReducer from './lastVisitedVendorId'
 export default combineReducers({
-  cartState: cartReducer
+  cartState: cartReducer,
+  lastVisitedVendorIdState: lastVisitedVendorIdReducer
 })

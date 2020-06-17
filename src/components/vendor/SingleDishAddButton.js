@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import SelectOptionModal from './SelectOptionModal'
-import { increment } from '../../actions/increment'
-import { decrement } from '../../actions/decrement'
-import { removeItem } from '../../actions/removeItem'
-import { addToCart } from '../../actions/addToCart'
+import { increment } from '../../actions/cart/increment'
+import { decrement } from '../../actions/cart/decrement'
+import { removeItem } from '../../actions/cart/removeItem'
+import { addToCart } from '../../actions/cart/addToCart'
 
 const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, dishQuantity = 0, dish, isCompleteCart, isVendorMenu }) => {
   const [modalOpen, setModalOpen] = useState(false)

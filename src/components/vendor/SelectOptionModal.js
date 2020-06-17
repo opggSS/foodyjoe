@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Close from '../../assets/icons/close.svg'
 import { Modal } from 'antd-mobile'
 import { connect } from 'react-redux'
-import { addToCart } from '../../actions/addToCart'
-import { increment } from '../../actions/increment'
+import { addToCart } from '../../actions/cart/addToCart'
+import { increment } from '../../actions/cart/increment'
 import _ from 'lodash'
 
 const alert = Modal.alert;

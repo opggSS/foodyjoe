@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useEffect} from 'react'
 import BackIcon from '../../assets/icons/back.svg'
 import SearchIcon from '../../assets/icons/search.svg'
 import LikeIcon from '../../assets/icons/like.svg'
@@ -9,11 +9,16 @@ import About from './About.component'
 import Ratings from './Ratings.component'
 import ShortCart from '../cart/shortCart'
 import {SingleVendorData} from '../../datas'
-import firebase from 'firebase'
+import { connect } from 'react-redux'
+import {setLastVisitedVendor} from '../../actions/vendor/setLastVisitedVendor'
 
 const { TabPane } = Tabs;
 
-const SingleVendor = () => {
+const SingleVendor = ({setLastVisitedVendor}) => {
+  useEffect(()=>{
+    setLastVisitedVendor(SingleVendorData.id)
+  },[])
+
   return (
     <div className='singleVendor'>
       <div className='banner' style={{ backgroundImage: `url(${SingleVendorData.logo})` }}>
@@ -70,4 +75,5 @@ const SingleVendor = () => {
   )
 }
 
-export default SingleVendor
+export default connect(null, {setLastVisitedVendor})(SingleVendor)
+

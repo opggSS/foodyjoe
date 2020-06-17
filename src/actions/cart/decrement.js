@@ -1,4 +1,4 @@
-import {DECREMENT_ITEM} from './types'
+import {DECREMENT_ITEM} from '../types'
 
 export const decrement = (payload) =>{
   return (dispatch) =>{

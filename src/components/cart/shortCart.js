@@ -33,7 +33,7 @@ const mapStateToProps = (state, ownProps) => {
   const singleVendorCart = state.cartState[ownProps.vendorId]
   return {
     totalQuantity: singleVendorCart ? singleVendorCart.quantity : 0,
-    totalPrice: singleVendorCart ? singleVendorCart.totalPrice : 0 ,
+    totalPrice: singleVendorCart ? singleVendorCart.totalPrice : 0,
   }
 }
 

@@ -1,4 +1,4 @@
-import {REMOVE_ITEM} from './types'
+import {REMOVE_ITEM} from '../types'
 
 export const removeItem = (payload) =>{
   return (dispatch) =>{
