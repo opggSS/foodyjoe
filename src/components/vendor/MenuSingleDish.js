@@ -3,9 +3,8 @@ import {Link} from 'react-router-dom'
 import SingleDishAddButton from './SingleDishAddButton'
 
 export default function MenuSingleDish({dish}) {
-  console.log(dish)
   return (
-   
+  
     <div className="gridContainer" key={dish.id}>
           <Link to={`/singleDish/${dish.id}`}>
             <div className='dishImage'

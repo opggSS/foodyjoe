@@ -8,7 +8,6 @@ import { removeItem } from '../../actions/removeItem'
 import { addToCart } from '../../actions/addToCart'
 
 const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, dishQuantity = 0, dish, isCompleteCart, isVendorMenu }) => {
-  console.log(dishQuantity)
   const [modalOpen, setModalOpen] = useState(false)
   const [cartItemId, setCartItemId] = useState(null)
   const handleAddtoCart = () => {

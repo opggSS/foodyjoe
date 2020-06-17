@@ -7,6 +7,8 @@ import Default from './components/Default'
 import Vendor from './components/vendor/SingleVendor'
 import SingleDish from './components/dish/SingleDish'
 import Cart from './components/cart/CompleteCart'
+import Checkout from './components/checkout/Checkout'
+
 import 'antd/dist/antd.css'
 import 'antd-mobile/dist/antd-mobile.css';
 
@@ -19,6 +21,7 @@ export default App => {
           <Route path="/vendor/:id" component={Vendor} />
           <Route path="/singleDish/:id" component={SingleDish} />
           <Route path="/cart" component={Cart} />
+          <Route path="/checkout/:vendorId" component={Checkout} />
           <Route component={Default} />
         </Switch>
       </div>

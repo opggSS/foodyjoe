@@ -234,7 +234,7 @@ $main-yellow: #ffaf16;
   padding-bottom: 25vw;
   width: 100vw;
   min-height: 100vh;
-  background: white;
+  background: $main-grey;
   color: $text-color;
   .cartEmpty {
     padding: 4vw;
@@ -243,6 +243,29 @@ $main-yellow: #ffaf16;
   }
 
   .dishInCartContainer {
+    background: white;
+    .singleVendorCartFooter {
+      position: relative;
+      border-top: 1px solid $border-color;
+      padding: 3vw 5vw;
+      .singleCartFooterPrice {
+        color: $main-red;
+        font-size: 5vw;
+        font-weight: 600;
+      }
+      .singleCartFooterCheckOut {
+        background: $main-blue;
+        color: white;
+        height: 8vw;
+        line-height: 8vw;
+        font-size: 4vw;
+        padding: 0 4vw;
+        display: inline-block;
+        position: absolute;
+        right: 4vw;
+        border-radius: 4vw;
+      }
+    }
     .cartSingleDish {
       padding: 5vw;
       position: relative;
@@ -290,6 +313,7 @@ $main-yellow: #ffaf16;
     }
   }
   .vendorRow {
+    background: white;
     padding: 3vw 5vw;
     border-bottom: 1px solid $border-color;
     .dishCategory {
@@ -303,6 +327,7 @@ $main-yellow: #ffaf16;
   }
   .completeCartHeader {
     width: 100%;
+    background: white;
     height: 14vw;
     border-bottom: 1px solid $border-color;
     padding: 3vw;
@@ -624,3 +649,123 @@ $main-yellow: #ffaf16;
   border: 1px solid $main-blue;
 }
 // end of option button
+
+//checkout
+.checkout {
+  background: $main-grey;
+  padding: 3vw;
+  .header {
+    font-size: 5vw;
+    color: $text-color;
+    text-align: center;
+    position: relative;
+    span {
+      position: absolute;
+      left: 0;
+    }
+  }
+  .deliveryInfo {
+    background: white;
+    padding: 3vw;
+    border-radius: 2vw;
+    img {
+      width: 5vw;
+    }
+    .paymentMethod {
+      position: relative;
+      .right {
+        position: absolute;
+        right: 0vw;
+        img{
+          margin-left: 2vw;
+          width: 2.5vw;
+        }
+      }
+    }
+
+    .deliveryTime {
+      padding: 3vw 0;
+      border-top: 1px solid $border-color;
+      border-bottom: 1px solid $border-color;
+      margin: 3vw 0;
+      position: relative;
+      .right {
+        position: absolute;
+        right: 0;
+        img{
+          margin-left: 2vw;
+          width: 2.5vw;
+        }
+      }
+    }
+
+    .contactInfo {
+      span {
+        font-size: 4.6vw;
+        padding-left: 4vw;
+        color: $text-color;
+      }
+    }
+    .location {
+      padding: 1vw 10vw 5vw;
+      position: relative;
+      .locationImg {
+        position: absolute;
+        left: 0;
+        top: 2vw;
+      }
+      .arrowImg {
+        position: absolute;
+        right: 0;
+        top: 2vw;
+        width: 2.5vw;
+      }
+      span {
+        font-size: 4.6vw;
+        color: $text-color;
+      }
+    }
+  }
+  .segment {
+    margin: 5vw 0 3vw;
+    .am-segment {
+      border-radius: 5vw;
+      height: 10vw;
+      line-height: 10vw;
+      background: #ededed;
+      border: none;
+      padding: 1vw;
+      .am-segment-item {
+        background: white;
+        color: $text-color !important;
+        border: none;
+        font-weight: normal;
+        font-size: 4.2vw;
+        &.am-segment-item-selected {
+          border-radius: 4vw;
+          color: black !important;
+          font-weight: 600;
+        }
+      }
+
+      .am-segment-item:first-child {
+        border-top-left-radius: 4vw;
+        border-bottom-left-radius: 4vw;
+      }
+      // .am-segment-item.segment-item-selected:first-child{
+      //   border-top-right-radius: 4vw;
+      //   border-bottom-right-radius: 4vw;
+      // }
+      .am-segment-item:last-child {
+        border-top-right-radius: 4vw;
+        border-bottom-right-radius: 4vw;
+      }
+      // .am-segment-item.segment-item-selected:last-child{
+      //   border-top-left-radius: 4vw;
+      //   border-bottom-left-radius: 4vw;
+      // }
+    }
+  }
+}
+
+//end of checkout

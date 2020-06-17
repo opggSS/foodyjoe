@@ -15,9 +15,9 @@ const CompleteCart = ({ clearCart, history, carts }) => {
   
   const dishes = () => {
     for(let vendorId in carts){
-      console.log(carts[vendorId])
-      return <SingleVendorCart singleCart={carts[vendorId]} />
+      return <SingleVendorCart singleCart={carts[vendorId]}/>
     }
+
   }
 
   const handleClearCart = () => {
@@ -38,6 +38,7 @@ const CompleteCart = ({ clearCart, history, carts }) => {
       </div>
       { !_.isEmpty(carts) ? 
         dishes()
+        
        : (
           <div className="cartEmpty">你的购物车空空如也</div>
         )}
@@ -48,10 +49,6 @@ const CompleteCart = ({ clearCart, history, carts }) => {
 
 const mapStateToProps = state => ({
   carts: state.cartState,
-  // vendorImage: state.cartState.vendorImage,
-  // vendorName: state.cartState.vendorName,
-  // vendorId: state.cartState.vendorId,
-  // dishQuantity: state.cartState.dishes.length
 })
 
 export default compose(

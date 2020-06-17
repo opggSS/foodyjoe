@@ -1,6 +1,6 @@
 import React from 'react'
 import CompleteCartSingleDish from './CompleteCartSingleDish'
-
+import SingleVendorCartFooter from './SingleVendorCartFooter.component'
 export default function SingleVendorCart({ singleCart }) {
 
   const renderSingleDish = () => {
@@ -35,6 +35,10 @@ export default function SingleVendorCart({ singleCart }) {
 
       <div className="dishInCartContainer">
         {renderSingleDish()}
+        <SingleVendorCartFooter 
+          totalPrice ={singleCart.totalPrice} 
+          vendorId = {singleCart.vendor.id}
+          />
       </div>
     </>
   )
