@@ -26,10 +26,10 @@
     "static/media/search.svg": "/foodyjoe/static/media/search.7f3e8137.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.1f19cd44.js",
-    "static/css/2.f1c9fcd1.chunk.css",
-    "static/js/2.2396ad7d.chunk.js",
-    "static/css/main.f62dc80f.chunk.css",
-    "static/js/main.b673ef8b.chunk.js"
+    "foodyjoe/static/js/runtime-main.1f19cd44.js",
+    "foodyjoe/static/css/2.f1c9fcd1.chunk.css",
+    "foodyjoe/static/js/2.2396ad7d.chunk.js",
+    "foodyjoe/static/css/main.f62dc80f.chunk.css",
+    "foodyjoe/static/js/main.b673ef8b.chunk.js"
   ]
 }
