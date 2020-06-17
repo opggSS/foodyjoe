@@ -44,7 +44,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
       }
     })
 
-  }, []);
+  }, [dish.selectables, isFinishSelection]);
 
   useEffect(() => {
     checkFinishSelection()

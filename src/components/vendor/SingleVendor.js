@@ -17,7 +17,7 @@ const { TabPane } = Tabs;
 const SingleVendor = ({setLastVisitedVendor}) => {
   useEffect(()=>{
     setLastVisitedVendor(SingleVendorData.id)
-  },[])
+  },[setLastVisitedVendor])
 
   return (
     <div className='singleVendor'>
