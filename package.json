@@ -2,6 +2,7 @@
   "name": "my_uber_eat",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://opggss.github.com/foodyjoe",
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "@svgr/webpack": "^5.4.0",
@@ -27,6 +28,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
+    "predeploy": "yarn build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "set \"CI=false\" && react-scripts build",
