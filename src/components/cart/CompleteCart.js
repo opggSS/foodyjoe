@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { withRouter } from "react-router";
 import { compose } from "redux";
 import { clearCart } from '../../actions/cart/clearCart'
@@ -10,12 +11,12 @@ import _ from 'lodash'
 
 const alert = Modal.alert;
 
-const CompleteCart = ({ clearCart, history, carts }) => {
+const CompleteCart = ({ clearCart, lastVisitedVendorId, carts }) => {
 
-  
+
   const dishes = () => {
-    for(let vendorId in carts){
-      return <SingleVendorCart singleCart={carts[vendorId]}/>
+    for (let vendorId in carts) {
+      return <SingleVendorCart singleCart={carts[vendorId]} />
     }
 
   }
@@ -30,16 +31,19 @@ const CompleteCart = ({ clearCart, history, carts }) => {
   return (
     <div className="completeCart">
       <div className="completeCartHeader">
-        <span className="closeButton" onClick={() => history.goBack()} ><Close /></span>
+        <Link to={lastVisitedVendorId ? 'vendor/'+ lastVisitedVendorId : '/' }>
+          <span className="closeButton" ><Close /></span>
+        </Link>
+
         <div className="yourCart">Your Cart</div>
         {!_.isEmpty(carts) && (
           <span className="clearCartButton" onClick={handleClearCart}>clear</span>
         )}
       </div>
-      { !_.isEmpty(carts) ? 
+      {!_.isEmpty(carts) ?
         dishes()
-        
-       : (
+
+        : (
           <div className="cartEmpty">你的购物车空空如也</div>
         )}
 
@@ -49,6 +53,7 @@ const CompleteCart = ({ clearCart, history, carts }) => {
 
 const mapStateToProps = state => ({
   carts: state.cartState,
+  lastVisitedVendorId: state.lastVisitedVendorIdState
 })
 
 export default compose(

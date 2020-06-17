@@ -2,13 +2,16 @@ $base-color: #c6538c;
 $base-color-light: rgba(198, 83, 140, 0.4);
 $text-color: #333;
 $main-red: #fa4f45;
-$border-color: rgba(0, 0, 0, 0.1);
+$border-color: rgba(107, 82, 82, 0.1);
 $main-red-light: rgba(250, 79, 69, 0.2);
 $main-grey: #f4f4f4;
 $main-blue: #1cb9b6;
 $text-grey: #999;
 $main-yellow: #ffaf16;
 // Home Page  ///////////////////////////////////
+a {
+  color: initial ;
+}
 * {
   font-size: 3.7vw;
 }
