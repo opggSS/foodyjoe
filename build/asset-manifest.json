@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/foodyjoe/build/static/css/main.c9f3e480.chunk.css",
-    "main.js": "/foodyjoe/build/static/js/main.f62d784a.chunk.js",
-    "main.js.map": "/foodyjoe/build/static/js/main.f62d784a.chunk.js.map",
+    "main.js": "/foodyjoe/build/static/js/main.dfcc09b3.chunk.js",
+    "main.js.map": "/foodyjoe/build/static/js/main.dfcc09b3.chunk.js.map",
     "runtime-main.js": "/foodyjoe/build/static/js/runtime-main.dbb31c11.js",
     "runtime-main.js.map": "/foodyjoe/build/static/js/runtime-main.dbb31c11.js.map",
     "static/css/2.c53da4b9.chunk.css": "/foodyjoe/build/static/css/2.c53da4b9.chunk.css",
-    "static/js/2.601774e3.chunk.js": "/foodyjoe/build/static/js/2.601774e3.chunk.js",
-    "static/js/2.601774e3.chunk.js.map": "/foodyjoe/build/static/js/2.601774e3.chunk.js.map",
+    "static/js/2.3bff3ef9.chunk.js": "/foodyjoe/build/static/js/2.3bff3ef9.chunk.js",
+    "static/js/2.3bff3ef9.chunk.js.map": "/foodyjoe/build/static/js/2.3bff3ef9.chunk.js.map",
     "index.html": "/foodyjoe/build/index.html",
-    "precache-manifest.e1dcce7258384f03fd07715fb4fb14ac.js": "/foodyjoe/build/precache-manifest.e1dcce7258384f03fd07715fb4fb14ac.js",
+    "precache-manifest.a41cd7742fc79ed6c200d286275bb4fc.js": "/foodyjoe/build/precache-manifest.a41cd7742fc79ed6c200d286275bb4fc.js",
     "service-worker.js": "/foodyjoe/build/service-worker.js",
     "static/css/2.c53da4b9.chunk.css.map": "/foodyjoe/build/static/css/2.c53da4b9.chunk.css.map",
     "static/css/main.c9f3e480.chunk.css.map": "/foodyjoe/build/static/css/main.c9f3e480.chunk.css.map",
-    "static/js/2.601774e3.chunk.js.LICENSE.txt": "/foodyjoe/build/static/js/2.601774e3.chunk.js.LICENSE.txt",
+    "static/js/2.3bff3ef9.chunk.js.LICENSE.txt": "/foodyjoe/build/static/js/2.3bff3ef9.chunk.js.LICENSE.txt",
     "static/media/back.svg": "/foodyjoe/build/static/media/back.90e3a8e5.svg",
     "static/media/back_dark.svg": "/foodyjoe/build/static/media/back_dark.10a53ece.svg",
     "static/media/banner1.jpg": "/foodyjoe/build/static/media/banner1.625aee00.jpg",
@@ -28,8 +28,8 @@
   "entrypoints": [
     "static/js/runtime-main.dbb31c11.js",
     "static/css/2.c53da4b9.chunk.css",
-    "static/js/2.601774e3.chunk.js",
+    "static/js/2.3bff3ef9.chunk.js",
     "static/css/main.c9f3e480.chunk.css",
-    "static/js/main.f62d784a.chunk.js"
+    "static/js/main.dfcc09b3.chunk.js"
   ]
 }
