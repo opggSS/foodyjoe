@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3e6f3ea28d17411ad256b2d872af3754",
+    "revision": "01c42abec4741ba0a7eab05d86642bc1",
     "url": "/foodyjoe/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/foodyjoe/static/css/2.f1c9fcd1.chunk.css"
   },
   {
-    "revision": "dd91c65df0ee0b39f043",
+    "revision": "3fdafa2703994280f17b",
     "url": "/foodyjoe/static/css/main.bd0a5755.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/foodyjoe/static/js/2.e70433e7.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "dd91c65df0ee0b39f043",
-    "url": "/foodyjoe/static/js/main.e68115b7.chunk.js"
+    "revision": "3fdafa2703994280f17b",
+    "url": "/foodyjoe/static/js/main.107817ea.chunk.js"
   },
   {
     "revision": "714296ab0406288abb62",
