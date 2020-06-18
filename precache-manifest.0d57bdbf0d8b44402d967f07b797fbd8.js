@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4261c24a1b3ec400ba6415e9c565888b",
+    "revision": "19e33b1aefad6f6cdb98c7ffa5fd8270",
     "url": "/index.html"
   },
   {
-    "revision": "7686969ca74835c04111",
+    "revision": "636cd349b261be92fc28",
     "url": "/static/css/2.f1c9fcd1.chunk.css"
   },
   {
-    "revision": "39663a8c40f9dc160969",
-    "url": "/static/css/main.f62dc80f.chunk.css"
+    "revision": "bdb2fc1de0eaf90b9b42",
+    "url": "/static/css/main.bd0a5755.chunk.css"
   },
   {
-    "revision": "7686969ca74835c04111",
-    "url": "/static/js/2.2396ad7d.chunk.js"
+    "revision": "636cd349b261be92fc28",
+    "url": "/static/js/2.979ba498.chunk.js"
   },
   {
     "revision": "700d0d6086bb350ef5584f2c8e4bfda7",
-    "url": "/static/js/2.2396ad7d.chunk.js.LICENSE.txt"
+    "url": "/static/js/2.979ba498.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "39663a8c40f9dc160969",
-    "url": "/static/js/main.b673ef8b.chunk.js"
+    "revision": "bdb2fc1de0eaf90b9b42",
+    "url": "/static/js/main.2fb0487d.chunk.js"
   },
   {
     "revision": "2291eac00d5cc87374c0",
@@ -58,6 +58,30 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "cb3fab7dcd37643a37670f36db94931b",
     "url": "/static/media/haidilao.cb3fab7d.jpg"
+  },
+  {
+    "revision": "f3fd7bf476c8c4c76fc912121e79e606",
+    "url": "/static/media/haidilaoAAA.f3fd7bf4.jpg"
+  },
+  {
+    "revision": "b04cf26244a54e1912104cfd1c0483d4",
+    "url": "/static/media/haidilaoBackstrips.b04cf262.jpg"
+  },
+  {
+    "revision": "3febdd0eca854a7f88840c5e7cde83fe",
+    "url": "/static/media/haidilaoClassic.3febdd0e.jpg"
+  },
+  {
+    "revision": "6d9f91079ff483285c42e78ce1dd60be",
+    "url": "/static/media/haidilaoDaisy.6d9f9107.jpg"
+  },
+  {
+    "revision": "200ede41d2c2d49d590a87685e630fd4",
+    "url": "/static/media/haidilaoFatty.200ede41.jpg"
+  },
+  {
+    "revision": "c64b9ee63b955adad0de675de289ce16",
+    "url": "/static/media/haidilaobamboo.c64b9ee6.jpg"
   },
   {
     "revision": "3af3eb98fb4a554734c9138b75ca0d48",
