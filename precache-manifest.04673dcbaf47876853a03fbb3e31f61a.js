@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4264bdac3af7d13ea29c4f0849581a7a",
+    "revision": "e93cecc406189f7c025011c9361b371c",
     "url": "/foodyjoe/index.html"
   },
   {
-    "revision": "636cd349b261be92fc28",
+    "revision": "22d0047c377ddd29c842",
     "url": "/foodyjoe/static/css/2.f1c9fcd1.chunk.css"
   },
   {
-    "revision": "bdb2fc1de0eaf90b9b42",
+    "revision": "418d2386f4c1826432f1",
     "url": "/foodyjoe/static/css/main.bd0a5755.chunk.css"
   },
   {
-    "revision": "636cd349b261be92fc28",
-    "url": "/foodyjoe/static/js/2.979ba498.chunk.js"
+    "revision": "22d0047c377ddd29c842",
+    "url": "/foodyjoe/static/js/2.2a3d6321.chunk.js"
   },
   {
     "revision": "700d0d6086bb350ef5584f2c8e4bfda7",
-    "url": "/foodyjoe/static/js/2.979ba498.chunk.js.LICENSE.txt"
+    "url": "/foodyjoe/static/js/2.2a3d6321.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "bdb2fc1de0eaf90b9b42",
-    "url": "/foodyjoe/static/js/main.2fb0487d.chunk.js"
+    "revision": "418d2386f4c1826432f1",
+    "url": "/foodyjoe/static/js/main.50201139.chunk.js"
   },
   {
     "revision": "714296ab0406288abb62",
