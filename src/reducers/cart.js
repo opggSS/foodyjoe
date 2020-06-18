@@ -13,6 +13,7 @@ const initialState = {
   // cartItemId: itemId
 }
 
+/// action = {payload , type}
 export default (state = initialState, action) => {
   let selectedDish = {}
   let dishes = {}
@@ -21,6 +22,7 @@ export default (state = initialState, action) => {
     case ADD_TO_CART:
       vendorId = action.payload.vendor.id
       dishes = state[vendorId] ? state[vendorId].dishes : []
+      console.log(action.payload.dish)
       return {
         ...state,
         [vendorId]: {
@@ -62,7 +64,10 @@ export default (state = initialState, action) => {
     case INCREMENT_ITEM:
       vendorId = action.payload.vendor.id
       selectedDish = state[vendorId].dishes.find((dish) => dish.cartItemId === action.payload.cartItemId)
+      console.log(state[vendorId].dishes)
+
       dishes = state[vendorId].dishes.map(dish => {
+        console.log(dish);
         if (dish.cartItemId === action.payload.cartItemId) {
           return { ...dish, quantity: dish.quantity + action.payload.quantity }
         }

@@ -16,10 +16,10 @@ const Checkout = ({ cart }) => {
             <BackDark />
           </Link>
         </span>
-          订单确认
+          Comfirm Order
         </div>
       <div className="segment">
-        <SegmentedControl values={['外卖', '自提']} />
+        <SegmentedControl values={['Delivery', 'Pick up']} />
       </div>
       <div className="googleMap">
 
@@ -29,21 +29,21 @@ const Checkout = ({ cart }) => {
         <Link>
           <div className="location">
             <img src={Location} alt="" className="locationImg" />
-            <span>2342- 9188 cook road richmodn bc ,</span>
+            <span>9109 cook road Richmond bc ,</span>
             <img src={ArrowRight} alt="" className="arrowImg" />
           </div>
         </Link>
         <div className="contactInfo">
           <img src={Telephone} alt="" className="telephone" />
-          <span> 60424234234</span>
+          <span> 6042423424</span>
         </div>
         <div className="deliveryTime">
-          <span className="left">送达时间</span>
-          <span className="right">选择送达时间  <img src={ArrowRight} alt="" className="arrowImg" /></span>
+          <span className="left">Arrival Time</span>
+          <span className="right">Choose Arrival time<img src={ArrowRight} alt="" className="arrowImg" /></span>
         </div>
         <div className="paymentMethod">
-          <span className="left">支付方式</span>
-          <span className="right">选择支付方式  <img src={ArrowRight} alt="" className="arrowImg" /> </span>
+          <span className="left">Payment Method</span>
+          <span className="right">Choose Payment Method<img src={ArrowRight} alt="" className="arrowImg" /> </span>
         </div>
 
       </div>

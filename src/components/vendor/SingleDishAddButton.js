@@ -7,13 +7,15 @@ import { decrement } from '../../actions/cart/decrement'
 import { removeItem } from '../../actions/cart/removeItem'
 import { addToCart } from '../../actions/cart/addToCart'
 
-const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, dishQuantity = 0, dish, isCompleteCart, isVendorMenu }) => {
+const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, itemId=null, dishQuantity = 0, dish, isCompleteCart, isVendorMenu }) => {
   const [modalOpen, setModalOpen] = useState(false)
-  const [cartItemId, setCartItemId] = useState(null)
+  const [cartItemId, setCartItemId] = useState(itemId)
+  console.log(dishQuantity)
   const handleAddtoCart = () => {
     let itemId = Date.now()
     setCartItemId(itemId)
-    const newDish = {...dish , cartItemId: itemId , quantity: 1}
+
+    const newDish = {...dish , cartItemId: itemId , quantity: 1 , }
     const cartObj = {
       quantity: 1,
       vendor: dish.vendor,
@@ -85,8 +87,6 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, dish
             )}
 
             <div className="increment" onClick={handleIncrement}> <span>+</span> </div>
-
-
           </div>
         )}
 
@@ -101,11 +101,16 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, dish
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const singleVendorCart = state.cartState[ownProps.dish.vendor.id]
+  // console.log(ownProps)
+  const singleVendorCart = ownProps.dish.vendor ? state.cartState[ownProps.dish.vendor.id] : false
 
+  console.log(singleVendorCart)
   if (ownProps.isVendorMenu) {
+
     return {
-      dishQuantity: singleVendorCart ? _.result(_.find(singleVendorCart.dishes, { id: ownProps.dish.id }), 'quantity') : 0
+      dishQuantity: singleVendorCart ? _.result(_.find(singleVendorCart.dishes, { id: ownProps.dish.id }), 'quantity') : 0,
+ 
+      itemId: singleVendorCart ? _.result(_.find(singleVendorCart.dishes, { id: ownProps.dish.id }), 'cartItemId') : null,
     }
 
   }

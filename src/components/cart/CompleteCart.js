@@ -44,7 +44,7 @@ const CompleteCart = ({ clearCart, lastVisitedVendorId, carts }) => {
         dishes()
 
         : (
-          <div className="cartEmpty">你的购物车空空如也</div>
+          <div className="cartEmpty">Your Cart is Empty</div>
         )}
 
     </div>

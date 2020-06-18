@@ -1,31 +1,54 @@
-import React from 'react'
+import React , {useEffect, useState}from 'react'
 import backDark from '../../assets/icons/back_dark.svg'
-import banner2 from '../../assets/images/banner2.jpg'
 import { Link } from 'react-router-dom'
 import SingleDishAddButton from '../vendor/SingleDishAddButton'
 import ShortCart from '../cart/shortCart'
-import {SingleDishData} from '../../datas'
+import {MyDishes} from '../../datas'
+import _ from 'lodash'
+import {connect} from 'react-redux'
 
+const SingleDish = ({match : {params:{id:singleDishId = 0}} ,cart } ) => {
+  const [singleDishData , setSingleDishData]= useState({})
+  const [dishVendorId , setDishVendorId] = useState(null)
+  const [cartItemId , setCartItemId] = useState(null)
+  singleDishId = Number(singleDishId)
+  useEffect(() => {
+    const data = MyDishes.find(dish => {
+      return dish.id === Number(singleDishId)
+    })
+    setSingleDishData(data)
+  }, [setSingleDishData, singleDishId])
 
-export default function SingleDish() {
+  useEffect(()=>{
+    if(!_.isEmpty(singleDishData)) {
+      const vendorId = singleDishData.vendor.id
+      setDishVendorId(vendorId)
+      console.log(cart[vendorId])
+      const itemInCart = cart[vendorId] ? cart[vendorId].dishes.find((dish) => {
+        return dish.id = singleDishId
+      }) : null
+      itemInCart && setCartItemId(itemInCart.cartItemId)
+    }
+  },[cart, singleDishData, singleDishId])
 
-  return (
+  return ( !_.isEmpty(singleDishData) ? 
     <div className='singleDish'>
-      <Link to={`/vendor/${SingleDishData.vendor.id}`}>
-        <div className="bannerImage" style={{ backgroundImage: `url(${banner2})` }}>
+      <Link to={`/vendor/${dishVendorId}`}>
+        <div className="bannerImage" style={{ backgroundImage: `url(${singleDishData.photo})` }}>
           <img src={backDark} alt='sdf' />
         </div>
       </Link>
 
       <div className="dishTitle">
-        {SingleDishData.name}
+        {singleDishData.name}
       </div>
       <div className="divider"></div>
       <div className="priceContainer">
         <div style={{ position: 'relative' }}>
-          <span className='price'>${SingleDishData.price}</span>
+          <span className='price'>${singleDishData.price}</span>
           <SingleDishAddButton
-            dish={SingleDishData}
+            dish={ {...singleDishData , cartItemId: Number(cartItemId)}}
+            isVendorMenu= {cartItemId ? false : true }
            >
           </SingleDishAddButton>
         </div>
@@ -34,10 +57,14 @@ export default function SingleDish() {
       <div className="divider"></div>
       <div className="productDescription">
         <div>Product Description</div>
-        <p>{SingleDishData.description}</p>
+        <p>{singleDishData.description}</p>
       </div>
-
-      <ShortCart vendorId={SingleDishData.vendor.id} />
-    </div>
-  )
+      <ShortCart vendorId={dishVendorId} />
+    </div> : null) 
 }
+
+const mapStateToProps = (state) => {
+  return { cart : state.cartState }
+}
+
+export default connect(mapStateToProps, {}) (SingleDish)

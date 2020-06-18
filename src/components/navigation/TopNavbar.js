@@ -6,7 +6,7 @@ export default function TopNavbar() {
   return (
     <div className="topNav">
       <Input
-      placeholder="搜索商家"
+      placeholder="Search Restaurant"
       className='searchBar'
       prefix={<SearchOutlined />}
       />

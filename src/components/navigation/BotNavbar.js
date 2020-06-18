@@ -8,15 +8,15 @@ export default function BotNavbar() {
   const datas = [
     {
       icon: <HomeOutlined />,
-      title: '首页'
+      title: 'Home'
     },
     {
       icon: <UnorderedListOutlined />,
-      title: '订单'
+      title: 'Orders'
     },
     {
       icon: <AccountBookOutlined />,
-      title: '我的'
+      title: 'Account'
     },
   ]
 

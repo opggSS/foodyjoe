@@ -8,6 +8,7 @@ $main-grey: #f4f4f4;
 $main-blue: #1cb9b6;
 $text-grey: #999;
 $main-yellow: #ffaf16;
+
 // Home Page  ///////////////////////////////////
 a {
   color: initial ;
@@ -19,26 +20,29 @@ a {
   color: $text-color;
 }
 .homepageContainer {
+  padding: 12vw 4vw;
   .topNav {
-    background: $base-color-light;
+    background: white;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 2.5rem;
+    height: 12vw;
     .searchBar {
+      input{
+        background-color: $main-grey;
+      }
+      border: none;
+      background-color: $main-grey;
       text-align: center;
       width: 90%;
+      margin-top: 2vw;
       margin-left: 5%;
-      height: 2rem;
-      margin-top: 0.25rem;
+      height: 8vw;
       border-radius: 1rem;
     }
   }
-  .homepageContainer {
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
-  }
+ 
   .banner {
     min-height: 10rem;
   }
@@ -75,6 +79,22 @@ a {
   }
 
   .vendors {
+    .vendorName {
+      font-size: 5vw;
+      position: relative;
+      margin-top: 2vw;
+      div{
+        color: $text-grey;
+        position: absolute;
+        right: 0 ;
+        top: 0 
+      }
+    }
+    .deliveryFee {
+      font-size: 4vw;
+      color: $text-grey
+      
+    }
     img {
       width: 100%;
     }
@@ -214,20 +234,24 @@ a {
 
 // start of botNav vendor   ///////////////////////////////////
 .botNavbar {
-  border-top: 1px solid $base-color-light;
   position: fixed;
   left: 0;
   background: white;
   bottom: 0;
   z-index: 1;
   width: 100%;
-  height: 12vw;
-  padding-bottom: 1vw;
+  height: 14vw;
+  .am-grid .am-flexbox .am-flexbox-item .am-grid-item-content {
+    padding: 0
+  }
   .row {
     text-align: center;
   }
   .am-flexbox-item {
     display: inline-block;
+  }
+  .am-grid{
+    border: none !important;
   }
 }
 // end of botNav vendor   ///////////////////////////////////

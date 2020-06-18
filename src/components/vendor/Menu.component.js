@@ -8,7 +8,7 @@ const Menu = () => {
     <div className='menu' key={index}>
       <div className='category'> {data[0].category.name}</div>
       {data.map(dish => (
-        <MenuSingleDish dish={dish} />
+        <MenuSingleDish dish={dish} key={dish.id} />
       )
       )}
     </div>

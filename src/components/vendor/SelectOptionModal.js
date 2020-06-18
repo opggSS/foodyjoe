@@ -48,7 +48,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
 
   useEffect(() => {
     checkFinishSelection()
-  }, [isFinishSelection]);
+  }, [checkFinishSelection, isFinishSelection]);
 
 
   const toggleSelection = (e, index, selection, max, min, option, price) => {
@@ -112,14 +112,14 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
 
   const optionType = (min, max) => {
     if (min === 0) {
-      return `可选0~${max}项`
+      return `0~${max}`
     }
 
     else if (min === max) {
-      return `必选${max}项`
+      return `Choose ${max} *required`
     }
     else {
-      return `必选${min}~${max}项`
+      return `Choose${min}~${max} *required`
     }
   }
 
@@ -157,7 +157,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
       handleCloseModal()
     }
     else {
-      alert('请完成选择', '', [
+      alert('Finish Selection to proceed', '', [
         { text: 'Ok' }
       ])
     }
@@ -168,7 +168,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
       <div className="container">
         <div className="head">
           <img src={Close} alt='sdf' onClick={handleCloseModal} />
-          <span className='title'>选择规格</span>
+          <span className='title'>Select options</span>
         </div>
         {dish.selectables.map((option, index) => {
           return (
@@ -188,7 +188,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
           )
         })}
         <div className="quantity">
-          <span className='text'>数量</span>
+          <span className='text'>quantity</span>
           <div className='addition'>
             <span onClick={() => handleQuantity(false)}>-</span>
             <span> {quantity} </span>
@@ -198,7 +198,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
         <div className="addToCart">
           <span className='text'>${itemPrice * quantity}</span>
           <div className='addition'>
-            <span onClick={handleAddtoCart}>加入购物车</span>
+            <span onClick={handleAddtoCart}>Add to Cart</span>
           </div>
         </div>
       </div>
@@ -210,12 +210,9 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
 
 const mapStateToProps = (state, ownProps) => {
   const singleVendorCart = state.cartState[ownProps.dish.vendor.id]
-  console.log(singleVendorCart && singleVendorCart.dishes)
-  console.log(ownProps.dish)
   return {
-    sameDishInCart: singleVendorCart ? singleVendorCart.dishes.map(dish => {
+    sameDishInCart: !_.isEmpty(singleVendorCart) ? singleVendorCart.dishes.map(dish => {
       if (dish.id === ownProps.dish.id) {
-        console.log(dish)
         return dish
       }
     }) : []

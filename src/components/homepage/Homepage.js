@@ -10,11 +10,11 @@ export default function Homepage() {
     <div className='homepageContainer'>
       please use mobile phone or change inspection device to mobile phone
       <TopNav />
-      <Banner />
-      <Categories />
-      <Special />
+      {/* <Banner /> */}
+      {/* <Categories /> */}
+      {/* <Special /> */}
       <Vendors />
-      <BotNavbar/>
+      <BotNavbar />
     </div>
   )
 }

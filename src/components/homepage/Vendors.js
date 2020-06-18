@@ -1,12 +1,19 @@
 import React from 'react'
-import vendor_image from '../../assets/images/banner1.jpg'
-import {Link} from 'react-router-dom'
-
+import { Link } from 'react-router-dom'
+import { SingleVendorData } from '../../datas'
 
 export default function Vendors() {
   return (
-    <Link to='/vendor/1'>
-      <img src={vendor_image} alt="wtf" width="100%" />
+    <div className="vendors">
+      <Link to={`/vendor/${SingleVendorData.id}`}>
+        <img src={SingleVendorData.logo} alt={SingleVendorData.name} width="100%" />
+        <div className="vendorName">
+          {SingleVendorData.name}
+          <div>about 1km</div>
+        </div>
+        <div className="deliveryFee">Devlivery Fee ${SingleVendorData.delivery_fee}+</div>
       </Link>
+    </div>
+
   )
 }
