@@ -7,7 +7,6 @@ import Telephone from '../../assets/icons/telephone.png'
 import { Link } from 'react-router-dom'
 import { ReactComponent as BackDark } from '../../assets/icons/back_dark.svg'
 const Checkout = ({ cart }) => {
-  console.log(cart)
   return (
     <div className="checkout">
       <div className="header">

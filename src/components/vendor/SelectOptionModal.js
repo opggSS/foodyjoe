@@ -211,11 +211,10 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
 const mapStateToProps = (state, ownProps) => {
   const singleVendorCart = state.cartState[ownProps.dish.vendor.id]
   return {
-    sameDishInCart: !_.isEmpty(singleVendorCart) ? singleVendorCart.dishes.map(dish => {
-      if (dish.id === ownProps.dish.id) {
-        return dish
-      }
-    }) : []
+    sameDishInCart: !_.isEmpty(singleVendorCart) ? singleVendorCart.dishes.find(dish => 
+      dish.id === ownProps.dish.id) ? singleVendorCart.dishes.find(dish => {
+      return dish.id === ownProps.dish.id
+    }) : [] : []
   }
 }
 

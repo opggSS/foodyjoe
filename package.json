@@ -2,6 +2,7 @@
   "name": "my_uber_eat",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://opggss.github.io/foodyjoe",
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "@svgr/webpack": "^5.4.0",
@@ -12,7 +13,7 @@
     "antd-mobile": "^2.3.3",
     "axios": "^0.19.2",
     "babel-plugin-inline-react-svg": "^1.1.1",
-    "firebase": "7.15.0",
+    "firebase": "^7.15.3",
     "gh-pages": "^3.0.0",
     "google-maps-react": "^2.0.6",
     "lodash": "^4.17.15",
@@ -20,10 +21,12 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
+    "react-redux-firebase": "^3.6.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
+    "redux-firestore": "^0.13.0",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
