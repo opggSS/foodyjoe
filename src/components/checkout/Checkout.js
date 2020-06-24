@@ -15,7 +15,6 @@ import OrderInfo from './OrderInfo'
 import Remark from './Remark'
 import PriceInfo from './PriceInfo'
 const alert = Modal.alert;
-
 const Checkout = props => {
   
   const { cart, createOrder, history } = props
@@ -47,7 +46,6 @@ const Checkout = props => {
   }
 
   const placeOrder = () => {
-    console.log('sdfs')
     if (telephone === '') {
       alert('Please fill your phone number', '', [
         { text: 'Ok', onPress: () => console.log('ok') },
