@@ -8,7 +8,7 @@ import _ from 'lodash'
 
 const alert = Modal.alert;
 
-const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, increment }) => {
+const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, increment , vendor}) => {
 
   const selectedOptions = []
   dish.selectables.forEach(option => {
@@ -24,16 +24,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
   const [isFinishSelection, setIsFinishSelection] = useState(Array(dish.selectables.length).fill(false))
   const [isDone, setIsDone] = useState(false)
 
-  const checkFinishSelection = () => {
-    let isFinish = true;
-    isFinishSelection.forEach(flag => {
-      if (!flag) {
-        isFinish = false
-        return
-      }
-    })
-    setIsDone(isFinish)
-  }
+  
 
   useEffect(() => {
     let isFinishSelectionCopy = isFinishSelection.slice()
@@ -47,9 +38,15 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
   }, [dish.selectables, isFinishSelection]);
 
   useEffect(() => {
-    checkFinishSelection()
-  }, [checkFinishSelection, isFinishSelection]);
-
+    let isFinish = true;
+    isFinishSelection.forEach(flag => {
+      if (!flag) {
+        isFinish = false
+        return
+      }
+    })
+    setIsDone(isFinish)
+  }, [isFinishSelection]);
 
   const toggleSelection = (e, index, selection, max, min, option, price) => {
     const elmClasses = e.target.classList
@@ -72,7 +69,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
         selectedOptionCopy[index].option.push({
           name: selection
         })
-        setItemPrice(itemPrice + price)
+        setItemPrice(Math.round( (itemPrice + price) * 100) /100)
         setSelectedOption(selectedOptionCopy)
 
       }
@@ -132,7 +129,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
             increment({
               cartItemId: dish.cartItemId,
               quantity: quantity,
-              vendor:dish.vendor
+              vendor:vendor
             })
             handleCloseModal()
             flag = true
@@ -143,7 +140,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
       if (flag) return
 
       const cartObj = {
-        vendor: dish.vendor,
+        vendor: vendor,
         quantity: quantity,
         dish: {
           ...dish,
@@ -196,20 +193,19 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
           </div>
         </div>
         <div className="addToCart">
-          <span className='text'>${itemPrice * quantity}</span>
+          <span className='text'>${ (itemPrice * quantity).toFixed(2)}</span>
           <div className='addition'>
             <span onClick={handleAddtoCart}>Add to Cart</span>
           </div>
         </div>
       </div>
-
     </div>
   )
 }
 
 
 const mapStateToProps = (state, ownProps) => {
-  const singleVendorCart = state.cartState[ownProps.dish.vendor.id]
+  const singleVendorCart = state.cartState[ownProps.dish.vendorId]
   return {
     sameDishInCart: !_.isEmpty(singleVendorCart) ? singleVendorCart.dishes.find(dish => 
       dish.id === ownProps.dish.id) ? singleVendorCart.dishes.find(dish => {

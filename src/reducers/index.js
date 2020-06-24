@@ -8,5 +8,6 @@ export default combineReducers({
   cartState: cartReducer,
   lastVisitedVendorIdState: lastVisitedVendorIdReducer,
   auth:authReducer,
-  vendor: vendorReducer
+  vendor: vendorReducer,
+  firestore:firestoreReducer
 })

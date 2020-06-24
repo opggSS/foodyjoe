@@ -21,7 +21,6 @@ const ShortCart = ({ totalPrice, totalQuantity, vendorId }) => {
         </div>
       </Link>
 
-
       <div className="checkoutContainer">
         <div className="cartValue">${totalPrice} <span>不含配送费</span></div>
         {totalQuantity > 0 ? (

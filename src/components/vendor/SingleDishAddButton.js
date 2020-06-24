@@ -7,18 +7,16 @@ import { decrement } from '../../actions/cart/decrement'
 import { removeItem } from '../../actions/cart/removeItem'
 import { addToCart } from '../../actions/cart/addToCart'
 
-const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, itemId=null, dishQuantity = 0, dish, isCompleteCart, isVendorMenu }) => {
+const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, itemId=null, dishQuantity = 0, dish, isCompleteCart, vendor }) => {
   const [modalOpen, setModalOpen] = useState(false)
   const [cartItemId, setCartItemId] = useState(itemId)
-  console.log(dishQuantity)
   const handleAddtoCart = () => {
     let itemId = Date.now()
     setCartItemId(itemId)
-
     const newDish = {...dish , cartItemId: itemId , quantity: 1 , }
     const cartObj = {
       quantity: 1,
-      vendor: dish.vendor,
+      vendor: vendor,
       dish: newDish,
     }
     addToCart(cartObj)
@@ -33,7 +31,7 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, item
       increment({
         cartItemId: dish.cartItemId || cartItemId,
         quantity: 1,
-        vendor:dish.vendor
+        vendor:vendor
       })
     }
   }
@@ -42,13 +40,13 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, item
     if (dishQuantity === 1) {
       removeItem({
         cartItemId: dish.cartItemId || cartItemId,
-        vendor:dish.vendor
+        vendor:vendor
       })
     }
     else {
       decrement({
         cartItemId: dish.cartItemId || cartItemId,
-        vendor:dish.vendor
+        vendor:vendor
       })
     }
   }
@@ -63,6 +61,7 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, item
 
   return (
     <>
+    {console.log(dish.selectables.length , dishQuantity)}
       {dish.selectables.length > 0 ?
         dishQuantity > 0 && isCompleteCart ? (
           <div>
@@ -94,6 +93,7 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, item
         <SelectOptionModal
           handleCloseModal={handleCloseModal}
           dish={dish}
+          vendor = {vendor}
         />
       }
     </>
@@ -102,9 +102,8 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, item
 
 const mapStateToProps = (state, ownProps) => {
   // console.log(ownProps)
-  const singleVendorCart = ownProps.dish.vendor ? state.cartState[ownProps.dish.vendor.id] : false
+  const singleVendorCart = ownProps.dish ? state.cartState[ownProps.dish.vendorId] : null
 
-  console.log(singleVendorCart)
   if (ownProps.isVendorMenu) {
 
     return {

@@ -2,53 +2,41 @@ import React , {useEffect, useState}from 'react'
 import backDark from '../../assets/icons/back_dark.svg'
 import { Link } from 'react-router-dom'
 import SingleDishAddButton from '../vendor/SingleDishAddButton'
+import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 import ShortCart from '../cart/shortCart'
-import {MyDishes} from '../../datas'
-import _ from 'lodash'
-import {connect} from 'react-redux'
 
-const SingleDish = ({match : {params:{id:singleDishId = 0}} ,cart } ) => {
-  const [singleDishData , setSingleDishData]= useState({})
-  const [dishVendorId , setDishVendorId] = useState(null)
-  const [cartItemId , setCartItemId] = useState(null)
-  singleDishId = Number(singleDishId)
-  useEffect(() => {
-    const data = MyDishes.find(dish => {
-      return dish.id === Number(singleDishId)
-    })
-    setSingleDishData(data)
-  }, [setSingleDishData, singleDishId])
-
+const SingleDish = ({cart , dish ,vendor}) => {
+  const [cartItemId , setCartItemId] = useState(null)  
   useEffect(()=>{
-    if(!_.isEmpty(singleDishData)) {
-      const vendorId = singleDishData.vendor.id
-      setDishVendorId(vendorId)
-      console.log(cart[vendorId])
-      const itemInCart = cart[vendorId] ? cart[vendorId].dishes.find((dish) => {
-        return dish.id = singleDishId
+    if(dish) {
+      const itemInCart = cart[dish.vendorId] ? cart[dish.vendorId].dishes.find((singleDish) => {
+        return singleDish.id === dish.id
       }) : null
       itemInCart && setCartItemId(itemInCart.cartItemId)
     }
-  },[cart, singleDishData, singleDishId])
+  },[cart, dish])
 
-  return ( !_.isEmpty(singleDishData) ? 
+  return ( dish ? 
     <div className='singleDish'>
-      <Link to={`/vendor/${dishVendorId}`}>
-        <div className="bannerImage" style={{ backgroundImage: `url(${singleDishData.photo})` }}>
+      <Link to={`/vendor/${dish.vendorId}`}>
+        <div className="bannerImage" style={{ backgroundImage: `url(${dish.photo})` }}>
           <img src={backDark} alt='sdf' />
         </div>
       </Link>
 
       <div className="dishTitle">
-        {singleDishData.name}
+        {dish.name}
       </div>
       <div className="divider"></div>
       <div className="priceContainer">
         <div style={{ position: 'relative' }}>
-          <span className='price'>${singleDishData.price}</span>
+          <span className='price'>${dish.price}</span>
           <SingleDishAddButton
-            dish={ {...singleDishData , cartItemId: Number(cartItemId)}}
+            dish={ {...dish , cartItemId: Number(cartItemId) }}
             isVendorMenu= {cartItemId ? false : true }
+            vendor={vendor}
            >
           </SingleDishAddButton>
         </div>
@@ -57,14 +45,35 @@ const SingleDish = ({match : {params:{id:singleDishId = 0}} ,cart } ) => {
       <div className="divider"></div>
       <div className="productDescription">
         <div>Product Description</div>
-        <p>{singleDishData.description}</p>
+        <p>{dish.description}</p>
       </div>
-      <ShortCart vendorId={dishVendorId} />
-    </div> : null) 
+      <ShortCart vendorId={dish.vendorId} />
+    </div> : <div>Loading</div>) 
 }
 
-const mapStateToProps = (state) => {
-  return { cart : state.cartState }
+const mapStateToProps = (state, ownProps) => {
+  let dish = null
+  let vendor = null
+  if (state.firestore.ordered.dishes){
+    dish = state.firestore.ordered.dishes.find(dish => ownProps.match.params.id === dish.id)
+    vendor = state.firestore.ordered.vendors.find(vendor => dish.vendorId === vendor.id)
+  }
+  return { 
+    cart : state.cartState,
+    dish: dish,
+    vendor : vendor
+  }
 }
 
-export default connect(mapStateToProps, {}) (SingleDish)
+
+export default compose(
+  connect(mapStateToProps, {}),
+  firestoreConnect([
+    {
+      collection: 'dishes',
+    },
+    {
+      collection: 'vendors'
+    }
+  ])
+)(SingleDish)

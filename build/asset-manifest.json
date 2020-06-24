@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/foodyjoe/static/css/main.bd0a5755.chunk.css",
-    "main.js": "/foodyjoe/static/js/main.107817ea.chunk.js",
-    "main.js.map": "/foodyjoe/static/js/main.107817ea.chunk.js.map",
-    "runtime-main.js": "/foodyjoe/static/js/runtime-main.1f19cd44.js",
-    "runtime-main.js.map": "/foodyjoe/static/js/runtime-main.1f19cd44.js.map",
-    "static/css/2.f1c9fcd1.chunk.css": "/foodyjoe/static/css/2.f1c9fcd1.chunk.css",
-    "static/js/2.e70433e7.chunk.js": "/foodyjoe/static/js/2.e70433e7.chunk.js",
-    "static/js/2.e70433e7.chunk.js.map": "/foodyjoe/static/js/2.e70433e7.chunk.js.map",
+    "main.css": "/foodyjoe/static/css/main.0e7d9d14.chunk.css",
+    "main.js": "/foodyjoe/static/js/main.ce380afb.chunk.js",
+    "main.js.map": "/foodyjoe/static/js/main.ce380afb.chunk.js.map",
+    "runtime-main.js": "/foodyjoe/static/js/runtime-main.00e5e86d.js",
+    "runtime-main.js.map": "/foodyjoe/static/js/runtime-main.00e5e86d.js.map",
+    "static/css/2.b46cf031.chunk.css": "/foodyjoe/static/css/2.b46cf031.chunk.css",
+    "static/js/2.cb08e387.chunk.js": "/foodyjoe/static/js/2.cb08e387.chunk.js",
+    "static/js/2.cb08e387.chunk.js.map": "/foodyjoe/static/js/2.cb08e387.chunk.js.map",
     "index.html": "/foodyjoe/index.html",
-    "precache-manifest.b6eceb88d70c195a14aab7670641022f.js": "/foodyjoe/precache-manifest.b6eceb88d70c195a14aab7670641022f.js",
+    "precache-manifest.b8bee591c6425ac54fd9264e9550a625.js": "/foodyjoe/precache-manifest.b8bee591c6425ac54fd9264e9550a625.js",
     "service-worker.js": "/foodyjoe/service-worker.js",
-    "static/css/2.f1c9fcd1.chunk.css.map": "/foodyjoe/static/css/2.f1c9fcd1.chunk.css.map",
-    "static/css/main.bd0a5755.chunk.css.map": "/foodyjoe/static/css/main.bd0a5755.chunk.css.map",
-    "static/js/2.e70433e7.chunk.js.LICENSE.txt": "/foodyjoe/static/js/2.e70433e7.chunk.js.LICENSE.txt",
+    "static/css/2.b46cf031.chunk.css.map": "/foodyjoe/static/css/2.b46cf031.chunk.css.map",
+    "static/css/main.0e7d9d14.chunk.css.map": "/foodyjoe/static/css/main.0e7d9d14.chunk.css.map",
+    "static/js/2.cb08e387.chunk.js.LICENSE.txt": "/foodyjoe/static/js/2.cb08e387.chunk.js.LICENSE.txt",
     "static/media/back.svg": "/foodyjoe/static/media/back.bcc53b2a.svg",
     "static/media/back_dark.svg": "/foodyjoe/static/media/back_dark.684e609e.svg",
     "static/media/banner1.jpg": "/foodyjoe/static/media/banner1.625aee00.jpg",
@@ -32,10 +32,10 @@
     "static/media/search.svg": "/foodyjoe/static/media/search.7f3e8137.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.1f19cd44.js",
-    "static/css/2.f1c9fcd1.chunk.css",
-    "static/js/2.e70433e7.chunk.js",
-    "static/css/main.bd0a5755.chunk.css",
-    "static/js/main.107817ea.chunk.js"
+    "static/js/runtime-main.00e5e86d.js",
+    "static/css/2.b46cf031.chunk.css",
+    "static/js/2.cb08e387.chunk.js",
+    "static/css/main.0e7d9d14.chunk.css",
+    "static/js/main.ce380afb.chunk.js"
   ]
 }

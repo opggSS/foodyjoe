@@ -6,10 +6,10 @@ export const createOrder = (payload) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore()
     const history = payload.history;
+    console.log(payload.vendorId)
     delete payload.history
     firestore.collection('orders').add({
       ...payload,
-      customerId: '123',
       createdAt: new Date()
     }).then(() => {
       dispatch({

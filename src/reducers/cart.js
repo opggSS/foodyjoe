@@ -19,18 +19,20 @@ export default (state = initialState, action) => {
   let selectedDish = {}
   let dishes = {}
   let vendorId
+  let totalPrice = 0
   const {payload} = action 
   switch (action.type) {
     case ADD_TO_CART:
       vendorId = payload.vendor.id
       dishes = state[vendorId] ? state[vendorId].dishes : []
-      console.log(payload.dish)
+      totalPrice =(payload.dish.price * payload.quantity) + (state[vendorId] ? state[vendorId].totalPrice : 0)
+      console.log(totalPrice)
       return {
         ...state,
         [vendorId]: {
           ...state[vendorId],
           // cart total price from a single vendor
-          totalPrice: payload.dish.price * payload.quantity + (state[vendorId] ? state[vendorId].totalPrice : 0),
+          totalPrice:  Math.round(totalPrice * 100) / 100,
           // total items ordered from a single vendor
           quantity: state[vendorId] ? state[vendorId].quantity + payload.quantity : payload.quantity,
           //vendor Info
@@ -41,7 +43,6 @@ export default (state = initialState, action) => {
             payload.dish
           ]
         }
-
       }
     case CLEAR_CART:
       return initialState
@@ -66,10 +67,8 @@ export default (state = initialState, action) => {
     case INCREMENT_ITEM:
       vendorId = payload.vendor.id
       selectedDish = state[vendorId].dishes.find((dish) => dish.cartItemId === payload.cartItemId)
-      console.log(state[vendorId].dishes)
 
       dishes = state[vendorId].dishes.map(dish => {
-        console.log(dish);
         if (dish.cartItemId === payload.cartItemId) {
           return { ...dish, quantity: dish.quantity + payload.quantity }
         }

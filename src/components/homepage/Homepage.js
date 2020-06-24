@@ -4,8 +4,9 @@ import Banner from './Banner'
 import Categories from './Categories'
 import Special from './Special'
 import Vendors from './Vendors'
+
 import BotNavbar from '../navigation/BotNavbar'
-export default function Homepage() {
+const Homepage = () => {
   return (
     <div className='homepageContainer'>
       please use mobile phone or change inspection device to mobile phone
@@ -18,3 +19,6 @@ export default function Homepage() {
     </div>
   )
 }
+
+
+export default Homepage

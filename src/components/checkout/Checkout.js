@@ -47,6 +47,7 @@ const Checkout = props => {
   }
 
   const placeOrder = () => {
+    console.log('sdfs')
     if (telephone === '') {
       alert('Please fill your phone number', '', [
         { text: 'Ok', onPress: () => console.log('ok') },
@@ -62,7 +63,13 @@ const Checkout = props => {
     const newCart = { ...cart }
     if (newCart.vendor) delete newCart.vendor
     if(newCart.totalPrice) delete newCart.totalPrice
-    createOrder({
+    if(newCart.quantity) delete newCart.quantity
+    newCart.dishes.forEach(dish =>{
+      delete dish.vendor
+    })
+    
+  
+    const orderData = {
       ...newCart,
       isDelivery: isDelivery.flag,
       vendorId,
@@ -70,8 +77,8 @@ const Checkout = props => {
       status: 1,
       arrivalTime: 'ASAP',
       paymentMethod: 'wechat',
-      userId: 1232,
       history,
+      userId:123,
       receiverInfo: {
         address: userLocation,
         name: 'Jason Li',
@@ -83,7 +90,9 @@ const Checkout = props => {
         Tax:totalTax,
         subtotol:subTotal
       }
-    })
+    }
+    console.log(orderData)
+    createOrder(orderData)
   }
  
 
