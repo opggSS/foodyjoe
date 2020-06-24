@@ -5,11 +5,7 @@ import { Link } from 'react-router-dom'
 import { Modal } from 'antd-mobile';
 const alert = Modal.alert;
 const ShortCart = ({ totalPrice, totalQuantity, vendorId }) => {
-  // const handleCloseCompleteCart = () => {
-  //   setCompleteCartOpen(false)
-  // }
 
-  // const [completeCartOpen, setCompleteCartOpen] = useState(false)
   const handleClick = () => {
     alert('Cart is empty' ,'nothing to checkout', [
       { text: 'Ok', onPress: () =>console.log('ok') },

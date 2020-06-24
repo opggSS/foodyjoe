@@ -1,7 +1,8 @@
-import React from 'react'
-import { Map, GoogleApiWrapper } from 'google-maps-react';
+import React, { useState } from 'react'
+import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
 
-const About = ({ mobile, address, city, province, business_hours, longitude, latitude, google }) => {
+
+const About = ({ mobile, address, city, province, business_hours, longitude, latitude, name, google }) => {
 
   const today = new Date()
   const date = today.getDay()
@@ -20,19 +21,33 @@ const About = ({ mobile, address, city, province, business_hours, longitude, lat
             <span> {business_hours[date].from} - {business_hours[date].to}</span>
           }
         </div>
-        <Map
-          style={{ width: '100%' }}
-          google={google}
-          zoom={14}
-          initialCenter={{
-            lat: latitude,
-            lng: longitude
-          }}
-        />
+        <div >
+
+          <div style={{ height: '50vh', width: '100%' , position:'relative'}}>
+            <Map
+              className="map"
+              google={google}
+              initialCenter={{
+                lat: latitude,
+                lng: longitude
+              }}
+              zoom={14}
+            >
+              <Marker
+                name="Marker"
+                position={{ lat: latitude, lng: longitude }}
+              >
+              </Marker>
+
+            </Map>
+          </div>
+        </div>
       </div>
     </div>
   )
 }
+
 export default GoogleApiWrapper({
-  apiKey: ''
-})(About);
+  apiKey: process.env.REACT_APP_GOOGLE_MAP_API,
+  version: "3.38"
+})(About)

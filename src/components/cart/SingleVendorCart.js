@@ -6,7 +6,6 @@ export default function SingleVendorCart({ singleCart }) {
   const renderSingleDish = () => {
     return singleCart.dishes.map((dish, index) => {
       let selectableText = ''
-      console.log(dish.selectables)
       dish.selectables.forEach(selectable => {
         selectableText += selectable.name
         selectableText += ' - '

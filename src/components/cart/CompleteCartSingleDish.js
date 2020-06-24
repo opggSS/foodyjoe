@@ -2,7 +2,6 @@ import React from 'react'
 import SingleDishAddButton from '../vendor/SingleDishAddButton'
 
 export default function CompleteCartSingleDish({ dish, selectableText, vendor }) {
-  console.log(dish)
   return (
     <div className="cartSingleDish" >
       <img src={dish.photo} alt={dish.name} />

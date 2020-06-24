@@ -65,6 +65,7 @@ const SingleVendor = ({setLastVisitedVendor}) => {
                   business_hours={SingleVendorData.business_hours}
                   longitude={SingleVendorData.longitude}
                   latitude={SingleVendorData.latitude}
+                  name={SingleVendorData.name}
                 />
               </TabPane>
           </Tabs>

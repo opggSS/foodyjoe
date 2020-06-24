@@ -11,7 +11,7 @@ $main-yellow: #ffaf16;
 
 // Home Page  ///////////////////////////////////
 a {
-  color: initial ;
+  color: initial;
 }
 * {
   font-size: 3.7vw;
@@ -29,7 +29,7 @@ a {
     width: 100%;
     height: 12vw;
     .searchBar {
-      input{
+      input {
         background-color: $main-grey;
       }
       border: none;
@@ -42,7 +42,7 @@ a {
       border-radius: 1rem;
     }
   }
- 
+
   .banner {
     min-height: 10rem;
   }
@@ -83,17 +83,16 @@ a {
       font-size: 5vw;
       position: relative;
       margin-top: 2vw;
-      div{
+      div {
         color: $text-grey;
         position: absolute;
-        right: 0 ;
-        top: 0 
+        right: 0;
+        top: 0;
       }
     }
     .deliveryFee {
       font-size: 4vw;
-      color: $text-grey
-      
+      color: $text-grey;
     }
     img {
       width: 100%;
@@ -133,6 +132,7 @@ a {
     width: 100%;
     position: relative;
     top: -2rem;
+    padding-bottom: 20vw;
   }
   .topContainer {
     border-top-right-radius: 0.4rem;
@@ -242,7 +242,7 @@ a {
   width: 100%;
   height: 14vw;
   .am-grid .am-flexbox .am-flexbox-item .am-grid-item-content {
-    padding: 0
+    padding: 0;
   }
   .row {
     text-align: center;
@@ -250,7 +250,7 @@ a {
   .am-flexbox-item {
     display: inline-block;
   }
-  .am-grid{
+  .am-grid {
     border: none !important;
   }
 }
@@ -691,10 +691,63 @@ a {
       left: 0;
     }
   }
-  .deliveryInfo {
+  .infoContainer {
     background: white;
     padding: 3vw;
     border-radius: 2vw;
+    margin: 1vw 0 ;
+    .priceInfoRow{
+      line-height: 6vw;;
+      position: relative;
+      span:last-child {
+        position: absolute;
+        right: 0;
+      }
+    }
+    .vendorName{
+      margin-bottom: 3vw;
+      padding-bottom: 3vw;
+      border-bottom: 1px  solid $border-color;
+    }
+    .singleDishInfo{
+      line-height: 10vw;
+      margin-bottom: 2vw;;
+      position: relative;
+      min-height: 10vw;
+      img{
+        height: 9vw;
+        width: 9vw;
+        position: absolute;
+        left:0;
+      }
+      .first {
+        margin-left: 2vw;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 45vw;
+        position: absolute;
+        left: 10vw;
+        color: black;
+        font-size: 4.6vw;
+
+      }
+      .second {
+        position: absolute;
+        right: 20vw ;
+      }
+      .third {
+        position: absolute;
+        right: 0
+      }
+      .fourth{
+        display: inline-block;
+        padding-left: 12vw;
+        margin-top: 8vw;
+        color: $text-grey;
+        line-height: 5vw;
+      }
+    }
     img {
       width: 5vw;
     }
@@ -703,7 +756,7 @@ a {
       .right {
         position: absolute;
         right: 0vw;
-        img{
+        img {
           margin-left: 2vw;
           width: 2.5vw;
         }
@@ -719,7 +772,7 @@ a {
       .right {
         position: absolute;
         right: 0;
-        img{
+        img {
           margin-left: 2vw;
           width: 2.5vw;
         }
@@ -732,21 +785,39 @@ a {
         padding-left: 4vw;
         color: $text-color;
       }
+      input {
+        border: none;
+        font-size: 4.6vw;
+        margin-left: 5vw;
+        color: $text-color;
+      }
     }
     .location {
+      margin-bottom: 2vw;;
       padding: 1vw 10vw 5vw;
+      padding-right: 0;
       position: relative;
+      .autocomplete-dropdown-container {
+        position: absolute;
+        background: white;
+        z-index: 4;
+        .suggestion-item {
+          background: $main-grey !important;
+          padding: 1vw 2vw;
+        }
+      }
+      .location-search-input {
+        width: 100%;
+        border: none;
+        font-size: 4.6vw;
+        color: $text-color;
+      }
       .locationImg {
         position: absolute;
         left: 0;
-        top: 2vw;
+        top: 1vw;
       }
-      .arrowImg {
-        position: absolute;
-        right: 0;
-        top: 2vw;
-        width: 2.5vw;
-      }
+
       span {
         font-size: 4.6vw;
         color: $text-color;
@@ -755,44 +826,80 @@ a {
   }
   .segment {
     margin: 5vw 0 3vw;
-    .am-segment {
+    .segmentTag {
       border-radius: 5vw;
       height: 10vw;
       line-height: 10vw;
       background: #ededed;
       border: none;
       padding: 1vw;
-      .am-segment-item {
-        background: white;
-        color: $text-color !important;
+      position: relative;
+      .segmentItem {
+        height: 8vw;
+        color: $text-color;
         border: none;
         font-weight: normal;
+        line-height: 8vw;;
         font-size: 4.2vw;
-        &.am-segment-item-selected {
+        position: absolute;
+        width: calc(50% - 1px);
+        text-align: center;
+        top: 1vw;
+        &.selected {
           border-radius: 4vw;
-          color: black !important;
+          color: black;
           font-weight: 600;
         }
+        &:first-child {
+          left: 1vw;
+          border-top-left-radius: 4vw;
+          border-bottom-left-radius: 4vw;
+        }
+        &:last-child {
+          right: 1vw;
+          border-top-right-radius: 4vw;
+          border-bottom-right-radius: 4vw;
+        }
       }
-
-      .am-segment-item:first-child {
-        border-top-left-radius: 4vw;
-        border-bottom-left-radius: 4vw;
-      }
-      // .am-segment-item.segment-item-selected:first-child{
-      //   border-top-right-radius: 4vw;
-      //   border-bottom-right-radius: 4vw;
-      // }
-      .am-segment-item:last-child {
-        border-top-right-radius: 4vw;
-        border-bottom-right-radius: 4vw;
-      }
-      // .am-segment-item.segment-item-selected:last-child{
-      //   border-top-left-radius: 4vw;
-      //   border-bottom-left-radius: 4vw;
-      // }
+     
     }
   }
 }
 
 //end of checkout
+
+//start of confirmBtn ///////////////?????//
+.confirmBtn {
+  position: fixed;
+    left: 5vw;
+    bottom: 3vw;
+    border-radius: 7vw;
+    height: 14vw;
+    line-height: 14vw;
+    width: 90vw;
+    padding: 0 4vw;
+    background: $text-color;
+  .left{
+    font-size: 5vw;
+    color: $main-yellow;
+    line-height: 14vw;
+    border-top-left-radius: 7vw ;
+    border-bottom-left-radius: 7vw ;
+    padding-left: 10vw;;
+  }
+  .right {
+    font-size: 5vw;
+    color: white;
+    top : 0;
+    background: $main-blue;
+    position: absolute;
+    right: 0;
+    height: 14vw;
+    width: 45vw;
+    text-align: center;
+    border-top-right-radius: 7vw ;
+    border-bottom-right-radius: 7vw ;
+  }
+}
+
+//end of confirmBtn ///////////////?????//

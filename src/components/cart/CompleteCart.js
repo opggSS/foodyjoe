@@ -13,12 +13,16 @@ const alert = Modal.alert;
 
 const CompleteCart = ({ clearCart, lastVisitedVendorId, carts }) => {
 
-
-  const dishes = () => {
-    for (let vendorId in carts) {
-      return <SingleVendorCart singleCart={carts[vendorId]} />
+  const dishes = () => {    
+    if(!_.isEmpty(carts) ){
+      for (let vendorId in carts) {
+        return <SingleVendorCart singleCart={carts[vendorId]} />
+      }
     }
-
+    else {
+      return 'sdf'
+    }
+    
   }
 
   const handleClearCart = () => {
