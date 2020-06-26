@@ -1,12 +1,11 @@
-import { CREATE_ORDER, CLEAR_CART_BY_VENDOR_ID } from '../types'
-import { CREATE_ORDER_ERROR } from '../types'
+import { CREATE_ORDER, CLEAR_CART_BY_VENDOR_ID, CREATE_ORDER_ERROR } from '../types'
 
 //pass vendor Id to payload
 export const createOrder = (payload) => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
+  return (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore()
     const history = payload.history;
-    console.log(payload.vendorId)
+    console.log(dispatch)
     delete payload.history
     firestore.collection('orders').add({
       ...payload,
@@ -27,7 +26,6 @@ export const createOrder = (payload) => {
         payload: err
       })
     })
-
   }
 }
 

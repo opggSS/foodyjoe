@@ -10,7 +10,11 @@ var config = {
   storageBucket: "foodyjoe-3a05d.appspot.com",
   messagingSenderId: "674788384636",
   appId: "1:674788384636:web:1091a4a9818cf5bdd50ef9",
-  measurementId: "G-MDK5NC3RYL"
+  measurementId: "G-MDK5NC3RYL",
+  
+  /// Firestore for Profile instead of Realtime DB
+  userProfile: 'users',
+  useFirestoreForProfile: true 
 };
 // Initialize Firebase
 firebase.initializeApp(config);

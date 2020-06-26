@@ -1,13 +1,15 @@
 import {combineReducers} from 'redux'
-import cartReducer from './cart'
-import authReducer from './auth'
-import vendorReducer from './vendor'
+import cartReducer from './cartReducer'
+import authReducer from './authReducer'
+import vendorReducer from './vendorReducer'
 import lastVisitedVendorIdReducer from './lastVisitedVendorId'
 import {firestoreReducer} from 'redux-firestore'
+import {firebaseReducer} from 'react-redux-firebase'
 export default combineReducers({
   cartState: cartReducer,
   lastVisitedVendorIdState: lastVisitedVendorIdReducer,
   auth:authReducer,
-  vendor: vendorReducer,
-  firestore:firestoreReducer
+  vendors: vendorReducer,
+  firestore:firestoreReducer,
+  firebase: firebaseReducer
 })

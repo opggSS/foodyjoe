@@ -16,8 +16,8 @@ import Remark from './Remark'
 import PriceInfo from './PriceInfo'
 const alert = Modal.alert;
 const Checkout = props => {
-  
   const { cart, createOrder, history } = props
+  console.log(createOrder)
   const vendorId = props.match.params.vendorId
   const [isDelivery, setIsDelivery] = useState({
     flag: true,
@@ -144,7 +144,6 @@ const Checkout = props => {
         </div>
       </div>
       <div className="infoContainer">
-
         <OrderInfo
           vendorName={cart.vendor.name}
           dishes={cart.dishes}

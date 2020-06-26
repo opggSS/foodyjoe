@@ -8,9 +8,8 @@ import Menu from './Menu.component'
 import About from './About.component'
 import Ratings from './Ratings.component'
 import ShortCart from '../cart/shortCart'
-import { SingleVendorData } from '../../datas'
 import { connect } from 'react-redux'
-import { setLastVisitedVendor } from '../../actions/vendor/setLastVisitedVendor'
+import { setLastVisitedVendor } from '../../actions/vendor/vendorActions'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
@@ -18,6 +17,7 @@ const { TabPane } = Tabs;
 
 const SingleVendor = ({ setLastVisitedVendor, vendor }) => {
 
+  console.log(vendor)
   useEffect(() => {
     if (vendor) setLastVisitedVendor(vendor.id)
   }, [setLastVisitedVendor, vendor])
@@ -89,6 +89,7 @@ const SingleVendor = ({ setLastVisitedVendor, vendor }) => {
 const mapStateToProps = (state, ownProps) => {
   let vendors = null
   let vendor = null
+  console.log(state.firestore)
   if (state.firestore.ordered.vendors) {
     vendors = state.firestore.ordered.vendors
     vendor = vendors.find(vendor => vendor.id === ownProps.match.params.id)
@@ -99,10 +100,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default compose(
-  connect(mapStateToProps, { setLastVisitedVendor }),
-  firestoreConnect([
-    { collection: 'vendors' }
-  ])
+  firestoreConnect(() => ['vendors']), // sync todos collection from Firestore into redux
+  connect(mapStateToProps, {setLastVisitedVendor})
 )(SingleVendor)
-
 

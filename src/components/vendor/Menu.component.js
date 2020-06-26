@@ -23,7 +23,6 @@ const mapStateToProps = (state, ownProps) => {
   const formedArr = []
   if (state.firestore.ordered.dishes) {
     dishes = state.firestore.ordered.dishes.filter(dish => { return dish.vendorId === ownProps.vendor.id })
-    console.log(ownProps.vendor.id)
     for (let i = 1; i <= ownProps.categoryLength; i++) {
       formedArr.push(dishes.filter(dish => dish.category.id === i))
     }
@@ -35,9 +34,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default compose(
   connect(mapStateToProps, {}),
-  firestoreConnect([
-    {
-      collection: 'dishes',
-    }
-  ])
+  firestoreConnect(() => ['dishes'])
 )(Menu)
