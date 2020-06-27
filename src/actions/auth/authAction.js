@@ -95,3 +95,10 @@ export const signOut = () => {
     })
   }
 }
+
+export const updateUserInfo = (params) => async(dispatch, getState, {getFirestore, getFirebase}) => {
+    const uid = (getState()).firebase.auth.uid
+    const firestore = await getFirestore()
+    await firestore.collection('users').doc(uid).set(params)
+    console.log('success!!!!!')
+}

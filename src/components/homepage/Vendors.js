@@ -6,8 +6,8 @@ const Vendors = ({ vendors }) => {
   console.log(vendors)
   return (
   
-    vendors ? vendors.map(vendor => (
-      <div className="vendors">
+    vendors ? vendors.map((vendor, index) => (
+      <div key={index} className="vendors">
         <Link to={`/vendor/${vendor.id}`}>
           <img src={vendor.logo} alt={vendor.name} width="100%" />
           <div className="vendorName">
