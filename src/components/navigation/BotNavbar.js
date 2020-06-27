@@ -28,7 +28,7 @@ export default function BotNavbar() {
         columnNum={3}
         data={datas}
         renderItem={data => (
-          <Link to={`./${data.url}`}>
+          <Link to={`${data.url}`}>
             <div className='row'>
               {data.icon}
               <h6>{data.title}</h6>
