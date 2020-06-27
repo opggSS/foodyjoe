@@ -17,6 +17,9 @@ const OrderHome = ({ auth, orders }) => {
             <SingleOrderSummary key={index} order={order} />
           ))
         )
+      } 
+      {
+       orders.length < 1 && <p>Sorry, you don't have any orders.</p>   
       }
     </div>
   )
