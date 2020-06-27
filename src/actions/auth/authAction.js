@@ -38,8 +38,8 @@ import { isFunction } from 'lodash';
 // }
 
 
-export const signIn = (params) => (dispatch, getState, {getFirestore, getFirebase}) => {
-    const firebase = getFirebase()    
+export const signIn = (params) => async (dispatch, getState, {getFirestore, getFirebase}) => {
+    const firebase = await getFirebase()    
     
     // set up recaptchaVerifier if there is not one already
     if(!window.recaptchaVerifier) {
