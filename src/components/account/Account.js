@@ -21,6 +21,7 @@ const Account = ({ orders, firebase, signIn, signOut, auth, authError }) => {
         <input type="text" onChange={e => setPhone(e.target.value)} />
         </div>
         <div id='recaptchaContainer'></div>
+
         <button onClick={() => signIn({ phone: phone })}>sign in</button>
         {authError && <div>{authError}</div>} */}
       </div>

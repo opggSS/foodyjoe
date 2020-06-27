@@ -12,7 +12,7 @@ const Vendors = ({ vendors }) => {
           <img src={vendor.logo} alt={vendor.name} width="100%" />
           <div className="vendorName">
             {vendor.name}
-            <div>about 1km</div>
+            <div>{/*about 1km*/}</div>
           </div>
           <div className="deliveryFee">Devlivery Fee ${vendor.delivery_fee}+</div>
         </Link>

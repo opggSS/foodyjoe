@@ -2,7 +2,6 @@
   "name": "my_uber_eat",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://opggss.github.io/foodyjoe",
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "@svgr/webpack": "^5.4.0",
@@ -34,9 +33,9 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "REACT_APP_GOOGLE_MAP_API=AIzaSyDsq5RdcjW7WtXI8MEVqfvweiATGL3ZG14 react-scripts start",
-    "build": "set \"CI=false\" && react-scripts build",
     "bnd": "npm run build && firebase deploy",
+    "start": "react-scripts start",
+    "build": "set \"CI=false\" && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

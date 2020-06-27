@@ -4,40 +4,24 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import {Link} from 'react-router-dom'
 
+import './SingleOrderSummary.css'
+
 const SingleOrderSummary = ({ order, vendor }) => {
-  console.log(vendor)
-  console.log(order)
+
   return (
-    <div>
-      <img src={vendor.logo} alt="" />
+    <div className="flexie">
+        <div className="image-container">
+            <img src={order.vendor.logo} alt={order.vendor.name} /> 
+        </div>
+      
       <Link to={`/orderDetail/${order.id}`}>
-        <span className="first"> {vendor.name}</span>
-        <span className="second" >X{order.createdAt}</span>
-        <span className="third">${order.priceInfo.orderTotal}</span>
+        <span className="first">Ordered from: {order.vendor.name}</span>
+        <span className="second" >Purchased at: {order.createdAt.toDate().toDateString()}</span>
+        <span className="third">Order total: ${order.priceInfo.orderTotal}</span>
       </Link>
     </div>
   )
 }
 
-const mapStateToProps = (state, ownProps) => {
-
-  
-  let vendor = null
-  const vendors = state.firestore.ordered.vendors
-  console.log(state)
-  if(vendors) {
-    
-    vendor = vendors.find((vendor) => vendor.id === ownProps.order.vendorId)
-  }
-  return {
-    vendor: vendor
-  }
-}
-
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([
-    { collection: 'vendors' }
-  ])
-)(SingleOrderSummary)
+export default SingleOrderSummary
 
