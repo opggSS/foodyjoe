@@ -74,7 +74,7 @@ const Account = ({
                         setUserInfo({
                             username: user.username || '',
                             address: user.address || '',
-                            phone: user.phone | ''
+                            phone: user.phone || ''
                         })
                     }}
                 >
@@ -95,13 +95,13 @@ const Account = ({
                             address: value
                         })
                     }} defaultValue={userInfo.address} />
-                    <InputItem name="" onChange={(value) => {
+                    <InputItem type="text" onChange={(value) => {
 
                         setUserInfo({
                             ...userInfo,
-                            phone: value
+                            phone: (value + '')
                         })
-                    }} defaultValue={userInfo.phone} />
+                    }} defaultValue={(console.log(userInfo.phone + ''), userInfo.phone + '')} />
                     <button onClick={() => {
                         handlepdateUserInfo()
                     }}>
