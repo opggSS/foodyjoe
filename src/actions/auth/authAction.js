@@ -15,12 +15,12 @@ import { isFunction } from 'lodash';
 //     firebase.auth().signInWithPhoneNumber(payload.phone, appVerifier)
 //       .then(confirmationResult => {
 //         window.confirmationResult = confirmationResult;
-//         var verificationCode = window.prompt('Please enter the verification ' +
+//         const verificationCode = window.prompt('Please enter the verification ' +
 //           'code that was sent to your mobile device.')
 //           console.log(verificationCode)
 //         if (verificationCode) {
 //           confirmationResult.confirm(verificationCode).then((result => {
-//             var user = result.user;
+//             const user = result.user;
 //             console.log(user)
 //             const firestore = getFirestore()
 //             firestore.collection('users').add({
@@ -50,7 +50,7 @@ export const signIn = (params) => async (dispatch, getState, {getFirestore, getF
     }
     
     // send a verification code to user's phone
-    var appVerifier = window.recaptchaVerifier;
+    const appVerifier = window.recaptchaVerifier;
     firebase.auth().signInWithPhoneNumber(params.phone, appVerifier).then(function (confirmationResult) {
         // SMS sent. Prompt user to type the code from the message, then sign the
         // user in with confirmationResult.confirm(code).
