@@ -16,7 +16,6 @@ const OrderHome = ({ auth, orders }) => {
           ))
         )
       }
-
     </div>
   )
 }
@@ -39,5 +38,3 @@ export default compose(
   connect(mapStateToProps),
   firestoreConnect(() => ['orders', 'vendors'])
 )(OrderHome)
-
-
