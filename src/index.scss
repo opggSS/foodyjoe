@@ -22,6 +22,7 @@ a {
 .homepageContainer {
   padding: 12vw 4vw;
   .topNav {
+    z-index: 99;
     background: white;
     position: fixed;
     top: 0;
