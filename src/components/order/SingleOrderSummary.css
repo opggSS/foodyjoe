@@ -4,6 +4,8 @@
     margin-bottom: 10px;
 }
 .image-container {
+    margin-left: 10px;
+    align-self: center;
     width: 30%;
 }
 .image-container > img {

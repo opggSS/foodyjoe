@@ -1,15 +1,25 @@
-import React from 'react'
-import {Input} from 'antd'
-import {SearchOutlined} from '@ant-design/icons'
+import React, { useState } from 'react';
+import { Input } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import { useHistory } from "react-router-dom";
 
 export default function TopNavbar() {
-  return (
-    <div className="topNav">
-      <Input
-      placeholder="Search Restaurant"
-      className='searchBar'
-      prefix={<SearchOutlined />}
-      />
-    </div>
-  )
+    const [keyword, setKeyword] = useState('');
+    const history = useHistory();
+    return (
+        <form onSubmit={e => {
+            e.preventDefault()
+            console.log(e, ' submit')
+            console.log(keyword, ' keyword')
+            
+            history.push(`/search-result/${keyword}`)
+        }} className="topNav">
+            <Input
+                onChange={e => setKeyword(e.target.value)}
+                placeholder="Search Restaurant"
+                className="searchBar"
+                prefix={<SearchOutlined />}
+            />
+        </form>
+    );
 }

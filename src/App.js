@@ -11,12 +11,12 @@ import Account from './components/account/Account'
 import Checkout from './components/checkout/Checkout'
 import SignUp from './components/sign/SignUp.js'
 import SignIn from './components/sign/SignIn.js'
+import SearchResult from './components/search/SearchResult'
 import SignHome from './components/sign/SignHome.js'
 import { createBrowserHistory } from "history"
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-
 import { getAllVendors } from './actions/vendor/vendorActions'
 import { getAllDishes } from './actions/dish/dishAction'
 import 'antd/dist/antd.css'
@@ -48,6 +48,7 @@ const App = ({ getAllVendors, vendors, getAllDishes, dishes }) => {
           <Route path="/signUp" component={SignUp} />
           <Route path="/signhome" component={SignHome} />
           <Route path="/orderDetail/:orderId" component={OrderDetail} />
+          <Route path="/search-result/:keyword" component={SearchResult} />
           <Route path="/checkout/:vendorId" component={Checkout} />
           <Route component={Default} />
         </Switch>
