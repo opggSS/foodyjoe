@@ -51,7 +51,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
   const toggleSelection = (e, index, selection, max, min, option, price) => {
     const elmClasses = e.target.classList
     if (selectedOption[index].option.length === max && !elmClasses.contains('active')) {
-      alert(`${option}最多可选择${max}项`, '', [
+      alert(`${option}You can select at most ${max} selectables!`, '', [
         { text: 'Ok' }
       ])
     }
@@ -95,7 +95,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
         setQuantity(quantity + 1)
       }
       else {
-        alert('请完成选择', '', [
+        alert('Please select', '', [
           { text: 'Ok' }
         ])
       }
