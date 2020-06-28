@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom'
 // import { SingleVendorData } from '../../datas'
 import { connect } from 'react-redux'
 const Vendors = ({ vendors }) => {
-  console.log(vendors)
   return (
-  
     vendors ? vendors.map((vendor, index) => (
       <div key={index} className="vendors">
         <Link to={`/vendor/${vendor.id}`}>
@@ -20,7 +18,6 @@ const Vendors = ({ vendors }) => {
     )) : 
     <div>loading...</div>
   )
-
 }
 
 const mapStateToProps = (state) => {

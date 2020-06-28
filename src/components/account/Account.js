@@ -19,7 +19,6 @@ const Account = ({
 }) => {
     const [phone, setPhone] = useState('');
     const [modal, setModal] = useState(false);
-    
     const [userInfo, setUserInfo] = useState({
         username: '',
         address: '',

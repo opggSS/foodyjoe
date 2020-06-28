@@ -695,58 +695,19 @@ a {
     background: white;
     padding: 3vw;
     border-radius: 2vw;
-    margin: 1vw 0 ;
-    .priceInfoRow{
-      line-height: 6vw;;
+    margin: 1vw 0;
+    .priceInfoRow {
+      line-height: 6vw;
       position: relative;
       span:last-child {
         position: absolute;
         right: 0;
       }
     }
-    .vendorName{
+    .vendorName {
       margin-bottom: 3vw;
       padding-bottom: 3vw;
-      border-bottom: 1px  solid $border-color;
-    }
-    .singleDishInfo{
-      line-height: 10vw;
-      margin-bottom: 2vw;;
-      position: relative;
-      min-height: 10vw;
-      img{
-        height: 9vw;
-        width: 9vw;
-        position: absolute;
-        left:0;
-      }
-      .first {
-        margin-left: 2vw;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        width: 45vw;
-        position: absolute;
-        left: 10vw;
-        color: black;
-        font-size: 4.6vw;
-
-      }
-      .second {
-        position: absolute;
-        right: 20vw ;
-      }
-      .third {
-        position: absolute;
-        right: 0
-      }
-      .fourth{
-        display: inline-block;
-        padding-left: 12vw;
-        margin-top: 8vw;
-        color: $text-grey;
-        line-height: 5vw;
-      }
+      border-bottom: 1px solid $border-color;
     }
     img {
       width: 5vw;
@@ -793,7 +754,7 @@ a {
       }
     }
     .location {
-      margin-bottom: 2vw;;
+      margin-bottom: 2vw;
       padding: 1vw 10vw 5vw;
       padding-right: 0;
       position: relative;
@@ -839,7 +800,7 @@ a {
         color: $text-color;
         border: none;
         font-weight: normal;
-        line-height: 8vw;;
+        line-height: 8vw;
         font-size: 4.2vw;
         position: absolute;
         width: calc(50% - 1px);
@@ -861,7 +822,6 @@ a {
           border-bottom-right-radius: 4vw;
         }
       }
-     
     }
   }
 }
@@ -871,35 +831,132 @@ a {
 //start of confirmBtn ///////////////?????//
 .confirmBtn {
   position: fixed;
-    left: 5vw;
-    bottom: 3vw;
-    border-radius: 7vw;
-    height: 14vw;
-    line-height: 14vw;
-    width: 90vw;
-    padding: 0 4vw;
-    background: $text-color;
-  .left{
+  left: 5vw;
+  bottom: 3vw;
+  border-radius: 7vw;
+  height: 14vw;
+  line-height: 14vw;
+  width: 90vw;
+  padding: 0 4vw;
+  background: $text-color;
+  .left {
     font-size: 5vw;
     color: $main-yellow;
     line-height: 14vw;
-    border-top-left-radius: 7vw ;
-    border-bottom-left-radius: 7vw ;
-    padding-left: 10vw;;
+    border-top-left-radius: 7vw;
+    border-bottom-left-radius: 7vw;
+    padding-left: 10vw;
   }
   .right {
     font-size: 5vw;
     color: white;
-    top : 0;
+    top: 0;
     background: $main-blue;
     position: absolute;
     right: 0;
     height: 14vw;
     width: 45vw;
     text-align: center;
-    border-top-right-radius: 7vw ;
-    border-bottom-right-radius: 7vw ;
+    border-top-right-radius: 7vw;
+    border-bottom-right-radius: 7vw;
   }
 }
 
 //end of confirmBtn ///////////////?????//
+
+//start of singleOrderDetail
+.singleOrderDetail {
+  .paymentSummary {
+    padding: 1vw 3vw;
+    ul {
+      padding: 0;
+      li {
+        list-style: none;
+        line-height: 8vw;
+        height: 8vw;
+        border-bottom: 1px solid $border-color;
+        position: relative;
+        span {
+          position: absolute;
+          right: 0;
+        }
+      }
+    }
+  }
+  .divider {
+    width: 100%;
+    height: 3vw;
+    background-color: $border-color;
+  }
+  .vendorImg {
+    width: 100%;
+    display: block;
+    height: 50vw;
+  }
+  .status {
+    position: relative;
+    padding: 1vw 3vw;
+    .orderNo {
+      position: absolute;
+      right: 3vw;
+    }
+  }
+  .orderDetail{
+    .vendorTitle {
+      border-bottom: 1px solid $border-color;
+      height: 10vw;
+      line-height: 10vw;
+      font-size: 5vw;
+      font-weight: 600;
+      color: $text-color
+    }
+  }
+  .orderDetail,
+  .timeLocation {
+    padding: 1vw 3vw;
+  }
+}
+
+//end of singleOrderDetail
+
+//start of singleDish info
+.singleDishInfo {
+  line-height: 10vw;
+  margin-bottom: 2vw;
+  position: relative;
+  min-height: 10vw;
+  img {
+    height: 9vw;
+    width: 9vw;
+    position: absolute;
+    left: 0;
+  }
+  .first {
+    margin-left: 2vw;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 45vw;
+    position: absolute;
+    left: 10vw;
+    color: black;
+    font-size: 4.6vw;
+  }
+  .second {
+    position: absolute;
+    right: 20vw;
+  }
+  .third {
+    position: absolute;
+    right: 0;
+  }
+  .fourth {
+    display: inline-block;
+    padding-left: 12vw;
+    margin-top: 8vw;
+    color: $text-grey;
+    line-height: 5vw;
+  }
+}
+
+//end of single dish info

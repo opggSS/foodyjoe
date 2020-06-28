@@ -14,6 +14,7 @@ const PriceInfo = ({
   google,
 }) => {
   
+  
   const totalBeforeTax = Number(totalPrice) + Number(baseDeliveryFee)
   const [deliveryFee, setDeliveryFee] = useState(baseDeliveryFee)
   const [tax, setTax] = useState((totalBeforeTax* 0.05).toFixed(2))

@@ -6,6 +6,7 @@ import Vendor from './components/vendor/SingleVendor'
 import SingleDish from './components/dish/SingleDish'
 import Cart from './components/cart/CompleteCart'
 import OrderHome from './components/order/OrderHome'
+import OrderDetail from './components/order/SingleOrderDetail'
 import Account from './components/account/Account'
 import Checkout from './components/checkout/Checkout'
 import SignUp from './components/sign/SignUp.js'
@@ -46,6 +47,7 @@ const App = ({ getAllVendors, vendors, getAllDishes, dishes }) => {
           <Route path="/signIn" component={SignIn} />
           <Route path="/signUp" component={SignUp} />
           <Route path="/signhome" component={SignHome} />
+          <Route path="/orderDetail/:orderId" component={OrderDetail} />
           <Route path="/checkout/:vendorId" component={Checkout} />
           <Route component={Default} />
         </Switch>

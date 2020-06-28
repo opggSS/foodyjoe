@@ -5,25 +5,29 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import { GoogleApiWrapper } from "google-maps-react";
 
-const UserLocation = ({ setUserAddress, setUserLng, setUserLat }) => {
+const UserLocation = ({ setUserAddress, setUserLng, setUserLat, defaultAddress }) => {
 
-  const [address, setAddress] = useState('')
+  const [address, setAddress] = useState(defaultAddress)
   const handleChange = address => {
     setAddress(address);
+    setUserAddress(address)
   };
 
-  const handleSelect = address => {
-    geocodeByAddress(address)
+  const handleSelect = selectedAddress => {
+    console.log(selectedAddress)
+    if(selectedAddress !== address) {
+      geocodeByAddress(selectedAddress)
       .then(results => {
         setUserLat(results[0].geometry.location.lat())
         setUserLng(results[0].geometry.location.lng())
         return getLatLng(results[0])
       })
       .then(latLng => {
-        setAddress(address)
-        setUserAddress(address)
+        setAddress(selectedAddress)
+        setUserAddress(selectedAddress)
       })
       .catch(error => console.error('Error', error));
+    }
   };
 
   return (
