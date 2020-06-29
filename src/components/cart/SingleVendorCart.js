@@ -1,10 +1,12 @@
 import React from 'react'
 import CompleteCartSingleDish from './CompleteCartSingleDish'
 import SingleVendorCartFooter from './SingleVendorCartFooter.component'
-export default function SingleVendorCart({ singleCart }) {
+import { connect } from 'react-redux'
+
+const SingleVendorCart = ({ dishes, vendor, vendorId , totalPrice}) => {
 
   const renderSingleDish = () => {
-    return singleCart.dishes.map((dish, index) => {
+    return dishes.map((dish, index) => {
       let selectableText = ''
       dish.selectables.forEach(selectable => {
         selectableText += selectable.name
@@ -19,7 +21,7 @@ export default function SingleVendorCart({ singleCart }) {
           key={index}
           selectableText={selectableText}
           dish={dish}
-          vendor={singleCart.vendor}
+          vendorId={vendorId}
         />
       )
     })
@@ -27,18 +29,26 @@ export default function SingleVendorCart({ singleCart }) {
   return (
     <>
       <div className="vendorRow">
-        <img src={singleCart.vendor.logo} alt={singleCart.vendor.name} />
-        <span>{singleCart.vendor.name}</span>
-        <span className="dishCategory"> {singleCart.dishes.length}类商品</span>
+        <img src={vendor.logo} alt={vendor.name} />
+        <span>{vendor.name}</span>
+        <span className="dishCategory"> {dishes.length}类商品</span>
       </div>
 
       <div className="dishInCartContainer">
         {renderSingleDish()}
         <SingleVendorCartFooter 
-          totalPrice ={singleCart.totalPrice} 
-          vendorId = {singleCart.vendor.id}
+          totalPrice ={totalPrice} 
+          vendorId = {vendorId}
           />
       </div>
     </>
   )
 }
+
+
+const mapStateToProps = (state, ownProps) =>{
+  return {
+    vendor: state.vendors.find(vendor => vendor.id === ownProps.vendorId )
+  }
+}
+export default connect(mapStateToProps)(SingleVendorCart)

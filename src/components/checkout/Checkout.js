@@ -58,8 +58,8 @@ const dataPayment = [
 
 
 const Checkout = props => {
-  const { cart, createOrder, history, user } = props
-  const vendorId = props.match.params.vendorId
+  const { cart, createOrder, history, user, vendor } = props
+  const vendorId = vendor.id
   const [isDelivery, setIsDelivery] = useState({
     flag: true,
     style: {
@@ -112,13 +112,14 @@ const Checkout = props => {
       ])
       return
     }
+  
     const newCart = { ...cart }
-    if (newCart.vendor) delete newCart.vendor
+    // if (newCart.vendor) delete newCart.vendor
     if (newCart.totalPrice) delete newCart.totalPrice
     if (newCart.quantity) delete newCart.quantity
-    newCart.dishes.forEach(dish => {
-      delete dish.vendor
-    })
+    // newCart.dishes.forEach(dish => {
+    //   delete dish.vendor
+    // })
 
     const orderData = {
       ...newCart,
@@ -145,7 +146,6 @@ const Checkout = props => {
     createOrder(orderData)
   }
 
-  console.log(user)
   return (
     <div className="checkout">
       <div className="header">
@@ -178,7 +178,7 @@ const Checkout = props => {
             />) : (
               <div>
                 <div>Restaurants location:</div>
-                <div>{cart && cart.vendor.address}</div>
+                <div>{vendor && vendor.address}</div>
               </div>
             )
           }
@@ -218,16 +218,16 @@ const Checkout = props => {
       </div>
       <div className="infoContainer">
         <OrderInfo
-          vendorName={cart.vendor.name}
+          vendorName={vendor.name}
           dishes={cart.dishes}
         />
       </div>
       <div className="infoContainer">
         <PriceInfo
           totalPrice={cart.totalPrice}
-          baseDeliveryFee={isDelivery.flag ? cart.vendor.delivery_fee : 0}
-          vendorLng={cart.vendor.longitude}
-          vendorLat={cart.vendor.latitude}
+          baseDeliveryFee={isDelivery.flag ? vendor.delivery_fee : 0}
+          vendorLng={vendor.longitude}
+          vendorLat={vendor.latitude}
           userLng={userLng}
           userLat={userLat}
           setDeliFee={setDeliFee}
@@ -249,7 +249,8 @@ const Checkout = props => {
 const mapStateToProps = (state, ownProps) => {
   return {
     cart: state.cartState[ownProps.match.params.vendorId],
-    user: state.auth
+    user: state.auth,
+    vendor: state.vendors.find( vendor => vendor.id === ownProps.match.params.vendorId)
   }
 }
 

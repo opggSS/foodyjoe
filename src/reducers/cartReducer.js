@@ -7,26 +7,20 @@ import {
   CLEAR_CART_BY_VENDOR_ID
 } from '../actions/types'
 
-const initialState = {
-  // vendor:dish.vendor,
-  // quantity: 1,
-  // dish,
-  // cartItemId: itemId
-}
+const initialState = {}
 
-/// action = {payload , type}
 export default (state = initialState, action) => {
   let selectedDish = {}
   let dishes = {}
-  let vendorId
-  let totalPrice = 0
   const {payload} = action 
+  let vendorId = null
+  let totalPrice = 0
+  
   switch (action.type) {
     case ADD_TO_CART:
-      vendorId = payload.vendor.id
+      vendorId = payload.vendorId
       dishes = state[vendorId] ? state[vendorId].dishes : []
       totalPrice =(payload.dish.price * payload.quantity) + (state[vendorId] ? state[vendorId].totalPrice : 0)
-      console.log(totalPrice)
       return {
         ...state,
         [vendorId]: {
@@ -35,8 +29,6 @@ export default (state = initialState, action) => {
           totalPrice:  Math.round(totalPrice * 100) / 100,
           // total items ordered from a single vendor
           quantity: state[vendorId] ? state[vendorId].quantity + payload.quantity : payload.quantity,
-          //vendor Info
-          vendor: state[vendorId] ? state[vendorId].vendor : payload.vendor,
           // dishes details ordered from a single vendor
           dishes: [
             ...dishes,
@@ -47,7 +39,7 @@ export default (state = initialState, action) => {
     case CLEAR_CART:
       return initialState
     case REMOVE_ITEM:
-      vendorId = payload.vendor.id
+      vendorId = payload.vendorId
       if (state[vendorId].dishes.length === 1) {
         let newState = { ...state }
         delete newState[vendorId]
@@ -65,7 +57,7 @@ export default (state = initialState, action) => {
         }
       }
     case INCREMENT_ITEM:
-      vendorId = payload.vendor.id
+      vendorId = payload.vendorId
       selectedDish = state[vendorId].dishes.find((dish) => dish.cartItemId === payload.cartItemId)
 
       dishes = state[vendorId].dishes.map(dish => {
@@ -86,8 +78,7 @@ export default (state = initialState, action) => {
         }
       }
     case DECREMENT_ITEM:
-      vendorId = payload.vendor.id
-      console.log(payload.cartItemId)
+      vendorId = payload.vendorId
       selectedDish = state[vendorId].dishes.find((dish) => dish.cartItemId === payload.cartItemId)
       dishes = state[vendorId].dishes.map(dish => {
         if (dish.cartItemId === payload.cartItemId) {

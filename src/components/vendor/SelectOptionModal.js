@@ -8,7 +8,7 @@ import _ from 'lodash'
 
 const alert = Modal.alert;
 
-const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, increment , vendor}) => {
+const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, increment, vendorId }) => {
 
   const selectedOptions = []
   dish.selectables.forEach(option => {
@@ -129,7 +129,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
             increment({
               cartItemId: dish.cartItemId,
               quantity: quantity,
-              vendor:vendor
+              vendorId
             })
             handleCloseModal()
             flag = true
@@ -140,8 +140,8 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
       if (flag) return
 
       const cartObj = {
-        vendor: vendor,
-        quantity: quantity,
+        vendorId,
+        quantity,
         dish: {
           ...dish,
           selectables: selectedOption,
@@ -205,7 +205,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
 
 
 const mapStateToProps = (state, ownProps) => {
-  const singleVendorCart = state.cartState[ownProps.dish.vendorId]
+  const singleVendorCart = state.cartState[ownProps.vendorId]
   return {
     sameDishInCart: !_.isEmpty(singleVendorCart) ? singleVendorCart.dishes.find(dish => 
       dish.id === ownProps.dish.id) ? singleVendorCart.dishes.find(dish => {

@@ -13,16 +13,16 @@ const alert = Modal.alert;
 
 const CompleteCart = ({ clearCart, lastVisitedVendorId, carts }) => {
 
-  const dishes = () => {    
-    if(!_.isEmpty(carts) ){
-      for (let vendorId in carts) {
-        return <SingleVendorCart singleCart={carts[vendorId]} />
-      }
+  const dishes = () => {
+    for (let vendorId in carts) {
+      return (
+        <SingleVendorCart
+          dishes={carts[vendorId].dishes}
+          vendorId={vendorId}
+          totalPrice ={carts[vendorId].totalPrice}
+        />
+      )
     }
-    else {
-      return 'sdf'
-    }
-    
   }
 
   const handleClearCart = () => {
@@ -35,7 +35,7 @@ const CompleteCart = ({ clearCart, lastVisitedVendorId, carts }) => {
   return (
     <div className="completeCart">
       <div className="completeCartHeader">
-        <Link to={lastVisitedVendorId ? 'vendor/'+ lastVisitedVendorId : '/' }>
+        <Link to={lastVisitedVendorId ? 'vendor/' + lastVisitedVendorId : '/'}>
           <span className="closeButton" ><Close /></span>
         </Link>
 
@@ -46,7 +46,6 @@ const CompleteCart = ({ clearCart, lastVisitedVendorId, carts }) => {
       </div>
       {!_.isEmpty(carts) ?
         dishes()
-
         : (
           <div className="cartEmpty">Your Cart is Empty</div>
         )}

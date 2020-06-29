@@ -1,8 +1,7 @@
 import React from 'react'
 import SingleDishAddButton from '../vendor/SingleDishAddButton'
-import lastVisitedVendorId from '../../reducers/lastVisitedVendorId'
 
-export default function CompleteCartSingleDish({ dish, selectableText, vendor }) {
+export default function CompleteCartSingleDish({ dish, selectableText, vendorId }) {
   return (
     <div className="cartSingleDish" >
       <img src={dish.photo} alt={dish.name} />
@@ -14,7 +13,7 @@ export default function CompleteCartSingleDish({ dish, selectableText, vendor })
         <SingleDishAddButton
           dish={dish}
           isCompleteCart={true}
-          vendor={vendor}
+          vendorId={vendorId}
         />
       </div>
     </div >
