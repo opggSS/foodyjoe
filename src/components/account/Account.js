@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { signIn, signOut, updateUserInfo } from '../../actions/auth/authAction';
 import './Account.scss';
 import { Link } from 'react-router-dom';
-import { InputItem } from 'antd-mobile';
+import { InputItem, Card } from 'antd-mobile';
 
 const Account = ({
     orders,
@@ -21,13 +21,13 @@ const Account = ({
         username: '',
         address: '',
         phone: ''
-    })
-    
+    });
+
     const handlepdateUserInfo = () => {
-        console.log(userInfo)
-        updateUserInfo(userInfo)
-    }
-    
+        console.log(userInfo);
+        updateUserInfo(userInfo);
+    };
+
     return !auth.apiKey ? (
         <div className="account-info-wrapper">
             <div>
@@ -61,18 +61,32 @@ const Account = ({
                 <Link to="/">Back</Link>
             </div>
             <h2 className="title">Account Info</h2>
-            <div>Username: {user && user.username}</div>
-            <div>Phone number: {user && user.phone}</div>
-            <div>Address: {user && user.address}</div>
-            <div>
+            <Card
+            className="card-container"
+                title="Your Account Info"
+                bordered={true}
+            >
+                <div>
+                    <b>Username: </b> {user && user.username}
+                </div>
+                <div>
+                    <b>Phone number: </b> {user && user.phone}
+                </div>
+                <div>
+                    <b>Address: </b> {user && user.address}
+                </div>
+            </Card>
+
+            <div className="edit-container">
                 <button
+                    className="ant-btn ant-btn-primary"
                     onClick={() => {
                         setModal(true);
                         setUserInfo({
                             username: user.username || '',
                             address: user.address || '',
                             phone: user.phone || ''
-                        })
+                        });
                     }}
                 >
                     Edit User Info
@@ -80,35 +94,63 @@ const Account = ({
             </div>
             {modal ? (
                 <div className="modal">
-                    <InputItem name="" onChange={(value) => {
-                        setUserInfo({
-                            ...userInfo,
-                            username: value
-                        })
-                    }} defaultValue={userInfo.username} />
-                    <InputItem name="" onChange={(value) => {
-                        setUserInfo({
-                            ...userInfo,
-                            address: value
-                        })
-                    }} defaultValue={userInfo.address} />
-                    <InputItem type="text" onChange={(value) => {
-
-                        setUserInfo({
-                            ...userInfo,
-                            phone: (value + '')
-                        })
-                    }} defaultValue={(console.log(userInfo.phone + ''), userInfo.phone + '')} />
-                    <button onClick={() => {
-                        handlepdateUserInfo()
-                    }}>
-                        Submit Change
-                    </button>
+                    <Card
+                    className="card-container"
+                        title="Edit Your Account Info"
+                        bordered={true}
+                    >
+                        <InputItem
+                            name=""
+                            onChange={(value) => {
+                                setUserInfo({
+                                    ...userInfo,
+                                    username: value
+                                });
+                            }}
+                            defaultValue={userInfo.username}
+                        />
+                        <InputItem
+                            name=""
+                            onChange={(value) => {
+                                setUserInfo({
+                                    ...userInfo,
+                                    address: value
+                                });
+                            }}
+                            defaultValue={userInfo.address}
+                        />
+                        <InputItem
+                            type="text"
+                            onChange={(value) => {
+                                setUserInfo({
+                                    ...userInfo,
+                                    phone: value + ''
+                                });
+                            }}
+                            defaultValue={
+                                (console.log(userInfo.phone + ''),
+                                userInfo.phone + '')
+                            }
+                        />
+                        <div className="submit-change">
+                            <button
+                                className="ant-btn ant-btn-primary"
+                                onClick={() => {
+                                    handlepdateUserInfo();
+                                }}
+                            >
+                                Submit Changes
+                            </button>
+                        </div>
+                    </Card>
                 </div>
             ) : (
                 ''
             )}
-            <div className="sign-out" onClick={signOut}>
+            <div
+                className="sign-out ant-btn ant-btn-primary ant-btn-dangerous"
+                onClick={signOut}
+            >
                 Sign Out
             </div>
         </div>

@@ -19,7 +19,7 @@ const SingleOrderDetail = props => {
           })
         }
         return (
-          <div className="singleDishInfo">
+          <div key={index} className="singleDishInfo">
             <img src={dish.photo} alt="" />
             <span className="first"> {dish.name}</span>
             <span className="second" >X{dish.quantity}</span>
@@ -35,7 +35,9 @@ const SingleOrderDetail = props => {
   return (
     order ? (
       <div className='singleOrderDetail'>
-
+        <div style={{
+            padding: "10px 20px"
+        }}><Link to="/orders">Back to Orders</Link></div>
         <img src={order.vendor.logo} alt={order.vendor.name} className='vendorImg' />
         <div className='status'>
           {order.isComplete ?
@@ -52,7 +54,7 @@ const SingleOrderDetail = props => {
         </div>
         <div className="divider"></div>
         <div className="timeLocation">
-          <div> {order.isDelivery ? 'Delivery' : 'Pick Up'}Time: {order.completedAt.toDate().toLocaleString()}</div>
+          <div> {order.isDelivery ? 'Delivery' : 'Pick Up'}Time: {order.completedAt && order.completedAt.toDate().toLocaleString()}</div>
           <div> {order.isDelivery ? `Delivery Location: ${order.receiverInfo.address}` : `Pick Up Location : ${order.vendor.address}`}  </div>
         </div>
         <div className="divider"></div>

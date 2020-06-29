@@ -9,10 +9,7 @@ export default function TopNavbar() {
     return (
         <form onSubmit={e => {
             e.preventDefault()
-            console.log(e, ' submit')
-            console.log(keyword, ' keyword')
-            
-            history.push(`/search-result/${keyword}`)
+            history.push(`/search-result/${keyword.toLowerCase()}`)
         }} className="topNav">
             <Input
                 onChange={e => setKeyword(e.target.value)}

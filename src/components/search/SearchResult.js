@@ -47,7 +47,7 @@ const mapStateToProps = (state, ownProps) => {
     const keyword = ownProps.match.params.keyword;
     if (state.firestore.ordered.vendors) {
         vendors = state.firestore.ordered.vendors.filter((vendor) =>
-            vendor.name.includes(keyword)
+            vendor.name.toLowerCase().includes(keyword)
         );
     }
     console.log(vendors);

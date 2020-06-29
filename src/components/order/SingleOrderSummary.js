@@ -19,7 +19,7 @@ const SingleOrderSummary = ({ order, vendor }) => {
       }}>
         <span className="first">Ordered from: {order.vendor.name}</span>
         <span className="second" >Purchased at: {order.createdAt.toDate().toDateString()}</span>
-        <span className="third">Order total: ${order.priceInfo.orderTotal}</span>
+        <span className="third">Order total: ${order.priceInfo.subtotal}</span>
       </Link>
     </div>
   )
