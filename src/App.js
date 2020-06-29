@@ -19,20 +19,26 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { getAllVendors } from './actions/vendor/vendorActions'
 import { getAllDishes } from './actions/dish/dishAction'
+import { setUserInfo } from './actions/auth/authAction'
 import 'antd/dist/antd.css'
 import 'antd-mobile/dist/antd-mobile.css'
 const history = createBrowserHistory()
+const currentUser = 'currentUser'
 
-const App = ({ getAllVendors, vendors, getAllDishes, dishes }) => {
-
+const App = ({ getAllVendors, vendors, getAllDishes, dishes, user, setUserInfo, }) => {
   useEffect(() => {
     if (vendors) {
       getAllVendors(vendors)
     }
-    if(dishes) {
+    if (dishes) {
       getAllDishes(dishes)
     }
-  }, [dishes, getAllDishes, getAllVendors, vendors])
+    if (user) {
+      console.log(user)
+      setUserInfo(user)
+    }
+
+  }, [dishes, getAllDishes, getAllVendors, setUserInfo, user, vendors])
 
   return (
     <Router history={history}>
@@ -58,12 +64,26 @@ const App = ({ getAllVendors, vendors, getAllDishes, dishes }) => {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state.firestore.ordered)
   return {
     vendors: state.firestore.ordered.vendors,
-    dishes:state.firestore.ordered.dishes
+    dishes: state.firestore.ordered.dishes,
+    user: state.firestore.ordered.users ? state.firestore.ordered.users[0] : null ,
+    uid: state.firebase.auth.uid,
   }
 }
 export default compose(
-  connect(mapStateToProps, { getAllVendors, getAllDishes }),
-  firestoreConnect(() => ['vendors', 'dishes'])
+  connect(mapStateToProps, { getAllVendors, getAllDishes, setUserInfo }),
+  firestoreConnect((props) => {
+    const uid = props.uid ? props.uid : ''
+    return [
+      { collection: 'vendors' },
+      { collection: 'dishes' },
+      {
+        collection: 'users',
+        doc: uid
+      }
+    ]
+  })
+
 )(App)

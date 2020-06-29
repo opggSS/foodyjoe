@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
-import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import './SearchResult.scss';
 const SearchResult = ({ vendors }) => {
@@ -58,7 +56,5 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-export default compose(
-    connect(mapStateToProps, {}),
-    firestoreConnect(() => ['orders', 'users'])
-)(SearchResult);
+export default 
+    connect(mapStateToProps, {})(SearchResult);

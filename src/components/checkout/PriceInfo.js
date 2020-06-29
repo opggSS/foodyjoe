@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { GoogleApiWrapper } from "google-maps-react";
+import { connect } from 'react-redux'
+import { compose } from "redux";
 
 const PriceInfo = ({
   setDeliFee,
@@ -12,24 +14,26 @@ const PriceInfo = ({
   vendorLat,
   vendorLng,
   google,
+  userLocation
 }) => {
-  
-  
+
   const totalBeforeTax = Number(totalPrice) + Number(baseDeliveryFee)
   const [deliveryFee, setDeliveryFee] = useState(baseDeliveryFee)
-  const [tax, setTax] = useState((totalBeforeTax* 0.05).toFixed(2))
-  const [subtotal, setSubtotal] = useState((totalBeforeTax* 1.05).toFixed(2))
+  const [tax, setTax] = useState((totalBeforeTax * 0.05).toFixed(2))
+  const [subtotal, setSubtotal] = useState((totalBeforeTax * 1.05).toFixed(2))
 
   useEffect(() => {
-    setSubTotal((totalBeforeTax* 1.05).toFixed(2))
-    setSubtotal((totalBeforeTax* 1.05).toFixed(2))
+    setSubTotal((totalBeforeTax * 1.05).toFixed(2))
+    setSubtotal((totalBeforeTax * 1.05).toFixed(2))
     setDeliveryFee(baseDeliveryFee)
     setDeliFee(baseDeliveryFee)
-    setTax((totalBeforeTax* 0.05).toFixed(2))
-    setTotalTax((totalBeforeTax* 0.05).toFixed(2))
+    setTax((totalBeforeTax * 0.05).toFixed(2))
+    setTotalTax((totalBeforeTax * 0.05).toFixed(2))
   }, [baseDeliveryFee, setDeliFee, setSubTotal, setTotalTax, totalBeforeTax, totalPrice])
 
-  if (userLat && userLng) {
+  const bool = userLat && userLng && userLocation.lat !== userLat && userLocation.lng !== userLng
+
+  if (bool) {
     const origin = new google.maps.LatLng(vendorLat, vendorLng);
     const destination = new google.maps.LatLng(userLat, userLng);
     console.log(vendorLat, vendorLng)
@@ -92,6 +96,17 @@ const PriceInfo = ({
   )
 }
 
-export default GoogleApiWrapper({
-  apiKey: process.env.REACT_APP_GOOGLE_MAP_API,
-})(PriceInfo);
+const mapStateToProps = state => {
+  return {
+    userLocation: state.userLocation
+  }
+}
+
+export default compose(
+  GoogleApiWrapper({
+    apiKey: process.env.REACT_APP_GOOGLE_MAP_API,
+  }),
+  connect(mapStateToProps, { })
+)(PriceInfo);
+
+

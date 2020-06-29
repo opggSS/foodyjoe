@@ -13,10 +13,9 @@ import { Modal } from 'antd-mobile';
 import Agreement from './Agreement'
 import OrderInfo from './OrderInfo'
 import Remark from './Remark'
-import { firestoreConnect } from 'react-redux-firebase';
-import { compose } from 'redux';
 import PriceInfo from './PriceInfo'
 import { Menu } from 'antd-mobile';
+import { compose } from "redux";
 
 const alert = Modal.alert;
 
@@ -75,10 +74,10 @@ const Checkout = props => {
       }
     }
   })
-  const [userLocation, setUserLocation] = useState('')
+  const [userLocation, setUserLocation] = useState(user.address)
   const [userLat, setUserLat] = useState('')
   const [userLng, setUserLng] = useState('')
-  const [telephone, setTelephone] = useState('')
+  const [telephone, setTelephone] = useState(user.phone)
   const [deliFee, setDeliFee] = useState(0)
   const [totalTax, setTotalTax] = useState(0)
   const [subTotal, setSubTotal] = useState(0)
@@ -86,13 +85,6 @@ const Checkout = props => {
   const [paymentMethodOpen, setPaymentMethodOpen] = useState(false)
   const [arrivalTime, setArrivalTime] = useState('ASAP')
   const [paymentMethod, setPaymentMethod] = useState('WeChat')
-
-  useEffect(() => {
-    if (user) {
-      setTelephone(user.phone)
-    }
-  }, [user])
-
 
   const handleArrivalTimeChange = e => {
     setArrivalTime(e[0])
@@ -106,7 +98,6 @@ const Checkout = props => {
   if (!cart) {
     return <Redirect to='/'></Redirect>
   }
-
 
   const placeOrder = () => {
     if (telephone === '') {
@@ -183,7 +174,7 @@ const Checkout = props => {
               setUserAddress={(addr) => setUserLocation(addr)}
               setUserLng={setUserLng}
               setUserLat={setUserLat}
-              defaultAddress={user ? user.address : null}
+              defaultAddress={user.address}
             />) : (
               <div>
                 <div>Restaurants location:</div>
@@ -194,7 +185,7 @@ const Checkout = props => {
         </div>
         <div className="contactInfo">
           <img src={Telephone} alt="" className="telephone" />
-          <input maxLength='10' type="text" name="telephone" value={user ? user.phone : null} placeholder='Your Phone Number ...' onChange={(e) => setTelephone(e.target.value)} />
+          <input maxLength='10' type="text" name="telephone" value={user.phone} placeholder='Your Phone Number ...' onChange={(e) => setTelephone(e.target.value)} />
         </div>
         <div className="deliveryTime">
           <span className="left">Arrival Time</span>
@@ -232,7 +223,6 @@ const Checkout = props => {
         />
       </div>
       <div className="infoContainer">
-        {console.log('234234235434')}
         <PriceInfo
           totalPrice={cart.totalPrice}
           baseDeliveryFee={isDelivery.flag ? cart.vendor.delivery_fee : 0}
@@ -259,11 +249,11 @@ const Checkout = props => {
 const mapStateToProps = (state, ownProps) => {
   return {
     cart: state.cartState[ownProps.match.params.vendorId],
-    user: state.firestore.ordered.users ? state.firestore.ordered.users.find(user => user.id === state.firebase.auth.uid) : null
+    user: state.auth
   }
 }
 
 export default compose(
-  connect(mapStateToProps, { createOrder }),
-  firestoreConnect(() => ['users'])
-)(withRouter(Checkout));
+  withRouter,
+  connect(mapStateToProps, { createOrder })
+)(Checkout);

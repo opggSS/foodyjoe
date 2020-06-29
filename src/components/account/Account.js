@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
-import { compose } from 'redux';
 import { signIn, signOut, updateUserInfo } from '../../actions/auth/authAction';
 import './Account.scss';
 import { Link } from 'react-router-dom';
@@ -55,7 +53,7 @@ const Account = ({
                 </button>
             </div>
 
-            {authError && <div>{authError}</div>}
+            {authError && <div>Login Failed : {authError}</div>}
         </div>
     ) : (
         <div className="account-info-wrapper">
@@ -118,26 +116,11 @@ const Account = ({
 };
 
 const mapStateToProps = (state, ownProps) => {
-    let orders = null;
-    if (state.firestore.ordered.orders) {
-        orders = state.firestore.ordered.orders;
-    }
-    let user = null;
-    if (state.firestore.ordered.users) {
-        user = state.firestore.ordered.users.find((e) => {
-            return e.id === state.firebase.auth.uid;
-        });
-        console.log(user);
-    }
     return {
-        orders: orders,
         auth: state.firebase.auth,
         authError: state.auth.authError,
-        user
+        user:state.auth
     };
 };
 
-export default compose(
-    connect(mapStateToProps, { signIn, signOut, updateUserInfo }),
-    firestoreConnect(() => ['orders', 'users'])
-)(Account);
+export default connect(mapStateToProps, { signIn, signOut, updateUserInfo })(Account);

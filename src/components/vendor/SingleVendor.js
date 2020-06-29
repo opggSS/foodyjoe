@@ -12,7 +12,6 @@ import { connect } from 'react-redux'
 import { setLastVisitedVendor } from '../../actions/vendor/vendorActions'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-
 const { TabPane } = Tabs;
 
 const SingleVendor = ({ setLastVisitedVendor, vendor }) => {
@@ -103,4 +102,3 @@ export default compose(
   firestoreConnect(() => ['vendors']), // sync todos collection from Firestore into redux
   connect(mapStateToProps, {setLastVisitedVendor})
 )(SingleVendor)
-

@@ -1,4 +1,4 @@
-import { SIGN_IN_FAIL, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS, CREATE_USER_SUCCESS } from '../types'
+import { SIGN_IN_FAIL, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS, SET_USER_INFO ,CLEAR_USER_INFO } from '../types'
 
 // export const signIn = (payload) => {
 //   return (dispatch, getState, { getFirestore, getFirebase }) => {
@@ -26,7 +26,7 @@ import { SIGN_IN_FAIL, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS, CREATE_USER_SUCCESS } 
 //               phone: user.phoneNumber
 //             })
 //             dispatch({ type: SIGN_IN_SUCCESS, payload: user })
-           
+
 //           }))
 //             .catch(function (error) {
 //               dispatch({ type: SIGN_IN_FAIL, payload: error })
@@ -37,54 +37,54 @@ import { SIGN_IN_FAIL, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS, CREATE_USER_SUCCESS } 
 // }
 
 
-export const signIn = (params) => async (dispatch, getState, {getFirestore, getFirebase}) => {
-    const firebase = await getFirebase()    
-    
-    // set up recaptchaVerifier if there is not one already
-    if(!window.recaptchaVerifier) {
-        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
-            'size': 'invisible',
-            'callback': function(response) {}
-          });
-    }
-    
-    // send a verification code to user's phone
-    const appVerifier = window.recaptchaVerifier;
-    firebase.auth().signInWithPhoneNumber(params.phone, appVerifier).then(function (confirmationResult) {
-        // SMS sent. Prompt user to type the code from the message, then sign the
-        // user in with confirmationResult.confirm(code).
-        const verificationCode = window.prompt('Please enter your verification code: ')
-        confirmationResult.confirm(verificationCode).then( async res => {
-            // Create a user for this login if the user is not exist
-            const firestore = await getFirestore() // This function is asynchronous...
-            const {uid, phoneNumber} = res.user
-            
-            const user = await firestore.collection('users').doc(uid).get()
-            if(!user.exists) {
-                firestore.collection('users').doc(uid).set({
-                    username: uid,
-                    phone: phoneNumber
-                }).then(res => {
-                    console.log('res', res)
-                }).catch(err => {
-                    console.log('error: ', err)
-                })
-            }
-            dispatch({
-                type: SIGN_IN_SUCCESS, 
-                payload: res.user
-            })
+export const signIn = (params) => async (dispatch, getState, { getFirestore, getFirebase }) => {
+  const firebase = await getFirebase()
+
+  // set up recaptchaVerifier if there is not one already
+  if (!window.recaptchaVerifier) {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+      'size': 'invisible',
+      'callback': function (response) { }
+    });
+  }
+
+  // send a verification code to user's phone
+  const appVerifier = window.recaptchaVerifier;
+  firebase.auth().signInWithPhoneNumber(params.phone, appVerifier).then(function (confirmationResult) {
+    // SMS sent. Prompt user to type the code from the message, then sign the
+    // user in with confirmationResult.confirm(code).
+    const verificationCode = window.prompt('Please enter your verification code: ')
+    confirmationResult.confirm(verificationCode).then(async res => {
+      // Create a user for this login if the user is not exist
+      const firestore = await getFirestore() // This function is asynchronous...
+      const { uid, phoneNumber } = res.user
+
+      const user = await firestore.collection('users').doc(uid).get()
+      if (!user.exists) {
+        firestore.collection('users').doc(uid).set({
+          username: '',
+          email:'',
+          phone: phoneNumber
+        }).then(res => {
+          console.log('res', res)
         }).catch(err => {
-            console.log(err)
-            dispatch({ type: SIGN_IN_FAIL, payload: err })
+          console.log('error: ', err)
         })
-        // window.confirmationResult = confirmationResult;
-      }).catch(function (error) {
-        // Error; SMS not sent
-        // ...
-        dispatch({ type: SIGN_IN_FAIL, payload: error })
-      });
-       
+      }
+      dispatch({
+        type: SIGN_IN_SUCCESS,
+        payload: res.user
+      })
+    }).catch(err => {
+      dispatch({ type: SIGN_IN_FAIL, payload: err })
+    })
+    // window.confirmationResult = confirmationResult;
+  }).catch(function (error) {
+    // Error; SMS not sent
+    // ...
+    dispatch({ type: SIGN_IN_FAIL, payload: error.message })
+  });
+
 }
 
 export const signOut = () => {
@@ -92,13 +92,24 @@ export const signOut = () => {
     const firebase = getFirebase()
     firebase.auth().signOut().then(() => {
       dispatch({ type: SIGN_OUT_SUCCESS })
+      dispatch({type: CLEAR_USER_INFO})
     })
   }
 }
 
-export const updateUserInfo = (params) => async(dispatch, getState, {getFirestore, getFirebase}) => {
-    const uid = (getState()).firebase.auth.uid
-    const firestore = await getFirestore()
-    await firestore.collection('users').doc(uid).set(params)
-    console.log('success!!!!!')
+export const updateUserInfo = (params) => async (dispatch, getState, { getFirestore, getFirebase }) => {
+  const uid = (getState()).firebase.auth.uid
+  const firestore = await getFirestore()
+  await firestore.collection('users').doc(uid).set(params)
+  console.log('success!!!!!')
 }
+
+export const setUserInfo = (payload) => {
+  return (dispatch) => {
+    dispatch({
+      type: SET_USER_INFO,
+      payload: payload
+    })
+  }
+}
+

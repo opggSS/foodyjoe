@@ -30,6 +30,7 @@ const mapStateToProps = (state, ownProps) => {
 
   let uid = state.firebase.auth.uid
   if (state.firestore.ordered.orders && uid) {
+    console.log(state.firestore.ordered.orders)
     orders = state.firestore.ordered.orders.filter(order => order.userId === uid).map(order => ({
       ...order,
       vendor: state.firestore.ordered.vendors.find(e => e.id === order.vendorId)
