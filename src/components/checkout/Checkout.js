@@ -5,8 +5,8 @@ import ArrowRight from '../../assets/icons/arrow-right.png'
 import Telephone from '../../assets/icons/telephone.png'
 import { Link } from 'react-router-dom'
 import { ReactComponent as BackDark } from '../../assets/icons/back_dark.svg'
-import { createOrder } from '../../actions/order/createOrder'
-import UserLocation from './UserLocation'
+import { createOrder } from '../../actions/order/orderAction'
+import { setOrderDetail } from '../../actions/order/orderAction'
 import { withRouter, Redirect } from "react-router-dom";
 import ConfirmBtn from './ConfirmBtn'
 import { Modal } from 'antd-mobile';
@@ -56,97 +56,88 @@ const dataPayment = [
   },
 ];
 
-
 const Checkout = props => {
-  const { cart, createOrder, history, user, vendor } = props
-  const vendorId = vendor.id
-  const [isDelivery, setIsDelivery] = useState({
-    flag: true,
-    style: {
-      left: {
-        borderRadius: '4vw',
-        color: 'black',
-        fontWeight: '600',
-        background: 'white'
-      },
-      right: {
+  const { cart, createOrder, setOrderDetail, orderDetail, history, user, vendor } = props
 
-      }
+  const vendorId = vendor ? vendor.id : null
+  const selectedStyle = {
+    borderRadius: '4vw',
+    color: 'black',
+    fontWeight: '600',
+    background: 'white'
+  }
+
+  useEffect(() => {
+    if (cart && vendor) {
+      const newCart = { ...cart }
+
+      delete newCart.totalPrice
+      delete newCart.quantity
+
+      const totalBeforeTax = Number(cart.totalPrice) + Number(vendor.delivery_fee)
+      const tax = (totalBeforeTax * 0.05).toFixed(2)
+      const subtotal = (totalBeforeTax * 1.05).toFixed(2)
+
+      // initialize order detail
+      setOrderDetail({
+        ...newCart,
+        isDelivery: true,
+        vendorId,
+        //status in progress
+        status: 1,
+        arrivalTime: 'ASAP',
+        paymentMethod: 'WeChat',
+        history,
+        userId: user.id,
+        deliveryInfo: null,
+        priceInfo: {
+          orderTotal: cart.totalPrice,
+          deliveryFee: vendor.delivery_fee,
+          tax: tax,
+          subtotal: subtotal
+        }
+      })
     }
-  })
-  const [userLocation, setUserLocation] = useState(user.address)
-  const [userLat, setUserLat] = useState('')
-  const [userLng, setUserLng] = useState('')
-  const [telephone, setTelephone] = useState(user.phone)
-  const [deliFee, setDeliFee] = useState(0)
-  const [totalTax, setTotalTax] = useState(0)
-  const [subTotal, setSubTotal] = useState(0)
+
+  }, [cart, history, setOrderDetail, user, vendor, vendorId])
   const [arrivalTimeOpen, setArrivalTimeOpen] = useState(false)
   const [paymentMethodOpen, setPaymentMethodOpen] = useState(false)
-  const [arrivalTime, setArrivalTime] = useState('ASAP')
-  const [paymentMethod, setPaymentMethod] = useState('WeChat')
-
-  const handleArrivalTimeChange = e => {
-    setArrivalTime(e[0])
-    setArrivalTimeOpen(false)
-  }
-  const handlePaymentMethodChange = e => {
-    setPaymentMethod(e[0])
-    setPaymentMethodOpen(false)
-  }
 
   if (!cart) {
     return <Redirect to='/'></Redirect>
   }
 
-  const placeOrder = () => {
-    if (telephone === '') {
-      alert('Please fill your phone number', '', [
-        { text: 'Ok', onPress: () => console.log('ok') },
-      ])
-      return
-    }
-    if (isDelivery.flag && userLocation === '') {
-      alert('Please fill destination', '', [
-        { text: 'Ok', onPress: () => console.log('ok') },
-      ])
-      return
-    }
-  
-    const newCart = { ...cart }
-    // if (newCart.vendor) delete newCart.vendor
-    if (newCart.totalPrice) delete newCart.totalPrice
-    if (newCart.quantity) delete newCart.quantity
-    // newCart.dishes.forEach(dish => {
-    //   delete dish.vendor
-    // })
-
-    const orderData = {
-      ...newCart,
-      isDelivery: isDelivery.flag,
-      vendorId,
-      //status in progress
-      status: 1,
-      arrivalTime: arrivalTime,
-      paymentMethod: paymentMethod,
-      history,
-      userId: user.id,
-      receiverInfo: {
-        address: userLocation,
-        name: user.username,
-        telephone: telephone
-      },
-      priceInfo: {
-        orderTotal: cart.totalPrice,
-        deliveryFee: deliFee,
-        tax: totalTax,
-        subtotal: subTotal
-      }
-    }
-    createOrder(orderData)
+  const handleArrivalTimeChange = e => {
+    setOrderDetail({
+      ...orderDetail,
+      arrivalTime: e[0]
+    })
+    setArrivalTimeOpen(false)
+  }
+  const handlePaymentMethodChange = e => {
+    setOrderDetail({
+      ...orderDetail,
+      paymentMethod: e[0]
+    })
+    setPaymentMethodOpen(false)
   }
 
+
+  const placeOrder = () => {
+    if (!orderDetail.deliveryInfo) {
+      alert('Please select delivering info', '', [
+        { text: 'Ok', onPress: () => console.log('ok') },
+      ])
+      return
+    }
+    console.log(orderDetail)
+
+    createOrder(orderDetail)
+  }
+
+  console.log(orderDetail)
   return (
+    orderDetail &&
     <div className="checkout">
       <div className="header">
         <span>
@@ -158,10 +149,9 @@ const Checkout = props => {
         </div>
       <div className="segment">
         <div className="segmentTag">
-          <div className="segmentItem" style={isDelivery.flag ? isDelivery.style.left : isDelivery.style.right} onClick={() => setIsDelivery({ ...isDelivery, flag: true })}>Delivery</div>
-          <div className="segmentItem" style={isDelivery.flag ? isDelivery.style.right : isDelivery.style.left} onClick={() => setIsDelivery({ ...isDelivery, flag: false })} >Pick up</div>
+          <div className="segmentItem" style={orderDetail.isDelivery && selectedStyle} onClick={() => setOrderDetail({ ...orderDetail, isDelivery: true })}>Delivery</div>
+          <div className="segmentItem" style={orderDetail.isDelivery && selectedStyle} onClick={() => setOrderDetail({ ...orderDetail, isDelivery: false })} >Pick up</div>
         </div>
-        {/* <SegmentedControl values={['Delivery', 'Pick up']} onChange={methodOnChange} onValueChange={methodOnValueChange} /> */}
       </div>
       <div className="googleMap">
         {/* this is a map */}
@@ -169,13 +159,15 @@ const Checkout = props => {
       <div className="deliveryInfo infoContainer">
         <div className="location">
           <img src={Location} alt="" className="locationImg" />
-          {isDelivery.flag ? (
-            <UserLocation
-              setUserAddress={(addr) => setUserLocation(addr)}
-              setUserLng={setUserLng}
-              setUserLat={setUserLat}
-              defaultAddress={user.address}
-            />) : (
+          {orderDetail.isDelivery ?
+            <Link to={{
+              pathname: `/deliveryInfo`,
+              vendorGeoLocation: { lat: vendor.latitude, lng: vendor.longitude },
+              baseDeliveryFee: vendor.delivery_fee
+            }}>
+              <div>Set up Delivery Information</div>
+            </Link> :
+            (
               <div>
                 <div>Restaurants location:</div>
                 <div>{vendor && vendor.address}</div>
@@ -183,13 +175,14 @@ const Checkout = props => {
             )
           }
         </div>
-        <div className="contactInfo">
-          <img src={Telephone} alt="" className="telephone" />
-          <input maxLength='10' type="text" name="telephone" value={user.phone} placeholder='Your Phone Number ...' onChange={(e) => setTelephone(e.target.value)} />
-        </div>
+
         <div className="deliveryTime">
           <span className="left">Arrival Time</span>
-          <span className="right" onClick={() => setArrivalTimeOpen(!arrivalTimeOpen)}> {arrivalTime}<img src={ArrowRight} alt="" className="arrowImg" /></span>
+          <span className="right"
+            onClick={() => setArrivalTimeOpen(!arrivalTimeOpen)}>
+            {orderDetail.arrivalTime}
+            <img src={ArrowRight} alt="" className="arrowImg" />
+          </span>
           {arrivalTimeOpen &&
             <Menu
               className="single-foo-menu"
@@ -203,7 +196,7 @@ const Checkout = props => {
         </div>
         <div className="paymentMethod">
           <span className="left">Payment Method</span>
-          <span className="right" onClick={() => setPaymentMethodOpen(!paymentMethodOpen)}>{paymentMethod}<img src={ArrowRight} alt="" className="arrowImg" /> </span>
+          <span className="right" onClick={() => setPaymentMethodOpen(!paymentMethodOpen)}>{orderDetail.paymentMethod}<img src={ArrowRight} alt="" className="arrowImg" /> </span>
           {paymentMethodOpen &&
             <Menu
               className="single-foo-menu"
@@ -223,38 +216,31 @@ const Checkout = props => {
         />
       </div>
       <div className="infoContainer">
-        <PriceInfo
-          totalPrice={cart.totalPrice}
-          baseDeliveryFee={isDelivery.flag ? vendor.delivery_fee : 0}
-          vendorLng={vendor.longitude}
-          vendorLat={vendor.latitude}
-          userLng={userLng}
-          userLat={userLat}
-          setDeliFee={setDeliFee}
-          setTotalTax={setTotalTax}
-          setSubTotal={setSubTotal}
-        />
+        {/* <PriceInfo /> */}
       </div>
       <div className="infoContainer"> <Remark /></div>
       <div className="infoContainer"> <Agreement /></div>
 
       <ConfirmBtn
-        totalPrice={subTotal}
+        totalPrice={orderDetail.priceInfo ? orderDetail.priceInfo.subtotal : 0}
         placeOrder={placeOrder}
       />
-    </div>
+    </div >
   )
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const cart = state.cartState[ownProps.match.params.vendorId]
+  
   return {
-    cart: state.cartState[ownProps.match.params.vendorId],
+    cart: cart,
     user: state.auth,
-    vendor: state.vendors.find( vendor => vendor.id === ownProps.match.params.vendorId)
+    vendor: state.vendors ? state.vendors.find(vendor => vendor.id === ownProps.match.params.vendorId) : null,
+    orderDetail: state.orderDetail
   }
 }
 
 export default compose(
   withRouter,
-  connect(mapStateToProps, { createOrder })
+  connect(mapStateToProps, { createOrder, setOrderDetail })
 )(Checkout);

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import {connect} from 'react-redux'
+const SingleOrderDetail = ({vendor , location }) => {
+  const {order} = location
 
-const SingleOrderDetail = props => {
-  const order = props.location.order
-  console.log(order)
   const dishes = () => (
     <div>
       {order.dishes.map((dish, index) => {
@@ -38,7 +38,7 @@ const SingleOrderDetail = props => {
         <div style={{
             padding: "10px 20px"
         }}><Link to="/orders">Back to Orders</Link></div>
-        <img src={order.vendor.logo} alt={order.vendor.name} className='vendorImg' />
+        <img src={vendor.logo} alt={vendor.name} className='vendorImg' />
         <div className='status'>
           {order.isComplete ?
             <span> completed</span> :
@@ -55,11 +55,11 @@ const SingleOrderDetail = props => {
         <div className="divider"></div>
         <div className="timeLocation">
           <div> {order.isDelivery ? 'Delivery' : 'Pick Up'}Time: {order.completedAt && order.completedAt.toDate().toLocaleString()}</div>
-          <div> {order.isDelivery ? `Delivery Location: ${order.receiverInfo.address}` : `Pick Up Location : ${order.vendor.address}`}  </div>
+          <div> {order.isDelivery ? `Delivery Location: ${order.receiverInfo.address}` : `Pick Up Location : ${vendor.address}`}  </div>
         </div>
         <div className="divider"></div>
         <div className="orderDetail">
-          <div className="vendorTitle">{order.vendor.name}</div>
+          <div className="vendorTitle">{vendor.name}</div>
           <div>{dishes()}</div>
         </div>
         <div className="divider"></div>
@@ -92,11 +92,10 @@ const SingleOrderDetail = props => {
   )
 }
 
-// const mapStateToProps = (state, ownProps) => {
-//   return {
-//     order: state.orders.find(order => order.id === ownProps.match.params.orderId),
-//     vendor: state.vendors.
-//   }
-// }
+const mapStateToProps = (state, ownProps) => {
+  return {
+    vendor: state.vendors.find(vendor => vendor.id === ownProps.location.order.vendorId)
+  }
+}
 
-export default SingleOrderDetail
+export default connect(mapStateToProps)(SingleOrderDetail)

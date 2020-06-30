@@ -962,3 +962,16 @@ a {
 }
 
 //end of single dish info
+
+
+// start of delivery info 
+
+.deliveryInfo {
+  padding: 3vw 5vw;
+  .singleInfo {
+    border:1px solid $border-color;
+    margin: 2vw 0;
+    padding: 2vw;
+  }
+}
+///end of delivery info

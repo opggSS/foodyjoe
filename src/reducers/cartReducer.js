@@ -99,6 +99,7 @@ export default (state = initialState, action) => {
         }
       }
     case CLEAR_CART_BY_VENDOR_ID:
+      console.log(payload)
       vendorId = payload.vendorId
       const newState = {...state}
       delete newState[vendorId]

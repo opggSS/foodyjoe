@@ -80,12 +80,10 @@ const SingleVendor = ({ setLastVisitedVendor, vendor }) => {
       </div>
     ) :
       (<div> loading </div>)
-
   )
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state, ownProps)
   return {
     vendor : state.vendors.find(vendor => vendor.id === ownProps.match.params.id)
   }

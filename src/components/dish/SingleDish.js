@@ -36,7 +36,7 @@ const SingleDish = ({ cart, dish, vendor }) => {
           <SingleDishAddButton
             dish={{ ...dish, cartItemId: Number(cartItemId) }}
             isVendorMenu={cartItemId ? false : true}
-            vendor={vendor}
+            vendorId={dish.vendorId}
           >
           </SingleDishAddButton>
         </div>

@@ -9,6 +9,8 @@ import OrderHome from './components/order/OrderHome'
 import OrderDetail from './components/order/SingleOrderDetail'
 import Account from './components/account/Account'
 import Checkout from './components/checkout/Checkout'
+import DeliveryInfo from './components/checkout/DeliveryInfo'
+import CreateDeliveryInfo from './components/checkout/CreateDeliveryInfo'
 import SignUp from './components/sign/SignUp.js'
 import SignIn from './components/sign/SignIn.js'
 import SearchResult from './components/search/SearchResult'
@@ -48,6 +50,10 @@ const App = ({ getAllVendors, vendors, user, setUserInfo, }) => {
           <Route path="/signIn" component={SignIn} />
           <Route path="/signUp" component={SignUp} />
           <Route path="/signhome" component={SignHome} />
+
+          <Route path="/deliveryinfo/create" component={CreateDeliveryInfo} />
+          <Route path="/deliveryinfo" component={DeliveryInfo} />
+
           <Route path="/orderDetail/:orderId" component={OrderDetail} />
           <Route path="/search-result/:keyword" component={SearchResult} />
           <Route path="/checkout/:vendorId" component={Checkout} />
