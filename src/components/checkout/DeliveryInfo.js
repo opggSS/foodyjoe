@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { setOrderDetail } from '../../actions/order/orderAction'
 import { withRouter } from 'react-router-dom'
@@ -7,21 +7,24 @@ import { GoogleApiWrapper } from "google-maps-react";
 import { Link } from 'react-router-dom'
 import { DeleteOutlined } from '@ant-design/icons';
 import { updateUserInfo } from '../../actions/auth/authAction'
+import { Modal } from 'antd-mobile';
+const alert = Modal.alert;
+
 
 const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInfo, history, google, user, location }) => {
 
-  useEffect(() =>{
-    if(location.vendorGeoLocation && location.baseDeliveryFee){
+  useEffect(() => {
+    if (location.vendorGeoLocation && location.baseDeliveryFee) {
       setOrderDetail({
         ...orderDetail,
-        vendorGeoLocation:location.vendorGeoLocation,
-        baseDeliveryFee:location.baseDeliveryFee
+        vendorGeoLocation: location.vendorGeoLocation,
+        baseDeliveryFee: location.baseDeliveryFee
       })
     }
-  },[location.baseDeliveryFee, location.vendorGeoLocation, setOrderDetail])
+  }, [location.baseDeliveryFee, location.vendorGeoLocation])
 
 
-  const handleDeleteDeliveryInfo = (index,event) => {
+  const handleDeleteDeliveryInfo = (index, event) => {
     event.stopPropagation()
     const updatedDeliveryInfo = user.deliveryInfo.filter((info, i) => i !== index)
     updateUserInfo({
@@ -29,7 +32,7 @@ const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInf
         ...user,
         deliveryInfo: updatedDeliveryInfo
       },
-      isGoBack : false
+      isGoBack: false
     })
   }
   const handleSelectInfo = (info) => {
@@ -44,34 +47,41 @@ const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInf
           destinations: [destination],
           travelMode: 'DRIVING',
           unitSystem: google.maps.UnitSystem.IMPERIAL,
-        }, callback)
-
-      history.goBack()
-
-      function callback(res, status) {
-        if (status !== 'OK') {
-          console.log(status)
-          throw status
-        }
-        const distance = res.rows[0].elements[0].distance.value
-        let additionalDeliveryFee = 0
-        if (distance > 5000) {
-          additionalDeliveryFee = Math.ceil(distance / 1000 - 5) * 1.5
-        }
-        let totalDeliveryFee = Math.round((additionalDeliveryFee + Number(orderDetail.baseDeliveryFee)) * 100) / 100
-        let tax = ((orderDetail.priceInfo.orderTotal + totalDeliveryFee) * 0.05).toFixed(2)
-        let subtotal = (Number(orderDetail.priceInfo.orderTotal) + Number(totalDeliveryFee) + Number(tax)).toFixed(2)
-        setOrderDetail({
-          ...orderDetail,
-          priceInfo: {
-            ...orderDetail.priceInfo,
-            deliveryFee: totalDeliveryFee,
-            tax: tax,
-            subtotal: subtotal
-          },
-          deliveryInfo: info
+        }, (res, status) => {
+          if (status !== 'OK') {
+            alert('Error getting address', '', [
+              { text: 'Ok', onPress: () => console.log('ok') },
+            ])
+          }
+          else {
+            if (!res.rows[0].elements[0].distance) {
+              alert('Cannot reach this destination', '', [
+                { text: 'Ok', onPress: () => console.log('ok') },
+              ])
+            }
+            else {
+              const distanceInMeter = res.rows[0].elements[0].distance.value
+              let additionalDeliveryFee = 0
+              if (distanceInMeter > 5000) {
+                additionalDeliveryFee = Math.ceil(distanceInMeter / 1000 - 5) * 1.5
+              }
+              let totalDeliveryFee = Math.round((additionalDeliveryFee + Number(orderDetail.baseDeliveryFee)) * 100) / 100
+              let tax = ((orderDetail.priceInfo.orderTotal + totalDeliveryFee) * 0.05).toFixed(2)
+              let subtotal = (Number(orderDetail.priceInfo.orderTotal) + Number(totalDeliveryFee) + Number(tax)).toFixed(2)
+              setOrderDetail({
+                ...orderDetail,
+                priceInfo: {
+                  ...orderDetail.priceInfo,
+                  deliveryFee: totalDeliveryFee,
+                  tax: tax,
+                  subtotal: subtotal
+                },
+                deliveryInfo: info
+              })
+              history.goBack()
+            }
+          }
         })
-      }
     }
   }
 
@@ -87,7 +97,7 @@ const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInf
               <div>{info.address}</div>
               <div>{info.name}</div>
               <div>{info.phone}</div>
-              <span className="trashCan" onClick={(e) => handleDeleteDeliveryInfo(index ,e)}><DeleteOutlined /></span>
+              <span className="trashCan" onClick={(e) => handleDeleteDeliveryInfo(index, e)}><DeleteOutlined /></span>
             </div>
           )
         })

@@ -89,7 +89,7 @@ const Checkout = props => {
         paymentMethod: 'WeChat',
         history,
         userId: user.id,
-        deliveryInfo: null,
+        deliveryInfo: orderDetail.deliveryInfo || null ,
         priceInfo: {
           orderTotal: cart.totalPrice,
           deliveryFee: vendor.delivery_fee,
@@ -172,6 +172,7 @@ const Checkout = props => {
                 vendorGeoLocation: { lat: vendor.latitude, lng: vendor.longitude },
                 baseDeliveryFee: vendor.delivery_fee
               }}>
+                {console.log(orderDetail)}
                 {orderDetail.deliveryInfo ?
                   (<div>
                     <div>{orderDetail.deliveryInfo.address}</div>
