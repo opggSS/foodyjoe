@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 import { setOrderDetail } from '../../actions/order/orderAction'
 import { withRouter } from 'react-router-dom'
@@ -10,9 +10,19 @@ import { updateUserInfo } from '../../actions/auth/authAction'
 
 const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInfo, history, google, user, location }) => {
 
-  const { vendorGeoLocation, baseDeliveryFee } = location
+  useEffect(() =>{
+    if(location.vendorGeoLocation && location.baseDeliveryFee){
+      setOrderDetail({
+        ...orderDetail,
+        vendorGeoLocation:location.vendorGeoLocation,
+        baseDeliveryFee:location.baseDeliveryFee
+      })
+    }
+  },[location.baseDeliveryFee, location.vendorGeoLocation, setOrderDetail])
 
-  const handleDeleteDeliveryInfo = index => {
+
+  const handleDeleteDeliveryInfo = (index,event) => {
+    event.stopPropagation()
     const updatedDeliveryInfo = user.deliveryInfo.filter((info, i) => i !== index)
     updateUserInfo({
       user: {
@@ -23,8 +33,8 @@ const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInf
     })
   }
   const handleSelectInfo = (info) => {
-    if (vendorGeoLocation) {
-      const origin = new google.maps.LatLng(vendorGeoLocation.lat, vendorGeoLocation.lng);
+    if (orderDetail.vendorGeoLocation) {
+      const origin = new google.maps.LatLng(orderDetail.vendorGeoLocation.lat, orderDetail.vendorGeoLocation.lng);
       const destination = new google.maps.LatLng(info.lat, info.lng);
       const service = new google.maps.DistanceMatrixService();
 
@@ -48,7 +58,7 @@ const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInf
         if (distance > 5000) {
           additionalDeliveryFee = Math.ceil(distance / 1000 - 5) * 1.5
         }
-        let totalDeliveryFee = Math.round((additionalDeliveryFee + Number(baseDeliveryFee)) * 100) / 100
+        let totalDeliveryFee = Math.round((additionalDeliveryFee + Number(orderDetail.baseDeliveryFee)) * 100) / 100
         let tax = ((orderDetail.priceInfo.orderTotal + totalDeliveryFee) * 0.05).toFixed(2)
         let subtotal = (Number(orderDetail.priceInfo.orderTotal) + Number(totalDeliveryFee) + Number(tax)).toFixed(2)
         setOrderDetail({
@@ -77,7 +87,7 @@ const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInf
               <div>{info.address}</div>
               <div>{info.name}</div>
               <div>{info.phone}</div>
-              <span className="trashCan" onClick={() => handleDeleteDeliveryInfo(index)}><DeleteOutlined /></span>
+              <span className="trashCan" onClick={(e) => handleDeleteDeliveryInfo(index ,e)}><DeleteOutlined /></span>
             </div>
           )
         })
