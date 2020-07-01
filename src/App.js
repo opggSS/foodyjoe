@@ -23,7 +23,7 @@ import { getAllVendors } from './actions/vendor/vendorActions'
 import { setUserInfo } from './actions/auth/authAction'
 import 'antd/dist/antd.css'
 import 'antd-mobile/dist/antd-mobile.css'
-const history = createBrowserHistory()
+export const history = createBrowserHistory()
 
 const App = ({ getAllVendors, vendors, user, setUserInfo, }) => {
   useEffect(() => {

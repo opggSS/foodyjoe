@@ -103,6 +103,7 @@ const Checkout = props => {
   const [arrivalTimeOpen, setArrivalTimeOpen] = useState(false)
   const [paymentMethodOpen, setPaymentMethodOpen] = useState(false)
 
+  console.log(cart)
   if (!cart) {
     return <Redirect to='/'></Redirect>
   }
@@ -124,114 +125,120 @@ const Checkout = props => {
 
 
   const placeOrder = () => {
+    console.log(orderDetail)
     if (!orderDetail.deliveryInfo) {
       alert('Please select delivering info', '', [
         { text: 'Ok', onPress: () => console.log('ok') },
       ])
       return
     }
-    console.log(orderDetail)
-
     createOrder(orderDetail)
   }
 
-  console.log(orderDetail)
   return (
-    orderDetail &&
-    <div className="checkout">
-      <div className="header">
-        <span>
-          <Link to='/cart'>
-            <BackDark />
-          </Link>
-        </span>
+    orderDetail.dishes ?
+      <div className="checkout">
+        <div className="header">
+          <span>
+            <Link to='/cart'>
+              <BackDark />
+            </Link>
+          </span>
           Comfirm Order
         </div>
-      <div className="segment">
-        <div className="segmentTag">
-          <div className="segmentItem" style={orderDetail.isDelivery && selectedStyle} onClick={() => setOrderDetail({ ...orderDetail, isDelivery: true })}>Delivery</div>
-          <div className="segmentItem" style={orderDetail.isDelivery && selectedStyle} onClick={() => setOrderDetail({ ...orderDetail, isDelivery: false })} >Pick up</div>
+        <div className="segment">
+          <div className="segmentTag">
+            <div className="segmentItem" style={orderDetail.isDelivery && selectedStyle} onClick={() => setOrderDetail({ ...orderDetail, isDelivery: true })}>Delivery</div>
+            <div className="segmentItem" style={orderDetail.isDelivery && selectedStyle} onClick={() => setOrderDetail({ ...orderDetail, isDelivery: false })} >Pick up</div>
+          </div>
         </div>
-      </div>
-      <div className="googleMap">
-        {/* this is a map */}
-      </div>
-      <div className="deliveryInfo infoContainer">
-        <div className="location">
-          <img src={Location} alt="" className="locationImg" />
-          {orderDetail.isDelivery ?
-            <Link to={{
-              pathname: `/deliveryInfo`,
-              vendorGeoLocation: { lat: vendor.latitude, lng: vendor.longitude },
-              baseDeliveryFee: vendor.delivery_fee
-            }}>
-              <div>Set up Delivery Information</div>
-            </Link> :
-            (
-              <div>
-                <div>Restaurants location:</div>
-                <div>{vendor && vendor.address}</div>
-              </div>
-            )
-          }
+        <div className="googleMap">
+          {/* this is a map */}
         </div>
+        <div className="deliveryInfo infoContainer">
+          <div className="location">
+            <img src={Location} alt="" className="locationImg" />
+            {orderDetail.isDelivery ?
+              <Link to={{
+                pathname: `/deliveryInfo`,
+                vendorGeoLocation: { lat: vendor.latitude, lng: vendor.longitude },
+                baseDeliveryFee: vendor.delivery_fee
+              }}>
+                {orderDetail.deliveryInfo ?
+                  (<div>
+                    <div>{orderDetail.deliveryInfo.address}</div>
+                    <div>{orderDetail.deliveryInfo.name}</div>
+                    <div>{orderDetail.deliveryInfo.phone}</div>
+                  </div>) :
+                  <div>Set up Delivery Information</div>
+                }
+              </Link> :
+              (
+                <div>
+                  <div>Restaurants location:</div>
+                  <div>{vendor && vendor.address}</div>
+                </div>
+              )
+            }
+          </div>
 
-        <div className="deliveryTime">
-          <span className="left">Arrival Time</span>
-          <span className="right"
-            onClick={() => setArrivalTimeOpen(!arrivalTimeOpen)}>
-            {orderDetail.arrivalTime}
-            <img src={ArrowRight} alt="" className="arrowImg" />
-          </span>
-          {arrivalTimeOpen &&
-            <Menu
-              className="single-foo-menu"
-              data={data}
-              value={['ASAP']}
-              level={1}
-              onChange={handleArrivalTimeChange}
-              height={document.documentElement.clientHeight * 0.2}
-            />
-          }
+          <div className="deliveryTime">
+            <span className="left">Arrival Time</span>
+            <span className="right"
+              onClick={() => setArrivalTimeOpen(!arrivalTimeOpen)}>
+              {orderDetail.arrivalTime}
+              <img src={ArrowRight} alt="" className="arrowImg" />
+            </span>
+            {arrivalTimeOpen &&
+              <Menu
+                className="single-foo-menu"
+                data={data}
+                value={['ASAP']}
+                level={1}
+                onChange={handleArrivalTimeChange}
+                height={document.documentElement.clientHeight * 0.2}
+              />
+            }
+          </div>
+          <div className="paymentMethod">
+            <span className="left">Payment Method</span>
+            <span className="right" onClick={() => setPaymentMethodOpen(!paymentMethodOpen)}>{orderDetail.paymentMethod}<img src={ArrowRight} alt="" className="arrowImg" /> </span>
+            {paymentMethodOpen &&
+              <Menu
+                className="single-foo-menu"
+                data={dataPayment}
+                value={['WeChat']}
+                level={1}
+                onChange={handlePaymentMethodChange}
+                height={document.documentElement.clientHeight * 0.2}
+              />
+            }
+          </div>
         </div>
-        <div className="paymentMethod">
-          <span className="left">Payment Method</span>
-          <span className="right" onClick={() => setPaymentMethodOpen(!paymentMethodOpen)}>{orderDetail.paymentMethod}<img src={ArrowRight} alt="" className="arrowImg" /> </span>
-          {paymentMethodOpen &&
-            <Menu
-              className="single-foo-menu"
-              data={dataPayment}
-              value={['WeChat']}
-              level={1}
-              onChange={handlePaymentMethodChange}
-              height={document.documentElement.clientHeight * 0.2}
-            />
-          }
+        <div className="infoContainer">
+          <OrderInfo
+            vendorName={vendor.name}
+            dishes={cart.dishes}
+          />
         </div>
-      </div>
-      <div className="infoContainer">
-        <OrderInfo
-          vendorName={vendor.name}
-          dishes={cart.dishes}
+        <div className="infoContainer">
+          <PriceInfo />
+        </div>
+        <div className="infoContainer"> <Remark /></div>
+        <div className="infoContainer"> <Agreement /></div>
+
+        <ConfirmBtn
+          totalPrice={orderDetail.priceInfo ? orderDetail.priceInfo.subtotal : 0}
+          placeOrder={placeOrder}
         />
-      </div>
-      <div className="infoContainer">
-        {/* <PriceInfo /> */}
-      </div>
-      <div className="infoContainer"> <Remark /></div>
-      <div className="infoContainer"> <Agreement /></div>
-
-      <ConfirmBtn
-        totalPrice={orderDetail.priceInfo ? orderDetail.priceInfo.subtotal : 0}
-        placeOrder={placeOrder}
-      />
-    </div >
+      </div > :
+      <div>loading...</div>
   )
 }
 
 const mapStateToProps = (state, ownProps) => {
   const cart = state.cartState[ownProps.match.params.vendorId]
-  
+
   return {
     cart: cart,
     user: state.auth,

@@ -18,10 +18,7 @@ export const createOrder = (payload) => {
         type: CLEAR_CART_BY_VENDOR_ID,
         payload: { vendorId: payload.vendorId }
       })
-      dispatch({
-        type: SET_ORDER_DETAIL,
-        payload: {hi : 'hi'}
-      })
+    
       history.push('/')
     }).catch(err => {
       dispatch({

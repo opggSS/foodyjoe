@@ -971,7 +971,58 @@ a {
   .singleInfo {
     border:1px solid $border-color;
     margin: 2vw 0;
-    padding: 2vw;
+    padding: 0 2vw;
+    padding-right: 8vw;
+    line-height: 8vw;
+    position: relative;
+    .trashCan{
+      position: absolute;
+      right: 2vw;
+
+      color:$main-red;
+      top: 1vw;
+      svg{
+        font-size: 5vw;
+      }
+    }
   }
+ 
 }
 ///end of delivery info
+
+//create delivery Info 
+.createDeliveryInfo{
+  padding: 3vw;
+  .location-search-input{
+    width: 100%;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      // border: 1px solid $border-color;
+      // height: 8vw;
+      // line-height: 8vw;
+      margin: 3vw 0;
+      background: white;
+      input{
+        border: none;
+        height: 8vw;
+        line-height: 8vw;
+        padding: 0 4vw;
+        width: 100%;
+      }
+    }
+  }
+  .save{
+    width: 100%;
+    height: 10vw;
+    color: black;
+    background: $main-red-light;
+    border: 1px solid $border-color;
+    text-align: center;
+    line-height: 10vw;;
+  }
+}
+
+//end of create delivery Info

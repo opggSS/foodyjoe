@@ -1,4 +1,5 @@
-import { SIGN_IN_FAIL, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS, SET_USER_INFO ,CLEAR_USER_INFO } from '../types'
+import { SIGN_IN_FAIL, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS, SET_USER_INFO, CLEAR_USER_INFO } from '../types'
+import { history } from '../../App';
 
 // export const signIn = (payload) => {
 //   return (dispatch, getState, { getFirestore, getFirebase }) => {
@@ -63,7 +64,7 @@ export const signIn = (params) => async (dispatch, getState, { getFirestore, get
       if (!user.exists) {
         firestore.collection('users').doc(uid).set({
           username: '',
-          email:'',
+          email: '',
           phone: phoneNumber
         }).then(res => {
           console.log('res', res)
@@ -84,7 +85,6 @@ export const signIn = (params) => async (dispatch, getState, { getFirestore, get
     // ...
     dispatch({ type: SIGN_IN_FAIL, payload: error.message })
   });
-
 }
 
 export const signOut = () => {
@@ -92,16 +92,21 @@ export const signOut = () => {
     const firebase = getFirebase()
     firebase.auth().signOut().then(() => {
       dispatch({ type: SIGN_OUT_SUCCESS })
-      dispatch({type: CLEAR_USER_INFO})
+      dispatch({ type: CLEAR_USER_INFO })
     })
   }
 }
 
-export const updateUserInfo = (params) => async (dispatch, getState, { getFirestore, getFirebase }) => {
+export const updateUserInfo = ({ user, isGoBack }) => (dispatch, getState, { getFirestore, getFirebase }) => {
   const uid = (getState()).firebase.auth.uid
-  const firestore = await getFirestore()
-  await firestore.collection('users').doc(uid).set(params)
-  console.log('success!!!!!')
+  const firestore = getFirestore()
+  firestore.collection('users').doc(uid).set(user).then(() => {
+    if (isGoBack) {
+      history.goBack()
+    }
+  }).catch(err => {
+    alert('cannot update user')
+  })
 }
 
 export const setUserInfo = (payload) => {

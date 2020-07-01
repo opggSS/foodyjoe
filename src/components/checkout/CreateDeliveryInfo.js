@@ -1,156 +1,158 @@
-// import React from 'react'
-// import PlacesAutocomplete, {
-//   geocodeByAddress,
-// } from 'react-places-autocomplete';
-// import { compose } from "redux";
-// import { connect } from 'react-redux'
-// import { setOrderDetail } from '../../actions/order/orderAction'
-// import { GoogleApiWrapper } from "google-maps-react";
+import React, { useState } from 'react'
+import PlacesAutocomplete, {
+  geocodeByAddress,
+} from 'react-places-autocomplete';
+import { compose } from "redux";
+import { connect } from 'react-redux'
+import { updateUserInfo } from '../../actions/auth/authAction'
+import { GoogleApiWrapper } from "google-maps-react";
+import { Redirect } from "react-router-dom";
+import { Modal } from 'antd-mobile'
+const alert = Modal.alert;
 
-// const CreateDeliveryInfo = ({ orderDetail, setOrderDetail ,google }) => {
+const CreateDeliveryInfo = ({ user, updateUserInfo, google }) => {
 
-//   const handleAddressChange = address => {
-//     setOrderDetail({
-//       ...orderDetail,
-//       deliveryInfo: {
-//         ...orderDetail.deliveryInfo,
-//         address: address
-//       }
-//     })
-//   }
+  const [deliveryInfo, setDeliveryInfo] = useState({})
+  const handleAddressChange = address => {
+    setDeliveryInfo({
+      ...deliveryInfo,
+      address: address
+    })
+  }
+  const handleOtherChange = info => {
+    setDeliveryInfo({
+      ...deliveryInfo,
+      ...info
+    })
+  }
+  const onSaveDeliveryInfo = () => {
+    if (deliveryInfo.address && deliveryInfo.name && deliveryInfo.phone) {
+      updateUserInfo({
+        user: {
+          ...user,
+          deliveryInfo: [
+            ...user.deliveryInfo,
+            deliveryInfo
+          ]
+        },
+        isGoBack: true
+      })
+    }
+    else{
+      alert(`Please complete delivery info`, '', [
+        { text: 'Ok' }
+      ])
+    }
+  }
 
+  const handleSelect = selectedAddress => {
+    geocodeByAddress(selectedAddress)
+      .then(results => {
+        const lat = results[0].geometry.location.lat()
+        const lng = results[0].geometry.location.lng()
 
+        setDeliveryInfo({
+          ...deliveryInfo,
+          address: selectedAddress,
+          lat: lat,
+          lng: lng
+        })
 
-//   const service = new google.maps.DistanceMatrixService();
-//     service.getDistanceMatrix(
-//       {
-//         origins: [origin],
-//         destinations: [destination],
-//         travelMode: 'DRIVING',
-//         unitSystem: google.maps.UnitSystem.IMPERIAL,
-//       }, callback);
+      })
+      .catch(error => console.error('Error', error));
+  };
 
-//     function callback(response, status) {
-//       if (status !== 'OK') {
-//         console.log(status)
-//         return
-//       }
-//       const distance = response.rows[0].elements[0].distance.value
-//       let additionalDeliveryFee = 0
-//       if (distance <= 5000) {
-//         additionalDeliveryFee = 0
-//       }
-//       else {
-//         additionalDeliveryFee = Math.ceil(distance / 1000 - 5) * 1.5
-//       }
-     
-//     }
+  if (!user) {
+    return <Redirect to='/'></Redirect>
+  }
 
+  const searchOptions = {
+    location: new google.maps.LatLng(49.241863, -123.139375),
+    radius: 20000,
+    types: ['address'],
+    strictbounds: true
+  }
 
+  return (
+    user && (
+      <div className="createDeliveryInfo">
+        <ul>
+          <li>
+            <PlacesAutocomplete
+              value={deliveryInfo.address}
+              onChange={handleAddressChange}
+              onSelect={handleSelect}
+              radius={30000}
+              strictbounds
+              searchOptions={searchOptions}
+            >
+              {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                <div>
+                  <input
+                    {...getInputProps({
+                      placeholder: 'Destination ...',
+                      className: 'location-search-input',
+                    })}
+                  />
+                  <div className="autocomplete-dropdown-container">
+                    {loading && <div>Loading...</div>}
+                    {suggestions.map(suggestion => {
+                      const className = suggestion.active
+                        ? 'suggestion-item--active'
+                        : 'suggestion-item';
+                      // inline style for demonstration purpose
+                      const style = suggestion.active
+                        ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                        : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                      return (
+                        <div
+                          {...getSuggestionItemProps(suggestion, {
+                            className,
+                            style,
+                          })}
+                        >
+                          <span>{suggestion.description}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </PlacesAutocomplete>
+          </li>
+          <li>
+            <input
+              type="text"
+              placeholder='Receiver Name'
+              onChange={(e) => handleOtherChange({ name: e.target.value })}
+            />
+          </li>
+          <li>
+            <input
+              type="text"
+              placeholder='Receiver Phone Number'
+              onChange={(e) => handleOtherChange({ phone: e.target.value })}
+            />
+          </li>
+        </ul>
 
-//   const handleSelect = selectedAddress => {
-//     geocodeByAddress(selectedAddress)
-//       .then(results => {
-//         const lat = results[0].geometry.location.lat()
-//         const lng = results[0].geometry.location.lng()
-//         setOrderDetail({
-//           ...orderDetail,
-//           deliveryInfo: {
-//             ...orderDetail.deliveryInfo,
-//             lat,
-//             lng,
-//             address: selectedAddress
-//           }
-//         })
-//         return {
-//           lat:lat,
-//           lng:lng
-//         }
+        <div className="save" onClick={onSaveDeliveryInfo}>
+          SAVE
+        </div>
+      </div>
+    )
+  )
+}
 
-//       }).then(geoCode =>{
+const mapStateToProps = (state, ownProps) => {
+  return {
+    user: state.auth,
+  }
+}
 
-//         const origin = new google.maps.LatLng(vendorLat, vendorLng);
-//         const destination = new google.maps.LatLng(userLat, userLng);
-
-
-//         const service = new google.maps.DistanceMatrixService();
-//         service.getDistanceMatrix(
-//           {
-//             origins: [origin],
-//             destinations: [destination],
-//             travelMode: 'DRIVING',
-//             unitSystem: google.maps.UnitSystem.IMPERIAL,
-//           }).then(() =>{
-
-//           });
-//       })
-//       .catch(error => console.error('Error', error));
-
-//   };
-
-//   return (
-//     <div>
-//       <PlacesAutocomplete
-//         value={orderDetail.deliveryInfo.address}
-//         onChange={handleAddressChange}
-//         onSelect={handleSelect}
-//       >
-//         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-
-//           <div>
-//             <input
-//               {...getInputProps({
-//                 placeholder: 'Destination ...',
-//                 className: 'location-search-input',
-//               })}
-//             />
-//             <div className="autocomplete-dropdown-container">
-//               {loading && <div>Loading...</div>}
-//               {suggestions.map(suggestion => {
-//                 const className = suggestion.active
-//                   ? 'suggestion-item--active'
-//                   : 'suggestion-item';
-//                 // inline style for demonstration purpose
-//                 const style = suggestion.active
-//                   ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-//                   : { backgroundColor: '#ffffff', cursor: 'pointer' };
-//                 return (
-//                   <div
-//                     {...getSuggestionItemProps(suggestion, {
-//                       className,
-//                       style,
-//                     })}
-//                   >
-//                     <span>{suggestion.description}</span>
-//                   </div>
-//                 );
-//               })}
-//             </div>
-//           </div>
-//         )}
-//       </PlacesAutocomplete>
-//       <div className="others">
-//         <ul>
-//           <li><input type="text" placeholder='Receiver Name' /></li>
-//           <li><input type="text" placeholder='Receiver Phone' /></li>
-//         </ul>
-//       </div>
-//     </div>
-//   )
-// }
-
-
-// const mapStateToProps = (state, ownProps) => {
-//   return {
-//     user: state.auth,
-//     orderDetail: state.orderDetail,
-//     vendor: state.vendors
-//   }
-// }
-
-// export default compose(
-//   connect(mapStateToProps, { setOrderDetail }),
-//   GoogleApiWrapper({
-//     apiKey: process.env.REACT_APP_GOOGLE_MAP_API,
-//   })
-// )(CreateDeliveryInfo);
+export default compose(
+  connect(mapStateToProps, { updateUserInfo }),
+  GoogleApiWrapper({
+    apiKey: process.env.REACT_APP_GOOGLE_MAP_API,
+  })
+)(CreateDeliveryInfo);
