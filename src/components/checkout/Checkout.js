@@ -67,43 +67,69 @@ const Checkout = props => {
     background: 'white'
   }
 
+  const [arrivalTimeOpen, setArrivalTimeOpen] = useState(false)
+  const [paymentMethodOpen, setPaymentMethodOpen] = useState(false)
+  const [isDelivery, setIsDelivery] = useState(true)
+
   useEffect(() => {
     if (cart && vendor) {
       const newCart = { ...cart }
-
       delete newCart.totalPrice
       delete newCart.quantity
+      if (isDelivery) {
+        const totalBeforeTax = Number((Number(cart.totalPrice) + Number(vendor.delivery_fee)).toFixed(2))
+        const tax = Number((totalBeforeTax * 0.05).toFixed(2))
+        const subtotal = Number((totalBeforeTax * 1.05).toFixed(2))
+        setOrderDetail({
+          ...newCart,
+          isDelivery: true,
+          vendorId,
+          //status in progress
+          status: 1,
+          arrivalTime: 'ASAP',
+          paymentMethod: 'WeChat',
+          history,
+          userId: user.id,
+          deliveryInfo: orderDetail.deliveryInfo || null,
+          priceInfo: {
+            orderTotal: totalBeforeTax,
+            deliveryFee: Number((vendor.delivery_fee).toFixed(2)),
+            tax: tax,
+            subtotal: subtotal
+          }
+        })
+      }
+      else {
+        const totalBeforeTax = Number((cart.totalPrice).toFixed(2))
+        const tax = Number((0.05*totalBeforeTax).toFixed(2))
+        const subtotal =  Number((1.05*totalBeforeTax).toFixed(2))
 
-      const totalBeforeTax = Number(cart.totalPrice) + Number(vendor.delivery_fee)
-      const tax = (totalBeforeTax * 0.05).toFixed(2)
-      const subtotal = (totalBeforeTax * 1.05).toFixed(2)
-
+        setOrderDetail({
+          ...newCart,
+          isDelivery: false,
+          vendorId,
+          //status in progress
+          status: 1,
+          arrivalTime: 'ASAP',
+          paymentMethod: 'WeChat',
+          history,
+          userId: user.id,
+          deliveryInfo: null,
+          priceInfo: {
+            orderTotal: totalBeforeTax,
+            deliveryFee: 0,
+            tax: tax,
+            subtotal: subtotal
+          }
+        })
+      }
       // initialize order detail
-      setOrderDetail({
-        ...newCart,
-        isDelivery: true,
-        vendorId,
-        //status in progress
-        status: 1,
-        arrivalTime: 'ASAP',
-        paymentMethod: 'WeChat',
-        history,
-        userId: user.id,
-        deliveryInfo: orderDetail.deliveryInfo || null ,
-        priceInfo: {
-          orderTotal: cart.totalPrice,
-          deliveryFee: vendor.delivery_fee,
-          tax: tax,
-          subtotal: subtotal
-        }
-      })
     }
 
-  }, [cart, history, setOrderDetail, user, vendor, vendorId])
-  const [arrivalTimeOpen, setArrivalTimeOpen] = useState(false)
-  const [paymentMethodOpen, setPaymentMethodOpen] = useState(false)
+  }, [cart, history, setOrderDetail, user, vendor, vendorId, isDelivery])
 
-  console.log(cart)
+
+
   if (!cart) {
     return <Redirect to='/'></Redirect>
   }
@@ -126,7 +152,7 @@ const Checkout = props => {
 
   const placeOrder = () => {
     console.log(orderDetail)
-    if (!orderDetail.deliveryInfo) {
+    if (!orderDetail.deliveryInfo && isDelivery) {
       alert('Please select delivering info', '', [
         { text: 'Ok', onPress: () => console.log('ok') },
       ])
@@ -134,6 +160,7 @@ const Checkout = props => {
     }
     createOrder(orderDetail)
   }
+
 
   return (
     orderDetail.dishes ?
@@ -150,13 +177,13 @@ const Checkout = props => {
           <div className="segmentTag">
             <div
               className="segmentItem"
-              style={orderDetail.isDelivery ? selectedStyle : {}}
-              onClick={() => setOrderDetail({ ...orderDetail, isDelivery: true })}
+              style={isDelivery ? selectedStyle : {}}
+              onClick={() => setIsDelivery(true)}
             >Delivery</div>
             <div
               className="segmentItem"
-              style={!orderDetail.isDelivery ? selectedStyle : {}}
-              onClick={() => setOrderDetail({ ...orderDetail, isDelivery: false })}
+              style={!isDelivery ? selectedStyle : {}}
+              onClick={() => setIsDelivery(false)}
             >Pick up</div>
           </div>
         </div>

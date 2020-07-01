@@ -66,8 +66,8 @@ const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInf
                 additionalDeliveryFee = Math.ceil(distanceInMeter / 1000 - 5) * 1.5
               }
               let totalDeliveryFee = Math.round((additionalDeliveryFee + Number(orderDetail.baseDeliveryFee)) * 100) / 100
-              let tax = ((orderDetail.priceInfo.orderTotal + totalDeliveryFee) * 0.05).toFixed(2)
-              let subtotal = (Number(orderDetail.priceInfo.orderTotal) + Number(totalDeliveryFee) + Number(tax)).toFixed(2)
+              let tax = Number(((orderDetail.priceInfo.orderTotal + totalDeliveryFee) * 0.05).toFixed(2))
+              let subtotal = Number((Number(orderDetail.priceInfo.orderTotal) + Number(totalDeliveryFee) + Number(tax)).toFixed(2))
               setOrderDetail({
                 ...orderDetail,
                 priceInfo: {
