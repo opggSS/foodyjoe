@@ -148,8 +148,16 @@ const Checkout = props => {
         </div>
         <div className="segment">
           <div className="segmentTag">
-            <div className="segmentItem" style={orderDetail.isDelivery && selectedStyle} onClick={() => setOrderDetail({ ...orderDetail, isDelivery: true })}>Delivery</div>
-            <div className="segmentItem" style={orderDetail.isDelivery && selectedStyle} onClick={() => setOrderDetail({ ...orderDetail, isDelivery: false })} >Pick up</div>
+            <div
+              className="segmentItem"
+              style={orderDetail.isDelivery ? selectedStyle : {}}
+              onClick={() => setOrderDetail({ ...orderDetail, isDelivery: true })}
+            >Delivery</div>
+            <div
+              className="segmentItem"
+              style={!orderDetail.isDelivery ? selectedStyle : {}}
+              onClick={() => setOrderDetail({ ...orderDetail, isDelivery: false })}
+            >Pick up</div>
           </div>
         </div>
         <div className="googleMap">

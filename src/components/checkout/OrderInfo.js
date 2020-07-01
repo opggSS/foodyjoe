@@ -20,7 +20,7 @@ export default function OrderInfo({ vendorName, dishes }) {
             })
           }
           return (
-            <div className="singleDishInfo">
+            <div className="singleDishInfo" key={index}>
               <img src={dish.photo} alt="" />
               <span className="first"> {dish.name}</span>
               <span className="second" >X{dish.quantity}</span>
