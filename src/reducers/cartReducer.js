@@ -47,11 +47,12 @@ export default (state = initialState, action) => {
       }
       dishes = state[vendorId].dishes.filter((dish) => dish.cartItemId !== payload.cartItemId)
       selectedDish = state[vendorId].dishes.find((dish) => dish.cartItemId === payload.cartItemId)
+      totalPrice = state[vendorId].totalPrice - selectedDish.price
       return {
         ...state,
         [vendorId]: {
           ...state[vendorId],
-          totalPrice: state[vendorId].totalPrice - selectedDish.price,
+          totalPrice: Math.round(totalPrice*100)/100,
           dishes: dishes,
           quantity: state[vendorId].quantity - 1,
         }
@@ -59,6 +60,7 @@ export default (state = initialState, action) => {
     case INCREMENT_ITEM:
       vendorId = payload.vendorId
       selectedDish = state[vendorId].dishes.find((dish) => dish.cartItemId === payload.cartItemId)
+      totalPrice = state[vendorId].totalPrice + selectedDish.price
 
       dishes = state[vendorId].dishes.map(dish => {
         if (dish.cartItemId === payload.cartItemId) {
@@ -72,7 +74,7 @@ export default (state = initialState, action) => {
         ...state,
         [vendorId]: {
           ...state[vendorId],
-          totalPrice: state[vendorId].totalPrice + selectedDish.price,
+          totalPrice: Math.round(totalPrice*100)/100,
           quantity: state[vendorId].quantity + 1,
           dishes: dishes
         }
@@ -80,6 +82,7 @@ export default (state = initialState, action) => {
     case DECREMENT_ITEM:
       vendorId = payload.vendorId
       selectedDish = state[vendorId].dishes.find((dish) => dish.cartItemId === payload.cartItemId)
+      totalPrice = state[vendorId].totalPrice - selectedDish.price
       dishes = state[vendorId].dishes.map(dish => {
         if (dish.cartItemId === payload.cartItemId) {
           console.log({ ...dish, quantity: dish.quantity - 1 })
@@ -93,13 +96,12 @@ export default (state = initialState, action) => {
         ...state,
         [vendorId]: {
           ...state[vendorId],
-          totalPrice: state[vendorId].totalPrice - selectedDish.price,
+          totalPrice: Math.round(totalPrice*100)/100,
           quantity: state[vendorId].quantity - 1,
           dishes: dishes
         }
       }
     case CLEAR_CART_BY_VENDOR_ID:
-      console.log(payload)
       vendorId = payload.vendorId
       const newState = {...state}
       delete newState[vendorId]

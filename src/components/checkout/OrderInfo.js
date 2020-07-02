@@ -24,7 +24,7 @@ export default function OrderInfo({ vendorName, dishes }) {
               <img src={dish.photo} alt="" />
               <span className="first"> {dish.name}</span>
               <span className="second" >X{dish.quantity}</span>
-              <span className="third">${dish.price * dish.quantity}</span>
+              <span className="third">${Math.round((dish.price * dish.quantity)*100)/100}</span>
               {selectableText.length > 0 && 
               (<span className="fourth"> {selectableText}</span>)}
             </div>
