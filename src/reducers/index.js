@@ -5,7 +5,6 @@ import vendorReducer from './vendorReducer'
 import lastVisitedVendorIdReducer from './lastVisitedVendorId'
 import {firestoreReducer} from 'redux-firestore'
 import {firebaseReducer} from 'react-redux-firebase'
-import dishReducer from './dishReducer'
 import orderReducer from './orderReducer'
 export default combineReducers({
   cartState: cartReducer,
@@ -14,6 +13,5 @@ export default combineReducers({
   vendors: vendorReducer,
   firestore:firestoreReducer,
   firebase: firebaseReducer,
-  dishes: dishReducer,
   orderDetail: orderReducer
 })

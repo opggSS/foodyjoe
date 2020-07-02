@@ -54,7 +54,6 @@ const SingleVendor = ({ setLastVisitedVendor, vendor }) => {
             >
               <TabPane tab="Menu" key="1">
                 <Menu
-                  categoryLength={vendor.category_length}
                   vendor = {vendor}
                 />
               </TabPane>

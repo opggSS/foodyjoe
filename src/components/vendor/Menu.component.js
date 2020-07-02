@@ -5,58 +5,57 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 
 const Menu = ({ dishes, vendor }) => {
-    console.log(dishes);
-    return dishes.map((data, index) => (
-        <div className="menu" key={index}>
-            <div className="category"> {data[0].category.name}</div>
-            {data.map((dish) => (
-                <MenuSingleDish dish={dish} key={dish.id} vendor={vendor} />
-            ))}
-        </div>
-    ));
+    if (dishes) {
+        return dishes.map((dish, index) => dish.length > 0 ? (
+            <div className="menu" key={index}>
+                <div className="category"> {dish[0].categoryId ? vendor.categories[dish[0].categoryId] : 'Uncategorized'}</div>
+                {dish.map((dish) => (
+                    <MenuSingleDish dish={dish} key={dish.id} vendor={vendor} />
+                ))}
+            </div>
+        ) : (<div></div>));
+    }
+    else {
+        return <div>loading...</div>
+    }
 };
 
 const mapStateToProps = (state, ownProps) => {
-    let dishes = null;
-    const formedArr = [];
-    console.log(ownProps);
-    if (state.firestore.ordered.dishes) {
-        dishes = state.firestore.ordered.dishes.filter((dish) => {
-            return dish.vendorId === ownProps.vendor.id;
-        });
-        console.log(dishes);
-        for (let i = 1; i <= ownProps.categoryLength; i++) {
-            formedArr.push(
-                dishes.filter((dish) => {
-                    if (dish.category && dish.category.id == i) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                })
-            );
-        }
-        let uncateforized = dishes
-            .filter((dish) => dish.category === undefined)
-            .map((e) => {
-                return {
-                    ...e,
-                    category: {
-                        name: 'Uncategorized'
-                    }
-                };
-            });
-        if (uncateforized.length > 0) {
-            formedArr.push(uncateforized);
-        }
+
+    const dishes = state.firestore.ordered.dishes
+    const categoryLength = ownProps.vendor.categories.length
+
+    if (dishes) {
+        let categoriedDishes = Array(categoryLength + 2).fill([])
+        dishes.forEach((dish, index) => {
+            if (dish.categoryId !== undefined) {
+                categoriedDishes[dish.categoryId] = [
+                    ...categoriedDishes[dish.categoryId],
+                    dish
+                ]
+            }
+            else {
+                categoriedDishes[categoryLength] = [
+                    ...categoriedDishes[categoryLength],
+                    dish
+                ]
+            }
+        })
+        return { dishes: categoriedDishes }
     }
-    console.log(formedArr);
-    return {
-        dishes: formedArr
-    };
+    else {
+        return { dishes: null }
+    }
 };
 
 export default compose(
     connect(mapStateToProps, {}),
-    firestoreConnect(() => ['dishes'])
+    firestoreConnect((props) => {
+        return [
+            {
+                collection: 'dishes',
+                where: [['vendorId', '==', props.vendor.id]]
+            }
+        ]
+    })
 )(Menu);

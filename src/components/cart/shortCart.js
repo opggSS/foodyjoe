@@ -22,7 +22,7 @@ const ShortCart = ({ totalPrice, totalQuantity, vendorId }) => {
       </Link>
 
       <div className="checkoutContainer">
-        <div className="cartValue">${totalPrice} <span style={{fontSize: 12}}>Delivery not included</span></div>
+        <div className="cartValue">${totalPrice} </div>
         {totalQuantity > 0 ? (
           <Link to={`/checkout/${vendorId}`}>
             <div className="checkOutButton">Check Out</div>
