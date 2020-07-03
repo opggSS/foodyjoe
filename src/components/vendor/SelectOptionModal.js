@@ -129,7 +129,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
             increment({
               cartItemId: dish.cartItemId,
               quantity: quantity,
-              vendorId
+              vendor: vendorId
             })
             handleCloseModal()
             flag = true
@@ -140,7 +140,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
       if (flag) return
 
       const cartObj = {
-        vendorId,
+        vendor:vendorId,
         quantity,
         dish: {
           ...dish,

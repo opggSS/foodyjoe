@@ -83,7 +83,7 @@ const Checkout = props => {
         setOrderDetail({
           ...newCart,
           isDelivery: true,
-          vendorId,
+          vendor:vendorId,
           //status in progress
           status: 1,
           arrivalTime: 'ASAP',
@@ -107,7 +107,7 @@ const Checkout = props => {
         setOrderDetail({
           ...newCart,
           isDelivery: false,
-          vendorId,
+          vendor:vendorId,
           //status in progress
           status: 1,
           arrivalTime: 'ASAP',
@@ -199,7 +199,6 @@ const Checkout = props => {
                 vendorGeoLocation: { lat: vendor.latitude, lng: vendor.longitude },
                 baseDeliveryFee: vendor.delivery_fee
               }}>
-                {console.log(orderDetail)}
                 {orderDetail.deliveryInfo ?
                   (<div>
                     <div>{orderDetail.deliveryInfo.address}</div>

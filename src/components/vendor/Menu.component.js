@@ -1,8 +1,12 @@
 import React from 'react';
 import MenuSingleDish from './MenuSingleDish';
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
+import { firestoreConnect, populate } from 'react-redux-firebase';
 import { compose } from 'redux';
+
+// const populates = [
+//     { child: 'vendor', root: 'vendors' }
+// ]
 
 const Menu = ({ dishes, vendor }) => {
     if (dishes) {
@@ -20,9 +24,11 @@ const Menu = ({ dishes, vendor }) => {
     }
 };
 
-const mapStateToProps = (state, ownProps) => {
+    const mapStateToProps = (state, ownProps) => {
 
     const dishes = state.firestore.ordered.dishes
+    // const dishes = populate(state.firestore, 'dishes', populates)
+    
     const categoryLength = ownProps.vendor.categories.length
 
     if (dishes) {
@@ -54,7 +60,10 @@ export default compose(
         return [
             {
                 collection: 'dishes',
-                where: [['vendorId', '==', props.vendor.id]]
+                where: [
+                    ['vendor', '==', props.vendor.id]
+                ],
+                // populates: populates
             }
         ]
     })

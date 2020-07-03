@@ -16,7 +16,7 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, item
     const newDish = {...dish , cartItemId: itemId , quantity: 1 , }
     const cartObj = {
       quantity: 1,
-      vendorId: dish.vendorId,
+      vendor: dish.vendor,
       dish: newDish,
     }
     addToCart(cartObj)
@@ -31,7 +31,7 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, item
       increment({
         cartItemId: dish.cartItemId || cartItemId,
         quantity: 1,
-        vendorId:dish.vendorId
+        vendor:dish.vendor
       })
     }
   }
@@ -40,13 +40,13 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, item
     if (dishQuantity === 1) {
       removeItem({
         cartItemId: dish.cartItemId || cartItemId,
-        vendorId:dish.vendorId
+        vendor:dish.vendor
       })
     }
     else {
       decrement({
         cartItemId: dish.cartItemId || cartItemId,
-        vendorId:dish.vendorId
+        vendor:dish.vendor
       })
     }
   }
@@ -93,7 +93,7 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, item
         <SelectOptionModal
           handleCloseModal={handleCloseModal}
           dish={dish}
-          vendorId = {dish.vendorId}
+          vendor = {dish.vendor}
         />
       }
     </>
@@ -102,7 +102,7 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, item
 
 const mapStateToProps = (state, ownProps) => {
   // console.log(ownProps)
-  const singleVendorCart = ownProps.dish ? state.cartState[ownProps.dish.vendorId] : null
+  const singleVendorCart = ownProps.dish ? state.cartState[ownProps.dish.vendor] : null
 
   if (ownProps.isVendorMenu) {
 

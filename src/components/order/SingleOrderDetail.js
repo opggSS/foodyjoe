@@ -1,9 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import {connect} from 'react-redux'
-const SingleOrderDetail = ({vendor , location }) => {
+const SingleOrderDetail = ( {location }) => {
   const {order} = location
-
+  let vendor = null
+  if(order) {
+     vendor = order.vendor
+  }
   const dishes = () => (
     <div>
       {order.dishes.map((dish, index) => {
@@ -55,7 +57,7 @@ const SingleOrderDetail = ({vendor , location }) => {
         <div className="divider"></div>
         <div className="timeLocation">
           <div> {order.isDelivery ? 'Delivery' : 'Pick Up'}Time: {order.completedAt && order.completedAt.toDate().toLocaleString()}</div>
-          <div> {order.isDelivery ? `Delivery Location: ${order.receiverInfo.address}` : `Pick Up Location : ${vendor.address}`}  </div>
+          <div> {order.isDelivery ? `Delivery Location: ${order.deliveryInfo.address}` : `Pick Up Location : ${vendor.address}`}  </div>
         </div>
         <div className="divider"></div>
         <div className="orderDetail">
@@ -92,10 +94,6 @@ const SingleOrderDetail = ({vendor , location }) => {
   )
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    vendor: state.vendors.find(vendor => vendor.id === ownProps.location.order.vendorId)
-  }
-}
 
-export default connect(mapStateToProps)(SingleOrderDetail)
+
+export default (SingleOrderDetail)
