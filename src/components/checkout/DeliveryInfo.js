@@ -87,9 +87,13 @@ const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInf
 
   return (
     <div className="deliveryInfo">
-      <Link to='/deliveryinfo/create'>
-        <div className="deliveryInfoHeader" >+ Create New Delivery Info</div>
-      </Link>
+
+      <div className='deliveryInfoHeader'>
+        <div style={{color:'#1890ff'}}onClick={history.goBack}>Back</div>
+        <span>Address Set Up</span>
+        <Link to='/deliveryinfo/create'>Add New</Link>
+      </div>
+
       {deliveryInfo &&
         deliveryInfo.map((info, index) => {
           return (

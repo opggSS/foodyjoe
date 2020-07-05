@@ -12,9 +12,8 @@ const populates = [
 ]
 
 
-
 const OrderHome = ({ auth, orders }) => {
-
+console.log(orders)
   const singleOrder = () => {
     for (const [orderId, order] of Object.entries(orders)) {
       return <SingleOrderSummary key={orderId} order={order} orderId = {orderId}/>

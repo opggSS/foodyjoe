@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "foodyjoe-3a05d"
+    "default": "foodyjoe-3a05d",
+    "test": "foodyjoe-3a05d"
   }
 }

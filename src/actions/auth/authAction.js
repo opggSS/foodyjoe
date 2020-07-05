@@ -109,6 +109,8 @@ export const updateUserInfo = ({ user, isGoBack }) => (dispatch, getState, { get
   })
 }
 
+
+
 export const setUserInfo = (payload) => {
   return (dispatch) => {
     dispatch({

@@ -11,6 +11,7 @@ import Account from './components/account/Account'
 import Checkout from './components/checkout/Checkout'
 import DeliveryInfo from './components/checkout/DeliveryInfo'
 import CreateDeliveryInfo from './components/checkout/CreateDeliveryInfo'
+import CardPayment from './components/checkout/CardPayment'
 import SignUp from './components/sign/SignUp.js'
 import SignIn from './components/sign/SignIn.js'
 import SearchResult from './components/search/SearchResult'
@@ -23,6 +24,14 @@ import { getAllVendors } from './actions/vendor/vendorActions'
 import { setUserInfo } from './actions/auth/authAction'
 import 'antd/dist/antd.css'
 import 'antd-mobile/dist/antd-mobile.css'
+import { loadStripe } from '@stripe/stripe-js';
+import {
+  Elements,
+} from '@stripe/react-stripe-js';
+
+const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+
+
 export const history = createBrowserHistory()
 
 const App = ({ getAllVendors, vendors, user, setUserInfo, }) => {
@@ -35,11 +44,11 @@ const App = ({ getAllVendors, vendors, user, setUserInfo, }) => {
       setUserInfo(user)
     }
 
-  }, [ getAllVendors, setUserInfo, user, vendors])
+  }, [getAllVendors, setUserInfo, user, vendors])
 
   return (
     <Router history={history}>
-      <div>
+      <Elements stripe={stripePromise}>
         <Switch>
           <Route exact path="/" component={Homepage} />
           <Route path="/vendor/:id" component={Vendor} />
@@ -53,13 +62,14 @@ const App = ({ getAllVendors, vendors, user, setUserInfo, }) => {
 
           <Route path="/deliveryinfo/create" component={CreateDeliveryInfo} />
           <Route path="/deliveryinfo" component={DeliveryInfo} />
+          <Route path="/cardpayment" component={CardPayment} />
 
           <Route path="/orderDetail/:orderId" component={OrderDetail} />
           <Route path="/search-result/:keyword" component={SearchResult} />
           <Route path="/checkout/:vendorId" component={Checkout} />
           <Route component={Default} />
         </Switch>
-      </div>
+      </Elements>
     </Router>
   )
 }
@@ -68,7 +78,7 @@ const mapStateToProps = (state) => {
   console.log(state.firestore.ordered)
   return {
     vendors: state.firestore.ordered.vendors,
-    user: state.firestore.ordered.users ? state.firestore.ordered.users[0] : null ,
+    user: state.firestore.ordered.users ? state.firestore.ordered.users[0] : null,
     uid: state.firebase.auth.uid,
   }
 }

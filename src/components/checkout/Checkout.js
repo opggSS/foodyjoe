@@ -8,7 +8,6 @@ import { ReactComponent as BackDark } from '../../assets/icons/back_dark.svg'
 import { createOrder } from '../../actions/order/orderAction'
 import { setOrderDetail } from '../../actions/order/orderAction'
 import { withRouter, Redirect } from "react-router-dom";
-import ConfirmBtn from './ConfirmBtn'
 import { Modal } from 'antd-mobile';
 import Agreement from './Agreement'
 import OrderInfo from './OrderInfo'
@@ -16,6 +15,14 @@ import Remark from './Remark'
 import PriceInfo from './PriceInfo'
 import { Menu } from 'antd-mobile';
 import { compose } from "redux";
+
+import { loadStripe } from '@stripe/stripe-js';
+import {
+  CardElement,
+  Elements,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
 
 const alert = Modal.alert;
 
@@ -58,7 +65,8 @@ const dataPayment = [
 
 const Checkout = props => {
   const { cart, createOrder, setOrderDetail, orderDetail, history, user, vendor } = props
-
+  const stripe = useStripe();
+  const elements = useElements();
   const vendorId = vendor ? vendor.id : null
   const selectedStyle = {
     borderRadius: '4vw',
@@ -83,7 +91,7 @@ const Checkout = props => {
         setOrderDetail({
           ...newCart,
           isDelivery: true,
-          vendor:vendorId,
+          vendor: vendorId,
           //status in progress
           status: 1,
           arrivalTime: 'ASAP',
@@ -101,13 +109,13 @@ const Checkout = props => {
       }
       else {
         const totalBeforeTax = Number((cart.totalPrice).toFixed(2))
-        const tax = Number((0.05*totalBeforeTax).toFixed(2))
-        const subtotal =  Number((1.05*totalBeforeTax).toFixed(2))
+        const tax = Number((0.05 * totalBeforeTax).toFixed(2))
+        const subtotal = Number((1.05 * totalBeforeTax).toFixed(2))
 
         setOrderDetail({
           ...newCart,
           isDelivery: false,
-          vendor:vendorId,
+          vendor: vendorId,
           //status in progress
           status: 1,
           arrivalTime: 'ASAP',
@@ -160,6 +168,23 @@ const Checkout = props => {
     }
     createOrder(orderDetail)
   }
+
+  // const handleSubmit = (event) => {
+  //   console.log(event)
+  //   event.preventDefault();
+  //   stripe.createPaymentMethod({
+  //     type: 'card',
+  //     card: elements.getElement(CardElement)
+  //   }).then((res) => {
+  //     console.log(JSON.stringify(res))
+
+  //   }).catch(err => {
+  //     console.log(err)
+  //   })
+
+  // }
+
+
 
 
   return (
@@ -261,11 +286,23 @@ const Checkout = props => {
         </div>
         <div className="infoContainer"> <Remark /></div>
         <div className="infoContainer"> <Agreement /></div>
+        <CardElement />
+        <div className="confirmBtn" >
 
-        <ConfirmBtn
-          totalPrice={orderDetail.priceInfo ? orderDetail.priceInfo.subtotal : 0}
-          placeOrder={placeOrder}
-        />
+          <div className="left">${orderDetail.priceInfo ? orderDetail.priceInfo.subtotal : 0}</div>
+          {console.log(orderDetail.priceInfo.subtotal)}
+          <Link
+            to={{
+              pathname: `/cardpayment`,
+              onSuccessfulCheckout:placeOrder,
+              price: orderDetail.priceInfo.subtotal
+            }}>
+            <div className="right" >
+              Place Order
+            </div>
+          </Link>
+
+        </div>
       </div > :
       <div>loading...</div>
   )

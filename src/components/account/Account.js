@@ -19,13 +19,16 @@ const Account = ({
     const [modal, setModal] = useState(false);
     const [userInfo, setUserInfo] = useState({
         username: '',
-        address: '',
         phone: ''
     });
 
     const handlepdateUserInfo = () => {
-        console.log(userInfo);
-        updateUserInfo(userInfo);
+        const updatedUser = {
+            ...user,
+            phone: userInfo.phone,
+            username: userInfo.username
+        }
+        updateUserInfo({ user: updatedUser });
     };
 
     return !auth.apiKey ? (
@@ -56,112 +59,105 @@ const Account = ({
             {authError && <div>Login Failed : {authError}</div>}
         </div>
     ) : (
-        <div className="account-info-wrapper">
-            <div>
-                <Link to="/">Back</Link>
-            </div>
-            <h2 className="title">Account Info</h2>
-            <Card
-            className="card-container"
-                title="Your Account Info"
-                bordered={true}
-            >
+            <div className="account-info-wrapper">
                 <div>
-                    <b>Username: </b> {user && user.username}
+                    <Link to="/">Back</Link>
                 </div>
-                <div>
-                    <b>Phone number: </b> {user && user.phone}
-                </div>
-                <div>
-                    <b>Address: </b> {user && user.address}
-                </div>
-            </Card>
-
-            <div className="edit-container">
-                <button
-                    className="ant-btn ant-btn-primary"
-                    onClick={() => {
-                        setModal(true);
-                        setUserInfo({
-                            username: user.username || '',
-                            address: user.address || '',
-                            phone: user.phone || ''
-                        });
-                    }}
-                >
-                    Edit User Info
-                </button>
-            </div>
-            {modal ? (
-                <div className="modal">
-                    <Card
+                <h2 className="title">Account Info</h2>
+                <Card
                     className="card-container"
-                        title="Edit Your Account Info"
-                        bordered={true}
+                    title="Your Account Info"
+                    bordered={true}
+                >
+                    <div>
+                        <b>Username: </b> {user && user.username}
+                    </div>
+                    <div>
+                        <b>Phone number: </b> {user && user.phone}
+                    </div>
+                </Card>
+
+                <div className="edit-container">
+                    <button
+                        className="ant-btn ant-btn-primary"
+                        onClick={() => {
+                            setModal(true);
+                            setUserInfo({
+                                username: user.username || '',
+                                phone: user.phone || ''
+                            });
+                        }}
                     >
-                        <InputItem
-                            name=""
-                            onChange={(value) => {
-                                setUserInfo({
-                                    ...userInfo,
-                                    username: value
-                                });
-                            }}
-                            defaultValue={userInfo.username}
-                        />
-                        <InputItem
-                            name=""
-                            onChange={(value) => {
-                                setUserInfo({
-                                    ...userInfo,
-                                    address: value
-                                });
-                            }}
-                            defaultValue={userInfo.address}
-                        />
-                        <InputItem
-                            type="text"
-                            onChange={(value) => {
-                                setUserInfo({
-                                    ...userInfo,
-                                    phone: value + ''
-                                });
-                            }}
-                            defaultValue={
-                                (console.log(userInfo.phone + ''),
-                                userInfo.phone + '')
-                            }
-                        />
-                        <div className="submit-change">
-                            <button
-                                className="ant-btn ant-btn-primary"
-                                onClick={() => {
-                                    handlepdateUserInfo();
-                                }}
-                            >
-                                Submit Changes
-                            </button>
-                        </div>
-                    </Card>
+                        Edit User Info
+                    </button>
+
+                    <Link
+                        className="ant-btn ant-btn-primary"
+                        to={'./deliveryinfo'}
+                    >
+                       
+                        Manage delivery Info
+                    </Link>
                 </div>
-            ) : (
-                ''
-            )}
-            <div
-                className="sign-out ant-btn ant-btn-primary ant-btn-dangerous"
-                onClick={signOut}
-            >
-                Sign Out
+                {modal ? (
+                    <div className="modal">
+                        <Card
+                            className="card-container"
+                            title="Edit Your Account Info"
+                            bordered={true}
+                        >
+                            Username:
+                        <InputItem
+                                name=""
+                                onChange={(value) => {
+                                    setUserInfo({
+                                        ...userInfo,
+                                        username: value
+                                    });
+                                }}
+                                defaultValue={userInfo.username}
+                            />
+                        Phone Number:
+                        <InputItem
+                                type="text"
+                                onChange={(value) => {
+                                    setUserInfo({
+                                        ...userInfo,
+                                        phone: value + ''
+                                    });
+                                }}
+                                defaultValue={userInfo.phone}
+                            />
+                            <div className="submit-change">
+                                <button
+                                    className="ant-btn ant-btn-primary"
+                                    onClick={() => {
+                                        handlepdateUserInfo();
+                                    }}
+                                >
+                                    Submit Changes
+                            </button>
+                            </div>
+                        </Card>
+                    </div>
+                ) : (
+                        ''
+                    )}
+                <div
+                    className="sign-out ant-btn ant-btn-primary ant-btn-dangerous"
+                    onClick={signOut}
+                >
+                    Sign Out
             </div>
-        </div>
-    );
+            </div>
+        );
 };
 
 const mapStateToProps = (state, ownProps) => {
     return {
         auth: state.firebase.auth,
         authError: state.auth.authError,
-        user:state.auth
+        user: state.auth
     };
 };
 

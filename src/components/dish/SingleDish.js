@@ -7,8 +7,11 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import ShortCart from '../cart/shortCart'
 
-const SingleDish = ({ cart, dish, vendor }) => {
-  console.log(vendor)
+const populates = [
+  { child: 'vendor', root: 'vendors' }
+]
+
+const SingleDish = ({ cart, dish }) => {
   const [cartItemId, setCartItemId] = useState(null)
   useEffect(() => {
     if (dish) {
@@ -56,17 +59,19 @@ const mapStateToProps = (state, ownProps) => {
   return {
     cart: state.cartState,
     dish: dishes ? dishes[0] : null,
-    vendor: dishes ? state.vendors.find(vendor => vendor.id === dishes[0].vendor ) : null
   }
 }
 
 export default compose(
   connect(mapStateToProps, {}),
   firestoreConnect(props => {
-   return [{
-      collection: 'dishes',
-      doc: props.match.params.id
-    }]
+    return[
+      {
+        collection: 'dishes',
+        doc: props.match.params.id,
+      }
+    
+    ]
   }
 
   )

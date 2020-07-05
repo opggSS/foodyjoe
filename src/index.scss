@@ -683,6 +683,22 @@ a {
 .checkout {
   background: $main-grey;
   padding: 3vw;
+  padding-bottom: 20vw;
+  .qrCode {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top:0 ;
+    left : 0;
+    text-align: center;
+    img{
+      position: absolute;
+      top: 20vh;
+      left: 25vw;
+      width: 50vw;
+    }
+  }
   .header {
     font-size: 5vw;
     color: $text-color;
@@ -968,6 +984,25 @@ a {
 
 .deliveryInfo {
   padding: 3vw 5vw;
+  .deliveryInfoHeader{
+    text-align: center;
+    position: relative;
+    line-height: 8vw;
+    height: 8vw;
+    margin-bottom: 5vw;
+    span{
+      font-size: 5vw;
+      color: #333
+    }
+    :nth-child(3) {
+      position: absolute;
+      right: 0;
+    }
+    :nth-child(1) {
+      position: absolute;
+      left: 0;
+    }
+  }
   .singleInfo {
     border:1px solid $border-color;
     margin: 2vw 0;
