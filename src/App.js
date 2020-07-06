@@ -29,8 +29,7 @@ import {
   Elements,
 } from '@stripe/react-stripe-js';
 
-const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
-
+const stripePromise = loadStripe('pk_test_51H0nNoICCUsuYjgJrZHuVZJYPBNWgawMgWkb8OZx8XgjHv6zrOZUxbjTvKgTU5rTA62Dtw5rS1lGKFRxrMlVu4LF00eM9xoBx0');
 
 export const history = createBrowserHistory()
 

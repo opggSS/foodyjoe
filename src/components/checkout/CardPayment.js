@@ -21,18 +21,11 @@ const CardElementContainer = styled.div`
 `;
 
 const CardPayment = props => {
-  console.log(props)
   const {price , onSuccessfulCheckout}= props.location
-
   const [isProcessing, setProcessingTo] = useState(false);
   const [checkoutError, setCheckoutError] = useState();
-
   const stripe = useStripe();
   const elements = useElements();
-
-  // TIP
-  // use the cardElements onChange prop to add a handler
-  // for setting any errors:
 
   const handleCardDetailsChange = ev => {
     ev.error ? setCheckoutError(ev.error.message) : setCheckoutError();
@@ -51,28 +44,23 @@ const CardPayment = props => {
         postal_code: ev.target.zip.value
       }
     };
-
     setProcessingTo(true);
 
     const cardElement = elements.getElement("card");
-
     try {
       const paymentMethodReq = await stripe.createPaymentMethod({
         type: "card",
         card: cardElement,
         billing_details: billingDetails
-      });
-      
-      const { data: clientSecret } = await axios.post("/api/payment_intents", {
+      });        
+       const { data: clientSecret }= await axios.post("https://us-central1-foodyjoe-3a05d.cloudfunctions.net/cc", {
         amount: price * 100
       });
-      
       if (paymentMethodReq.error) {
         setCheckoutError(paymentMethodReq.error.message);
         setProcessingTo(false);
         return;
       }
-
       const { error } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: paymentMethodReq.paymentMethod.id
       });
@@ -88,7 +76,6 @@ const CardPayment = props => {
       setCheckoutError(err.message);
     }
   };
-
 
   const iframeStyles = {
     base: {
@@ -120,7 +107,7 @@ const CardPayment = props => {
         <BillingDetailsFields />
       </Row>
       <Row>
-        <CardElementContainer>
+        <CardElementContainer  >
           <CardElement
             options={cardElementOpts}
             onChange={handleCardDetailsChange}
