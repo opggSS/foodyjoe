@@ -70,61 +70,67 @@ const Checkout = props => {
   const [isDelivery, setIsDelivery] = useState(true)
 
   useEffect(() => {
-    if (cart && vendor) {
-      const newCart = { ...cart }
-      delete newCart.totalPrice
-      delete newCart.quantity
-      if (isDelivery) {
-        const totalBeforeTax = Number((Number(cart.totalPrice) + Number(vendor.delivery_fee)).toFixed(2))
-        const tax = Number((totalBeforeTax * 0.05).toFixed(2))
-        const subtotal = Number((totalBeforeTax * 1.05).toFixed(2))
-        setOrderDetail({
-          ...newCart,
-          isDelivery: true,
-          vendor: vendorId,
-          //status in progress
-          status: 1,
-          arrivalTime: 'ASAP',
-          paymentMethod: 'WeChat',
-          history,
-          userId: user.id,
-          deliveryInfo: orderDetail.deliveryInfo || null,
-          priceInfo: {
-            orderTotal: totalBeforeTax,
-            deliveryFee: Number((vendor.delivery_fee).toFixed(2)),
-            tax: tax,
-            subtotal: subtotal
-          }
-        })
-      }
-      else {
-        const totalBeforeTax = Number((cart.totalPrice).toFixed(2))
-        const tax = Number((0.05 * totalBeforeTax).toFixed(2))
-        const subtotal = Number((1.05 * totalBeforeTax).toFixed(2))
+    if (!orderDetail) {
+      if (cart && vendor) {
+        const newCart = { ...cart }
+        delete newCart.totalPrice
+        delete newCart.quantity
+        if (isDelivery) {
+          const totalBeforeTax = Number((Number(cart.totalPrice) + Number(vendor.delivery_fee)).toFixed(2))
+          const tax = Number((totalBeforeTax * 0.05).toFixed(2))
+          const subtotal = Number((totalBeforeTax * 1.05).toFixed(2))
+          setOrderDetail({
+            ...newCart,
+            isDelivery: true,
+            vendor: vendorId,
+            //status in progress
+            status: 1,
+            arrivalTime: 'ASAP',
+            paymentMethod: 'WeChat',
+            history,
+            userId: user.id,
+            deliveryInfo:  null,
+            priceInfo: {
+              orderTotal: totalBeforeTax,
+              deliveryFee: Number((vendor.delivery_fee).toFixed(2)),
+              tax: tax,
+              subtotal: subtotal
+            },
+            vendorGeoLocation: {
+              lng: vendor.longitude,
+              lat: vendor.latitude
+            },
+            baseDeliveryFee : Number((vendor.delivery_fee).toFixed(2))
+          })
+        }
+        else {
+          const totalBeforeTax = Number((cart.totalPrice).toFixed(2))
+          const tax = Number((0.05 * totalBeforeTax).toFixed(2))
+          const subtotal = Number((1.05 * totalBeforeTax).toFixed(2))
 
-        setOrderDetail({
-          ...newCart,
-          isDelivery: false,
-          vendor: vendorId,
-          //status in progress
-          status: 1,
-          arrivalTime: 'ASAP',
-          paymentMethod: 'WeChat',
-          history,
-          userId: user.id,
-          deliveryInfo: null,
-          priceInfo: {
-            orderTotal: totalBeforeTax,
-            deliveryFee: 0,
-            tax: tax,
-            subtotal: subtotal
-          }
-        })
+          setOrderDetail({
+            ...newCart,
+            isDelivery: false,
+            vendor: vendorId,
+            //status in progress
+            status: 1,
+            arrivalTime: 'ASAP',
+            paymentMethod: 'WeChat',
+            history,
+            userId: user.id,
+            deliveryInfo: null,
+            priceInfo: {
+              orderTotal: totalBeforeTax,
+              deliveryFee: 0,
+              tax: tax,
+              subtotal: subtotal
+            }
+          })
+        }
+        // initialize order detail
       }
-      // initialize order detail
     }
-
-  }, [cart, history, setOrderDetail, user, vendor, vendorId, isDelivery])
+  }, [])
 
 
 
@@ -155,7 +161,7 @@ const Checkout = props => {
   }
 
   return (
-    orderDetail.dishes ?
+    orderDetail ?
       <div className="checkout">
         <div className="header">
           <span>
@@ -188,8 +194,6 @@ const Checkout = props => {
             {orderDetail.isDelivery ?
               <Link to={{
                 pathname: `/deliveryInfo`,
-                vendorGeoLocation: { lat: vendor.latitude, lng: vendor.longitude },
-                baseDeliveryFee: vendor.delivery_fee
               }}>
                 {orderDetail.deliveryInfo ?
                   (<div>

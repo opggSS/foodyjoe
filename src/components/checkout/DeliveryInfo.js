@@ -11,17 +11,17 @@ import { Modal } from 'antd-mobile';
 const alert = Modal.alert;
 
 
-const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInfo, history, google, user, location }) => {
+const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInfo, history, google, user }) => {
 
-  useEffect(() => {
-    if (location.vendorGeoLocation && location.baseDeliveryFee) {
-      setOrderDetail({
-        ...orderDetail,
-        vendorGeoLocation: location.vendorGeoLocation,
-        baseDeliveryFee: location.baseDeliveryFee
-      })
-    }
-  }, [location.baseDeliveryFee, location.vendorGeoLocation])
+  // useEffect(() => {
+  //   if (location.vendorGeoLocation && location.baseDeliveryFee) {
+  //     setOrderDetail({
+  //       ...orderDetail,
+  //       vendorGeoLocation: location.vendorGeoLocation,
+  //       baseDeliveryFee: location.baseDeliveryFee
+  //     })
+  //   }
+  // }, [])
 
 
   const handleDeleteDeliveryInfo = (index, event) => {
@@ -36,6 +36,7 @@ const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInf
     })
   }
   const handleSelectInfo = (info) => {
+    console.log(orderDetail)
     if (orderDetail.vendorGeoLocation) {
       const origin = new google.maps.LatLng(orderDetail.vendorGeoLocation.lat, orderDetail.vendorGeoLocation.lng);
       const destination = new google.maps.LatLng(info.lat, info.lng);
@@ -61,7 +62,9 @@ const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInf
             }
             else {
               const distanceInMeter = res.rows[0].elements[0].distance.value
+              console.log(distanceInMeter)
               let additionalDeliveryFee = 0
+
               if (distanceInMeter > 5000) {
                 additionalDeliveryFee = Math.ceil(distanceInMeter / 1000 - 5) * 1.5
               }
