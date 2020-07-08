@@ -5,7 +5,6 @@ import { compose } from 'redux'
 import SingleOrderSummary from './SingleOrderSummary'
 import { Link } from 'react-router-dom'
 import './OrderHome.css'
-import { orderBy } from 'lodash'
 
 const populates = [
   { child: 'vendor', root: 'vendors' }
@@ -15,9 +14,15 @@ const populates = [
 const OrderHome = ({ auth, orders }) => {
 console.log(orders)
   const singleOrder = () => {
-    for (const [orderId, order] of Object.entries(orders)) {
-      return <SingleOrderSummary key={orderId} order={order} orderId = {orderId}/>
-    }
+    return Object.keys(orders).map((key, index) => {
+      console.log(key, index)
+      console.log(orders[key])
+       return <SingleOrderSummary key={key} order={orders[key]} orderId = {key}/>
+    });
+
+    // for (const [orderId, order] of Object.entries(orders)) {
+    //    <SingleOrderSummary key={orderId} order={order} orderId = {orderId}/>
+    // }
   }
 
   if (orders) {
@@ -35,8 +40,6 @@ const mapStateToProps = (state, ownProps) => {
 
   const orders = populate(state.firestore, 'orders', populates)
 
-  console.log(orders)
-  console.log(state)
   return {
     orders: orders,
     auth: state.auth ? state.auth : null
@@ -60,12 +63,14 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
   connect(mapStateToProps),
   firestoreConnect((props) => {
-    console.log(props)
+
     return [
       {
         collection: 'orders',
+        orderBy: ["createdAt", "desc"],
         where: [
-          ['userId', '==', props.auth.id ? props.auth.id : null],
+          ['userId', '==', props.auth.id ? props.auth.id : null]
+          
         ],
         populates: populates,
       },

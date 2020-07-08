@@ -93,7 +93,7 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, item
         <SelectOptionModal
           handleCloseModal={handleCloseModal}
           dish={dish}
-          vendor = {dish.vendor}
+          vendorId = {dish.vendor}
         />
       }
     </>
