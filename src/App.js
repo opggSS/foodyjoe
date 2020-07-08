@@ -49,7 +49,11 @@ const App = ({ getAllVendors, vendors, user, setUserInfo, }) => {
     <Router history={history}>
       <Elements stripe={stripePromise}>
         <Switch>
-          <Route exact path="/" component={Homepage} />
+          <Route
+            exact
+            path="/"
+            children={Homepage}
+          />
           <Route path="/vendor/:id" component={Vendor} />
           <Route path="/singleDish/:id" component={SingleDish} />
           <Route path="/cart" component={Cart} />
@@ -58,15 +62,15 @@ const App = ({ getAllVendors, vendors, user, setUserInfo, }) => {
           <Route path="/signIn" component={SignIn} />
           <Route path="/signUp" component={SignUp} />
           <Route path="/signhome" component={SignHome} />
-
           <Route path="/deliveryinfo/create" component={CreateDeliveryInfo} />
           <Route path="/deliveryinfo" component={DeliveryInfo} />
           <Route path="/cardpayment" component={CardPayment} />
-
           <Route path="/orderDetail/:orderId" component={OrderDetail} />
           <Route path="/search-result/:keyword" component={SearchResult} />
           <Route path="/checkout/:vendorId" component={Checkout} />
+
           <Route component={Default} />
+
         </Switch>
       </Elements>
     </Router>

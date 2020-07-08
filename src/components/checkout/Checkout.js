@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Location from '../../assets/icons/location.png'
 import ArrowRight from '../../assets/icons/arrow-right.png'
-import Telephone from '../../assets/icons/telephone.png'
 import { Link } from 'react-router-dom'
 import { ReactComponent as BackDark } from '../../assets/icons/back_dark.svg'
 import { createOrder } from '../../actions/order/orderAction'
@@ -16,13 +15,6 @@ import PriceInfo from './PriceInfo'
 import { Menu } from 'antd-mobile';
 import { compose } from "redux";
 
-import { loadStripe } from '@stripe/stripe-js';
-import {
-  CardElement,
-  Elements,
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js';
 
 const alert = Modal.alert;
 
@@ -65,8 +57,6 @@ const dataPayment = [
 
 const Checkout = props => {
   const { cart, createOrder, setOrderDetail, orderDetail, history, user, vendor } = props
-  const stripe = useStripe();
-  const elements = useElements();
   const vendorId = vendor ? vendor.id : null
   const selectedStyle = {
     borderRadius: '4vw',
@@ -159,33 +149,10 @@ const Checkout = props => {
 
 
   const placeOrder = () => {
-    console.log(orderDetail)
-    if (!orderDetail.deliveryInfo && isDelivery) {
-      alert('Please select delivering info', '', [
-        { text: 'Ok', onPress: () => console.log('ok') },
-      ])
-      return
-    }
-    createOrder(orderDetail)
+    alert('Please select delivering info', '', [
+      { text: 'Ok', onPress: () => console.log('ok') },
+    ])
   }
-
-  // const handleSubmit = (event) => {
-  //   console.log(event)
-  //   event.preventDefault();
-  //   stripe.createPaymentMethod({
-  //     type: 'card',
-  //     card: elements.getElement(CardElement)
-  //   }).then((res) => {
-  //     console.log(JSON.stringify(res))
-
-  //   }).catch(err => {
-  //     console.log(err)
-  //   })
-
-  // }
-
-
-
 
   return (
     orderDetail.dishes ?
@@ -284,23 +251,27 @@ const Checkout = props => {
         <div className="infoContainer">
           <PriceInfo />
         </div>
-        <div className="infoContainer"> <Remark /></div>
-        <div className="infoContainer"> <Agreement /></div>
-        <CardElement />
+        {/* <div className="infoContainer"> <Remark /></div>
+        <div className="infoContainer"> <Agreement /></div> */}
         <div className="confirmBtn" >
-
           <div className="left">${orderDetail.priceInfo ? orderDetail.priceInfo.subtotal : 0}</div>
-          {console.log(orderDetail.priceInfo.subtotal)}
-          <Link
-            to={{
-              pathname: `/cardpayment`,
-              onSuccessfulCheckout:placeOrder,
-              price: orderDetail.priceInfo.subtotal
-            }}>
-            <div className="right" >
+          {(!orderDetail.deliveryInfo && isDelivery) ?
+            <div className="right" onClick={placeOrder}>
               Place Order
             </div>
-          </Link>
+            :
+            (<Link
+              to={{
+                pathname: `/cardpayment`,
+                onSuccessfulCheckout: () => createOrder(orderDetail),
+                price: orderDetail.priceInfo.subtotal
+              }}>
+              <div className="right" >
+                Place Order
+            </div>
+            </Link>)
+          }
+
 
         </div>
       </div > :

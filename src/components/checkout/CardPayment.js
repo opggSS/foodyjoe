@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import styled from "@emotion/styled";
 import axios from "axios";
-
-
 import BillingDetailsFields from "./prebuilt/BillingDetailsFields";
 import SubmitButton from "./prebuilt/SubmitButton";
 import Row from "./prebuilt/Row";
 import CheckoutError from "./prebuilt/CheckoutError";
+import { Redirect } from 'react-router-dom'
 
 const CardElementContainer = styled.div`
   height: 40px;
@@ -21,12 +20,16 @@ const CardElementContainer = styled.div`
 `;
 
 const CardPayment = props => {
-  const {price , onSuccessfulCheckout}= props.location
+  const { price, onSuccessfulCheckout } = props.location
   const [isProcessing, setProcessingTo] = useState(false);
   const [checkoutError, setCheckoutError] = useState();
   const stripe = useStripe();
   const elements = useElements();
 
+  //route protection
+  if (!price) {
+    return <Redirect to='/'></Redirect>
+  }
   const handleCardDetailsChange = ev => {
     ev.error ? setCheckoutError(ev.error.message) : setCheckoutError();
   };
@@ -52,8 +55,8 @@ const CardPayment = props => {
         type: "card",
         card: cardElement,
         billing_details: billingDetails
-      });        
-       const { data: clientSecret }= await axios.post("https://us-central1-foodyjoe-3a05d.cloudfunctions.net/cc", {
+      });
+      const { data: clientSecret } = await axios.post("https://us-central1-foodyjoe-3a05d.cloudfunctions.net/cc", {
         amount: price * 100
       });
       if (paymentMethodReq.error) {
