@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid } from 'antd-mobile';
-import { HomeOutlined, UnorderedListOutlined, AccountBookOutlined } from '@ant-design/icons'
+import { HomeOutlined, UnorderedListOutlined, AccountBookOutlined,ShoppingCartOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 export default function BotNavbar() {
 
@@ -20,12 +20,17 @@ export default function BotNavbar() {
       title: 'Account',
       url: 'account'
     },
+    {
+      icon: <ShoppingCartOutlined />,
+      title: 'Cart',
+      url: 'cart'
+    },
   ]
 
   return (
     <div className="botNavbar">
       <Grid
-        columnNum={3}
+        columnNum={4}
         data={datas}
         renderItem={data => (
           <Link to={`${data.url}`}>

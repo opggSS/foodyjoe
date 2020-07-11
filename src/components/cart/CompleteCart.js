@@ -14,15 +14,17 @@ const alert = Modal.alert;
 const CompleteCart = ({ clearCart, lastVisitedVendorId, carts }) => {
 
   const dishes = () => {
+    const myDishes = []
     for (let vendorId in carts) {
-      return (
+      myDishes.push(
         <SingleVendorCart
           dishes={carts[vendorId].dishes}
           vendorId={vendorId}
-          totalPrice ={carts[vendorId].totalPrice}
+          totalPrice={carts[vendorId].totalPrice}
         />
       )
     }
+    return myDishes
   }
 
   const handleClearCart = () => {
