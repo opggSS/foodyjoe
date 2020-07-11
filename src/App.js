@@ -17,33 +17,26 @@ import SignIn from './components/sign/SignIn.js'
 import SearchResult from './components/search/SearchResult'
 import SignHome from './components/sign/SignHome.js'
 import { createBrowserHistory } from "history"
-import { connect } from 'react-redux'
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
-import { getAllVendors } from './actions/vendor/vendorActions'
-import { setUserInfo } from './actions/auth/authAction'
 import 'antd/dist/antd.css'
 import 'antd-mobile/dist/antd-mobile.css'
 import { loadStripe } from '@stripe/stripe-js';
+import { firestoreConnect } from 'react-redux-firebase'
 import {
   Elements,
 } from '@stripe/react-stripe-js';
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { setUserInfo } from './actions/auth/authAction'
 
 const stripePromise = loadStripe('pk_test_51H0nNoICCUsuYjgJrZHuVZJYPBNWgawMgWkb8OZx8XgjHv6zrOZUxbjTvKgTU5rTA62Dtw5rS1lGKFRxrMlVu4LF00eM9xoBx0');
 
 export const history = createBrowserHistory()
-
-const App = ({ getAllVendors, vendors, user, setUserInfo, }) => {
+const App =  ({user,setUserInfo}) => {
   useEffect(() => {
-    if (vendors) {
-      getAllVendors(vendors)
-    }
-
     if (user) {
       setUserInfo(user)
     }
-
-  }, [getAllVendors, setUserInfo, user, vendors])
+  }, [setUserInfo, user])
 
   return (
     <Router history={history}>
@@ -52,7 +45,7 @@ const App = ({ getAllVendors, vendors, user, setUserInfo, }) => {
           <Route
             exact
             path="/"
-            children={Homepage}
+            component={Homepage}
           />
           <Route path="/vendor/:id" component={Vendor} />
           <Route path="/singleDish/:id" component={SingleDish} />
@@ -68,9 +61,7 @@ const App = ({ getAllVendors, vendors, user, setUserInfo, }) => {
           <Route path="/orderDetail/:orderId" component={OrderDetail} />
           <Route path="/search-result/:keyword" component={SearchResult} />
           <Route path="/checkout/:vendorId" component={Checkout} />
-
           <Route component={Default} />
-
         </Switch>
       </Elements>
     </Router>
@@ -80,21 +71,38 @@ const App = ({ getAllVendors, vendors, user, setUserInfo, }) => {
 const mapStateToProps = (state) => {
   console.log(state.firestore.ordered)
   return {
-    vendors: state.firestore.ordered.vendors,
     user: state.firestore.ordered.users ? state.firestore.ordered.users[0] : null,
     uid: state.firebase.auth.uid,
   }
 }
+
 export default compose(
-  connect(mapStateToProps, { getAllVendors, setUserInfo }),
+  connect(mapStateToProps, { setUserInfo }),
   firestoreConnect((props) => {
     const uid = props.uid ? props.uid : ''
-    return [
-      { collection: 'vendors' },
-      {
-        collection: 'users',
-        doc: uid
-      }
-    ]
-  })
-)(App)
+    if(uid) {
+      return [
+        {
+          collection: 'vendors',
+          orderByKey:true,
+        },
+        {
+          collection:'users',
+          doc: uid
+        }
+      ]
+    }
+    else {
+      return [
+        {
+          collection: 'vendors',
+          orderByKey:true,
+        }
+      ]
+    }
+   
+  }))
+(App)
+
+
+

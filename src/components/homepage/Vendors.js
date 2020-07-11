@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 // import { SingleVendorData } from '../../datas'
 import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
+
 const Vendors = ({ vendors }) => {
   return vendors ? (
     vendors.map((vendor, index) => (
@@ -26,9 +29,21 @@ const Vendors = ({ vendors }) => {
 };
 
 const mapStateToProps = (state) => {
-  return {
-    vendors: state.vendors.length > 0 ? state.vendors : null
-  };
-};
+  return{vendors: state.firestore.ordered.vendors} 
+}
 
-export default connect(mapStateToProps)(Vendors);
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect((props) => {
+    return [
+      {
+        collection: 'vendors',
+        orderByKey:true,
+        limit:3
+      },
+    ]
+  }
+  )
+)(Vendors)
+
+

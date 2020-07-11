@@ -15,7 +15,6 @@ const { TabPane } = Tabs;
 
 const SingleVendor = ({ setLastVisitedVendor, vendor }) => {
 
-  console.log(vendor)
   useEffect(() => {
     if (vendor) setLastVisitedVendor(vendor.id)
   }, [setLastVisitedVendor, vendor])
@@ -83,8 +82,12 @@ const SingleVendor = ({ setLastVisitedVendor, vendor }) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  let vendor = null;
+  if(state.firestore.ordered.vendors) {
+    vendor = state.firestore.ordered.vendors.find(vendor =>  vendor.id === ownProps.match.params.id)
+  }
   return {
-    vendor : state.vendors.find(vendor => vendor.id === ownProps.match.params.id)
+    vendor : vendor
   }
 }
 

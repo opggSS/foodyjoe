@@ -7,10 +7,6 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import ShortCart from '../cart/shortCart'
 
-const populates = [
-  { child: 'vendor', root: 'vendors' }
-]
-
 const SingleDish = ({ cart, dish }) => {
   const [cartItemId, setCartItemId] = useState(null)
   useEffect(() => {

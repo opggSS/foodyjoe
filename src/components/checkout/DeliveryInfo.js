@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { setOrderDetail } from '../../actions/order/orderAction'
-import { withRouter } from 'react-router-dom'
+import { withRouter ,Redirect } from 'react-router-dom'
 import { compose } from "redux";
 import { GoogleApiWrapper } from "google-maps-react";
 import { Link } from 'react-router-dom'
@@ -9,8 +9,6 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { updateUserInfo } from '../../actions/auth/authAction'
 import { Modal } from 'antd-mobile';
 const alert = Modal.alert;
-
-
 const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInfo, history, google, user }) => {
 
   // useEffect(() => {
@@ -86,11 +84,15 @@ const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInf
           }
         })
     }
+    else{
+      return 
+    }
   }
 
+  if(!user.id) return <Redirect to='/'></Redirect>
   return (
+    user.id && 
     <div className="deliveryInfo">
-
       <div className='deliveryInfoHeader'>
         <div style={{color:'#1890ff'}}onClick={history.goBack}>Back</div>
         <span>Address Set Up</span>
@@ -109,7 +111,7 @@ const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInf
           )
         })
       }
-    </div>
+    </div> 
   )
 }
 const mapStateToProps = state => {

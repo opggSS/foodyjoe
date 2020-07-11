@@ -89,7 +89,7 @@ const Checkout = props => {
             paymentMethod: 'WeChat',
             history,
             userId: user.id,
-            deliveryInfo:  null,
+            deliveryInfo: null,
             priceInfo: {
               orderTotal: totalBeforeTax,
               deliveryFee: Number((vendor.delivery_fee).toFixed(2)),
@@ -100,14 +100,13 @@ const Checkout = props => {
               lng: vendor.longitude,
               lat: vendor.latitude
             },
-            baseDeliveryFee : Number((vendor.delivery_fee).toFixed(2))
+            baseDeliveryFee: Number((vendor.delivery_fee).toFixed(2))
           })
         }
         else {
           const totalBeforeTax = Number((cart.totalPrice).toFixed(2))
           const tax = Number((0.05 * totalBeforeTax).toFixed(2))
           const subtotal = Number((1.05 * totalBeforeTax).toFixed(2))
-
           setOrderDetail({
             ...newCart,
             isDelivery: false,
@@ -132,7 +131,42 @@ const Checkout = props => {
     }
   }, [])
 
+  useEffect(() => {
+    if (orderDetail) {
+      const totalBeforeTax = Number((cart.totalPrice).toFixed(2))
+      const tax = Number((0.05 * totalBeforeTax).toFixed(2))
+      const subtotal = Number((1.05 * totalBeforeTax).toFixed(2))
 
+      if (!isDelivery) {
+
+        setOrderDetail({
+          ...orderDetail,
+          deliveryInfo: null,
+          isDelivery:false,
+          priceInfo: {
+            orderTotal: totalBeforeTax,
+            deliveryFee: 0,
+            tax: tax,
+            subtotal: subtotal
+          }
+        })
+      }
+      else if (!orderDetail.deliveryInfo && isDelivery ) {
+        setOrderDetail({
+          ...orderDetail,
+          deliveryInfo: null,
+          isDelivery:true,
+          
+          priceInfo: {
+            orderTotal: totalBeforeTax,
+            deliveryFee: Number((vendor.delivery_fee).toFixed(2)),
+            tax: tax,
+            subtotal: subtotal
+          }
+        })
+      }
+    }
+  }, [isDelivery])
 
   if (!cart) {
     return <Redirect to='/'></Redirect>
@@ -285,11 +319,15 @@ const Checkout = props => {
 
 const mapStateToProps = (state, ownProps) => {
   const cart = state.cartState[ownProps.match.params.vendorId]
+  let vendor = null;
+  if (state.firestore.ordered.vendors) {
+    vendor = state.firestore.ordered.vendors.find(vendor => vendor.id === ownProps.match.params.vendorId)
+  }
 
   return {
     cart: cart,
     user: state.auth,
-    vendor: state.vendors ? state.vendors.find(vendor => vendor.id === ownProps.match.params.vendorId) : null,
+    vendor: vendor,
     orderDetail: state.orderDetail
   }
 }

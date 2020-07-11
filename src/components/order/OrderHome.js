@@ -63,7 +63,6 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
   connect(mapStateToProps),
   firestoreConnect((props) => {
-
     return [
       {
         collection: 'orders',
@@ -75,7 +74,6 @@ export default compose(
         populates: populates,
       },
     ]
-
   }
   )
 )(OrderHome)

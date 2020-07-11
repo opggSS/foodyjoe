@@ -1,7 +1,7 @@
 import React from 'react';
 import MenuSingleDish from './MenuSingleDish';
 import { connect } from 'react-redux';
-import { firestoreConnect, populate } from 'react-redux-firebase';
+import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 
 // const populates = [
@@ -9,6 +9,7 @@ import { compose } from 'redux';
 // ]
 
 const Menu = ({ dishes, vendor }) => {
+    console.log(vendor)
     if (dishes) {
         return dishes.map((dish, index) => dish.length > 0 ? (
             <div className="menu" key={index}>

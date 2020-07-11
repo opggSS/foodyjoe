@@ -6,7 +6,11 @@ import BillingDetailsFields from "./prebuilt/BillingDetailsFields";
 import SubmitButton from "./prebuilt/SubmitButton";
 import Row from "./prebuilt/Row";
 import CheckoutError from "./prebuilt/CheckoutError";
-import { Redirect } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Modal } from 'antd-mobile';
+const alert = Modal.alert;
+
 
 const CardElementContainer = styled.div`
   height: 40px;
@@ -20,16 +24,16 @@ const CardElementContainer = styled.div`
 `;
 
 const CardPayment = props => {
+  const history = useHistory();
   const { price, onSuccessfulCheckout } = props.location
+  const {orderDetail} = props
   const [isProcessing, setProcessingTo] = useState(false);
   const [checkoutError, setCheckoutError] = useState();
   const stripe = useStripe();
   const elements = useElements();
 
   //route protection
-  if (!price) {
-    return <Redirect to='/'></Redirect>
-  }
+  
   const handleCardDetailsChange = ev => {
     ev.error ? setCheckoutError(ev.error.message) : setCheckoutError();
   };
@@ -56,6 +60,7 @@ const CardPayment = props => {
         card: cardElement,
         billing_details: billingDetails
       });
+      console.log(paymentMethodReq)
       const { data: clientSecret } = await axios.post("https://us-central1-foodyjoe-3a05d.cloudfunctions.net/cc", {
         amount: price * 100
       });
@@ -67,13 +72,11 @@ const CardPayment = props => {
       const { error } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: paymentMethodReq.paymentMethod.id
       });
-
       if (error) {
         setCheckoutError(error.message);
         setProcessingTo(false);
         return;
       }
-
       onSuccessfulCheckout();
     } catch (err) {
       setCheckoutError(err.message);
@@ -104,6 +107,12 @@ const CardPayment = props => {
     hidePostalCode: true
   };
 
+  if (!price) return <Redirect to='/'></Redirect>
+  if(orderDetail.completed) {
+    alert('Order placed', '', [
+      { text: 'OK', onPress: () => history.push('/orders') } ,
+    ])
+  }
   return (
     <form onSubmit={handleFormSubmit}>
       <Row>
@@ -128,4 +137,5 @@ const CardPayment = props => {
   );
 };
 
-export default CardPayment;
+
+export default connect((state) =>({orderDetail: state.orderDetail}) )(CardPayment);

@@ -27,11 +27,12 @@ const CreateDeliveryInfo = ({ user, updateUserInfo, google }) => {
   }
   const onSaveDeliveryInfo = () => {
     if (deliveryInfo.address && deliveryInfo.name && deliveryInfo.phone) {
+      const info = user.deliveryInfo || []
       updateUserInfo({
         user: {
           ...user,
           deliveryInfo: [
-            ...user.deliveryInfo,
+            ...info,
             deliveryInfo
           ]
         },

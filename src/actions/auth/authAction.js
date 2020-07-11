@@ -98,7 +98,7 @@ export const signOut = () => {
 }
 
 export const updateUserInfo = ({ user, isGoBack }) => (dispatch, getState, { getFirestore, getFirebase }) => {
-  const uid = (getState()).firebase.auth.uid
+  const uid = getState().firebase.auth.uid
   const firestore = getFirestore()
   firestore.collection('users').doc(uid).set(user).then(() => {
     if (isGoBack) {

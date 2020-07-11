@@ -47,8 +47,13 @@ const SingleVendorCart = ({ dishes, vendor, vendorId , totalPrice}) => {
 
 
 const mapStateToProps = (state, ownProps) =>{
+  
+  let vendor = null;
+  if(state.firestore.ordered.vendors) {
+    vendor = state.firestore.ordered.vendors.find(vendor =>  vendor.id === ownProps.vendorId)
+  }
   return {
-    vendor: state.vendors.find(vendor => vendor.id === ownProps.vendorId )
+    vendor : vendor
   }
 }
 export default connect(mapStateToProps)(SingleVendorCart)
