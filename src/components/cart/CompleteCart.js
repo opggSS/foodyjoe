@@ -5,9 +5,9 @@ import { withRouter } from "react-router";
 import { compose } from "redux";
 import { clearCart } from '../../actions/cart/clearCart'
 import { ReactComponent as Close } from '../../assets/icons/close.svg'
-import { Modal } from 'antd-mobile';
 import SingleVendorCart from './SingleVendorCart'
 import _ from 'lodash'
+import { Modal } from 'antd-mobile';
 
 const alert = Modal.alert;
 

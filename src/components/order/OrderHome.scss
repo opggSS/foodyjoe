@@ -1,0 +1,19 @@
+.orders {
+    padding: 17vw 3vw 5vw;
+    .header {
+        position: fixed;
+        top: 0 ;
+        left: 0;
+        width: 100vw;
+        padding:2vw ;
+        text-align: center;
+        border-bottom: 1px solid rgba(199, 178, 178, 0.1);;
+        span {
+            color: #333;
+            font-size: 4.5vw;
+            margin: 0 3vw;
+            padding: 3vw;
+        }
+    }
+    
+}

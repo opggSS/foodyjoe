@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-const SingleOrderDetail = ( {location }) => {
-  const {order} = location
+const SingleOrderDetail = ( {location, order }) => {
+  if( !order) {
+    order = location.order
+  }
   let vendor = null
   if(order) {
      vendor = order.vendor
@@ -37,9 +39,6 @@ const SingleOrderDetail = ( {location }) => {
   return (
     order ? (
       <div className='singleOrderDetail'>
-        <div style={{
-            padding: "10px 20px"
-        }}><Link to="/orders">Back to Orders</Link></div>
         <img src={vendor.logo} alt={vendor.name} className='vendorImg' />
         <div className='status'>
           {order.isComplete ?

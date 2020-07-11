@@ -6,14 +6,14 @@ import { Link } from 'react-router-dom'
 
 import './SingleOrderSummary.css'
 
-const SingleOrderSummary = ({ order, vendor , orderId}) => {
+const SingleOrderSummary = ({ order, vendor }) => {
   return (
     <div className="flexie">
       <div className="image-container">
         <img src={order.vendor.logo} alt={order.vendor.name} />
       </div>
       <Link to={{
-        pathname: `/orderDetail/${orderId}`,
+        pathname: `/orderDetail/${order.id}`,
         order: order
       }}>
         <span className="first">Ordered from: {order.vendor.name}</span>

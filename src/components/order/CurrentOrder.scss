@@ -1,0 +1,22 @@
+.currentOrder {
+  position: relative;
+  padding: 0 4vw;
+  .time {
+    font-size: 8vw;
+    font-weight: 600;
+    color: #333;
+  }
+  .estimated {
+    font-size: 4.2vw;
+    position: absolute;
+    right: 2vw;
+    top: 3vw;
+  }
+  .detail {
+    margin-top: 10vw;
+    .title{
+      font-size: 6vw;
+      color: #333;
+    }
+  }
+}

@@ -1,63 +1,92 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { firestoreConnect, populate } from 'react-redux-firebase'
 import { compose } from 'redux'
 import SingleOrderSummary from './SingleOrderSummary'
 import { Link } from 'react-router-dom'
-import './OrderHome.css'
+import './OrderHome.scss'
+import CurrentOrder from './CurrentOrder'
 
 const populates = [
   { child: 'vendor', root: 'vendors' }
 ]
 
+const OrderHome = ({ auth, currentOrders, historyOrders }) => {
 
-const OrderHome = ({ auth, orders }) => {
-console.log(orders)
-  const singleOrder = () => {
-    return Object.keys(orders).map((key, index) => {
-      console.log(key, index)
-      console.log(orders[key])
-       return <SingleOrderSummary key={key} order={orders[key]} orderId = {key}/>
-    });
+  const [isCurrent, setIsCurrent] = useState(false)
+  useEffect(() => {
+    if (currentOrders && currentOrders.length > 0) {
+      setIsCurrent(true)
+    }
+    else {
+      setIsCurrent(false)
+    }
+  }, [currentOrders])
 
-    // for (const [orderId, order] of Object.entries(orders)) {
-    //    <SingleOrderSummary key={orderId} order={order} orderId = {orderId}/>
-    // }
+  const styles = {
+    borderBottom: '2px solid #1cb9b6',
   }
 
-  if (orders) {
-    return (<div className="orders">
-      <Link to="/">Back to Home</Link>
-      <h2 className='header'>Order History</h2>
-      {singleOrder()}
-    </div>)
-  } else {
-    return <div>loading..</div>
+  const orderHistory = () => {
+    if (historyOrders.length === 0) {
+      return <div>no orders</div>
+    }
+    else {
+      return historyOrders.map((order) => {
+        return <SingleOrderSummary key={order.id} order={order} />
+      });
+    }
   }
+  const orderCurrent = () => {
+    if (currentOrders.length === 0) {
+      return <div>no current order</div>
+    }
+    else {
+      return currentOrders.map((order) => {
+        return <CurrentOrder key={order.id} order={order} />
+      });
+    }
+  }
+
+  return (
+    <div className='orders'>
+      <div className="header">
+        <span onClick={() => setIsCurrent(false)} style={!isCurrent ? styles : {}}> History </span>
+        <span onClick={() => setIsCurrent(true)} style={isCurrent ? styles : {}}> Current </span>
+      </div>
+      <div className="content">
+        {isCurrent ? (
+          orderCurrent()
+        ) : orderHistory()}
+      </div>
+    </div>
+  )
 }
 
 const mapStateToProps = (state, ownProps) => {
 
   const orders = populate(state.firestore, 'orders', populates)
+  let newOrders = []
+  let currentOrders = []
+  let historyOrders = []
+
+  if (orders) {
+    newOrders = Object.keys(orders).map((key) => {
+      return {
+        ...orders[key],
+        id: key
+      }
+    });
+    currentOrders = newOrders.filter(order => order.status !== 4)
+    historyOrders = newOrders.filter(order => order.status === 4)
+  }
 
   return {
-    orders: orders,
+    currentOrders: currentOrders,
+    historyOrders: historyOrders,
     auth: state.auth ? state.auth : null
   }
-  // let orders = []
 
-  // let uid = state.firebase.auth.uid
-  // if (state.firestore.ordered.orders && uid) {
-  //   console.log(state.firestore.ordered.orders)
-  //   orders = state.firestore.ordered.orders.filter(order => order.userId === uid).map(order => ({
-  //     ...order,
-  //     vendor: state.firestore.ordered.vendors.find(e => e.id === order.vendorId)
-  //   }))
-  // }
-  // return {
-  //   orders: orders,
-  //   auth: state.firebase.auth,
-  // }
 }
 
 export default compose(
@@ -69,7 +98,7 @@ export default compose(
         orderBy: ["createdAt", "desc"],
         where: [
           ['userId', '==', props.auth.id ? props.auth.id : null]
-          
+
         ],
         populates: populates,
       },
