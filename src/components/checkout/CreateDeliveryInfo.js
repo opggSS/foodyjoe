@@ -8,11 +8,16 @@ import { updateUserInfo } from '../../actions/auth/authAction'
 import { GoogleApiWrapper } from "google-maps-react";
 import { Redirect } from "react-router-dom";
 import { Modal } from 'antd-mobile'
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+
 const alert = Modal.alert;
 
 const CreateDeliveryInfo = ({ user, updateUserInfo, google }) => {
 
   const [deliveryInfo, setDeliveryInfo] = useState({})
+  const [isPhoneValid, setIsPhoneValid] = useState(false)
+
   const handleAddressChange = address => {
     setDeliveryInfo({
       ...deliveryInfo,
@@ -26,7 +31,12 @@ const CreateDeliveryInfo = ({ user, updateUserInfo, google }) => {
     })
   }
   const onSaveDeliveryInfo = () => {
-    if (deliveryInfo.address && deliveryInfo.name && deliveryInfo.phone) {
+    if (!isPhoneValid) {
+      alert(`Invalid phone number`, '', [
+        { text: 'Ok' }
+      ])
+    }
+    else if (deliveryInfo.address && deliveryInfo.name && deliveryInfo.phone) {
       const info = user.deliveryInfo || []
       updateUserInfo({
         user: {
@@ -39,7 +49,8 @@ const CreateDeliveryInfo = ({ user, updateUserInfo, google }) => {
         isGoBack: true
       })
     }
-    else{
+
+    else {
       alert(`Please complete delivery info`, '', [
         { text: 'Ok' }
       ])
@@ -129,10 +140,25 @@ const CreateDeliveryInfo = ({ user, updateUserInfo, google }) => {
             />
           </li>
           <li>
-            <input
-              type="text"
+            <PhoneInput
+              isValid={(value, country) => {
+                if (value.match(/\d/g).length===11 && country.name === 'Canada') {
+                  setIsPhoneValid(true)
+                  return true
+                }
+                else {
+                  setIsPhoneValid(false)
+                  return false
+                }
+              }}
+              inputProps={{
+                name: 'phone',
+                required: true,
+              }}
               placeholder='Receiver Phone Number'
-              onChange={(e) => handleOtherChange({ phone: e.target.value })}
+              country={'ca'}
+              value={deliveryInfo.phone}
+              onChange={phone => handleOtherChange({ phone: phone })}
             />
           </li>
         </ul>

@@ -34,12 +34,10 @@ const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInf
     })
   }
   const handleSelectInfo = (info) => {
-    console.log(orderDetail)
-    if (orderDetail.vendorGeoLocation) {
+    if (orderDetail && orderDetail.vendorGeoLocation) {
       const origin = new google.maps.LatLng(orderDetail.vendorGeoLocation.lat, orderDetail.vendorGeoLocation.lng);
       const destination = new google.maps.LatLng(info.lat, info.lng);
       const service = new google.maps.DistanceMatrixService();
-
       service.getDistanceMatrix(
         {
           origins: [origin],
@@ -60,9 +58,7 @@ const DeliveryInfo = ({ setOrderDetail, deliveryInfo, orderDetail, updateUserInf
             }
             else {
               const distanceInMeter = res.rows[0].elements[0].distance.value
-              console.log(distanceInMeter)
               let additionalDeliveryFee = 0
-
               if (distanceInMeter > 5000) {
                 additionalDeliveryFee = Math.ceil(distanceInMeter / 1000 - 5) * 1.5
               }

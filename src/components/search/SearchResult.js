@@ -50,7 +50,6 @@ const mapStateToProps = (state, ownProps) => {
             vendor.name.toLowerCase().includes(keyword)
         );
     }
-    console.log(vendors);
     return {
         vendors
     };

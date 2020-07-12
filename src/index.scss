@@ -1036,17 +1036,18 @@ a {
     list-style: none;
     padding: 0;
     li {
-      // border: 1px solid $border-color;
+      
       // height: 8vw;
       // line-height: 8vw;
       margin: 3vw 0;
       background: white;
       input{
-        border: none;
+        border: 1px solid #aaa;
+      border-radius: 1vw;
         height: 8vw;
         line-height: 8vw;
         padding: 0 4vw;
-        width: 100%;
+        width: 100% !important;
       }
     }
   }
@@ -1059,6 +1060,10 @@ a {
     text-align: center;
     line-height: 10vw;;
   }
+  .react-tel-input .form-control{
+    border: none;
+  }
+ 
 }
 
 //end of create delivery Info
