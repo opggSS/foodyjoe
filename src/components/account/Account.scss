@@ -16,15 +16,11 @@
         text-align: center;
     }
     .card-container {
-        margin: 20px;
-        padding: 20px;
-        div {
-            margin-bottom: 5px;
-            border-bottom: 1px solid #e3e3e3;
-            padding: 5px;
-        }
+        margin: 4vw 0 ;
+        padding: 4vw;
         .submit-change {
             border: none;
+            margin: 4vw 0 ;
         }
     }
     label > input {
@@ -42,5 +38,8 @@
         margin: 0 auto;
         margin-top: 30px;
         width: 80px;
+    }
+    .mb-3 {
+        margin-bottom: 3vw;
     }
 }

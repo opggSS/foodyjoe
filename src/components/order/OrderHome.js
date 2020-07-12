@@ -6,6 +6,7 @@ import SingleOrderSummary from './SingleOrderSummary'
 import { Link } from 'react-router-dom'
 import './OrderHome.scss'
 import CurrentOrder from './CurrentOrder'
+import BotNavbar from '../navigation/BotNavbar'
 
 const populates = [
   { child: 'vendor', root: 'vendors' }
@@ -59,6 +60,7 @@ const OrderHome = ({ auth, currentOrders, historyOrders }) => {
           orderCurrent()
         ) : orderHistory()}
       </div>
+      <BotNavbar />
     </div>
   )
 }

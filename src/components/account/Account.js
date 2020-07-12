@@ -4,6 +4,10 @@ import { signIn, signOut, updateUserInfo } from '../../actions/auth/authAction';
 import './Account.scss';
 import { Link } from 'react-router-dom';
 import { InputItem, Card } from 'antd-mobile';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+import { Modal } from 'antd-mobile'
+const alert = Modal.alert;
 
 const Account = ({
     orders,
@@ -17,18 +21,38 @@ const Account = ({
 }) => {
     const [phone, setPhone] = useState('');
     const [modal, setModal] = useState(false);
+    const [isPhoneValid, setIsPhoneValid] = useState(false)
+
     const [userInfo, setUserInfo] = useState({
         username: '',
         phone: ''
     });
 
     const handlepdateUserInfo = () => {
-        const updatedUser = {
-            ...user,
-            phone: userInfo.phone,
-            username: userInfo.username
+        console.log(userInfo.username)
+        if (!isPhoneValid) {
+            alert(`Invalid phone number`, '', [
+                { text: 'Ok'}
+            ])
         }
-        updateUserInfo({ user: updatedUser });
+        
+        else if (userInfo.username === '') {
+            alert(`Please fill in your username`, '', [
+                { text: 'Ok' }
+            ])
+        }
+        else {
+            const updatedUser = {
+                ...user,
+                phone: userInfo.phone,
+                username: userInfo.username
+            }
+            updateUserInfo({ user: updatedUser });
+            alert(`Profile Updated`, '', [
+                { text: 'Ok', onPress: () => setModal(false)   }
+            ])
+        }
+
     };
 
     return !auth.apiKey ? (
@@ -69,10 +93,10 @@ const Account = ({
                     title="Your Account Info"
                     bordered={true}
                 >
-                    <div>
+                    <div className='mb-3'>
                         <b>Username: </b> {user && user.username}
                     </div>
-                    <div>
+                    <div className="mb-3">
                         <b>Phone number: </b> {user && user.phone}
                     </div>
                 </Card>
@@ -95,7 +119,7 @@ const Account = ({
                         className="ant-btn ant-btn-primary"
                         to={'./deliveryinfo'}
                     >
-                       
+
                         Manage delivery Info
                     </Link>
                 </div>
@@ -118,16 +142,33 @@ const Account = ({
                                 defaultValue={userInfo.username}
                             />
                         Phone Number:
-                        <InputItem
-                                type="text"
-                                onChange={(value) => {
-                                    setUserInfo({
-                                        ...userInfo,
-                                        phone: value + ''
-                                    });
+
+                            <PhoneInput
+                                isValid={(value, country) => {
+                                    if (value.match(/\d/g).length === 11 && country.name === 'Canada') {
+                                        setIsPhoneValid(true)
+                                        return true
+                                    }
+                                    else {
+                                        setIsPhoneValid(false)
+                                        return false
+                                    }
                                 }}
-                                defaultValue={userInfo.phone}
+                                inputProps={{
+                                    // value: userInfo.phone,
+                                    name: 'phone',
+                                    required: true,
+                                }}
+                                placeholder='Receiver Phone Number'
+                                country={'ca'}
+                                value={userInfo.phone}
+                                onChange={phone => setUserInfo({
+                                    ...userInfo,
+                                    phone: phone
+                                })}
                             />
+
+
                             <div className="submit-change">
                                 <button
                                     className="ant-btn ant-btn-primary"
