@@ -14,7 +14,7 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case SIGN_IN_FAIL:
-      const errorMsg = action.payload.error
+      const errorMsg = action.payload
       return {
         ...state,
         authError: errorMsg

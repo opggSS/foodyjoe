@@ -7,6 +7,7 @@ import { InputItem, Card } from 'antd-mobile';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import { Modal } from 'antd-mobile'
+
 const alert = Modal.alert;
 
 const Account = ({
@@ -25,18 +26,22 @@ const Account = ({
 
     const [userInfo, setUserInfo] = useState({
         username: '',
-        phone: ''
     });
 
-    const handlepdateUserInfo = () => {
-        console.log(userInfo.username)
+    const handleSignIn = () => {
         if (!isPhoneValid) {
             alert(`Invalid phone number`, '', [
-                { text: 'Ok'}
+                { text: 'Ok' }
             ])
         }
-        
-        else if (userInfo.username === '') {
+        else {
+            signIn({ phone: '+' + phone })
+        }
+
+    }
+    const handlepdateUserInfo = () => {
+
+        if (userInfo.username === '') {
             alert(`Please fill in your username`, '', [
                 { text: 'Ok' }
             ])
@@ -44,16 +49,14 @@ const Account = ({
         else {
             const updatedUser = {
                 ...user,
-                phone: userInfo.phone,
                 username: userInfo.username
             }
             updateUserInfo({ user: updatedUser });
             alert(`Profile Updated`, '', [
-                { text: 'Ok', onPress: () => setModal(false)   }
+                { text: 'Ok', onPress: () => setModal(false) }
             ])
         }
-
-    };
+    }
 
     return !auth.apiKey ? (
         <div className="account-info-wrapper">
@@ -64,23 +67,43 @@ const Account = ({
             <div className="login-info">
                 <label>
                     Phone:
-                    <input
+                    {/* <input
                         type="text"
                         onChange={(e) => setPhone(e.target.value)}
+                    /> */}
+
+                    <PhoneInput
+                        isValid={(value, country) => {
+                            if (value.match(/\d/g) && value.match(/\d/g).length === 11 && country.name === 'Canada') {
+                                setIsPhoneValid(true)
+                                return true
+                            }
+                            else {
+                                setIsPhoneValid(false)
+                                return false
+                            }
+                        }}
+                        inputProps={{
+                            name: 'phone',
+                            required: true,
+                        }}
+                        placeholder='Receiver Phone Number'
+                        country={'ca'}
+                        onChange={phone => { console.log(phone); setPhone(phone) }}
                     />
+
                 </label>
             </div>
             <div>
                 <button
                     id="sign-in-button"
                     className="am-button am-button-primary"
-                    onClick={() => signIn({ phone: phone })}
+                    onClick={() => handleSignIn()}
                 >
                     sign in
                 </button>
+                {user.authError && <span className='error'>Login Failed : {user.authError} </span>}
             </div>
-
-            {authError && <div>Login Failed : {authError}</div>}
         </div>
     ) : (
             <div className="account-info-wrapper">
@@ -108,7 +131,6 @@ const Account = ({
                             setModal(true);
                             setUserInfo({
                                 username: user.username || '',
-                                phone: user.phone || ''
                             });
                         }}
                     >
@@ -143,7 +165,7 @@ const Account = ({
                             />
                         Phone Number:
 
-                            <PhoneInput
+                            {/* <PhoneInput
                                 isValid={(value, country) => {
                                     if (value.match(/\d/g).length === 11 && country.name === 'Canada') {
                                         setIsPhoneValid(true)
@@ -166,9 +188,9 @@ const Account = ({
                                     ...userInfo,
                                     phone: phone
                                 })}
-                            />
+                            /> */}
 
-
+                            <div> {user.phone}</div>
                             <div className="submit-change">
                                 <button
                                     className="ant-btn ant-btn-primary"

@@ -40,7 +40,6 @@ import { history } from '../../App';
 
 export const signIn = (params) => async (dispatch, getState, { getFirestore, getFirebase }) => {
   const firebase = await getFirebase()
-
   // set up recaptchaVerifier if there is not one already
   if (!window.recaptchaVerifier) {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
@@ -74,15 +73,14 @@ export const signIn = (params) => async (dispatch, getState, { getFirestore, get
       }
       dispatch({
         type: SIGN_IN_SUCCESS,
-        payload: res.user
+        payload: user
       })
-    }).catch(err => {
-      dispatch({ type: SIGN_IN_FAIL, payload: err })
+    }).catch(() => {
+      dispatch({ type: SIGN_IN_FAIL, payload: 'validation code error' })
     })
     // window.confirmationResult = confirmationResult;
   }).catch(function (error) {
     // Error; SMS not sent
-    // ...
     dispatch({ type: SIGN_IN_FAIL, payload: error.message })
   });
 }
@@ -98,7 +96,7 @@ export const signOut = () => {
 }
 
 export const updateUserInfo = ({ user, isGoBack }) => (dispatch, getState, { getFirestore, getFirebase }) => {
-  const uid = getState().firebase.auth.uid
+  const uid = (getState()).firebase.auth.uid
   const firestore = getFirestore()
   firestore.collection('users').doc(uid).set(user).then(() => {
     if (isGoBack) {
