@@ -1,4 +1,4 @@
-import { CREATE_ORDER_SUCCESS, CLEAR_CART_BY_VENDOR_ID, CREATE_ORDER_ERROR, SET_ORDER_DETAIL } from '../types'
+import { CREATE_ORDER_SUCCESS, CLEAR_CART_BY_VENDOR_ID, CREATE_ORDER_ERROR, SET_ORDER_DETAIL,SET_LAST_VISITED_VENDOR } from '../types'
 
 //pass vendor Id to payload
 export const createOrder = (payload) => {
@@ -14,10 +14,13 @@ export const createOrder = (payload) => {
       })
       dispatch({
         type: CLEAR_CART_BY_VENDOR_ID,
-        payload: { vendorId: payload.vendorId }
+        payload: { vendor: payload.vendor }
+      })
+      dispatch({
+        type:SET_LAST_VISITED_VENDOR,
+        payload: null
       })
       
-      // history.push('/')
     }).catch(err => {
       dispatch({
         type: CREATE_ORDER_ERROR,

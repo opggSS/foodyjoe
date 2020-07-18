@@ -3,7 +3,8 @@ import CompleteCartSingleDish from './CompleteCartSingleDish'
 import SingleVendorCartFooter from './SingleVendorCartFooter.component'
 import { connect } from 'react-redux'
 
-const SingleVendorCart = ({ dishes, vendor, vendorId , totalPrice}) => {
+const SingleVendorCart = ({ dishes, vendor, vendorId, totalPrice }) => {
+  console.log(vendor)
 
   const renderSingleDish = () => {
     return dishes.map((dish, index) => {
@@ -26,34 +27,39 @@ const SingleVendorCart = ({ dishes, vendor, vendorId , totalPrice}) => {
       )
     })
   }
-  return (
-    <>
-      <div className="vendorRow">
-        <img src={vendor.logo} alt={vendor.name} />
-        <span>{vendor.name}</span>
-        <span className="dishCategory"> {dishes.length}类商品</span>
-      </div>
 
-      <div className="dishInCartContainer">
-        {renderSingleDish()}
-        <SingleVendorCartFooter 
-          totalPrice ={totalPrice} 
-          vendorId = {vendorId}
+  return (
+    vendor ? (
+      <>
+        <div className="vendorRow">
+          <img src={vendor.logo} alt={vendor.name} />
+          <span>{vendor.name}</span>
+          <span className="dishCategory"> {dishes.length}类商品</span>
+        </div>
+
+        <div className="dishInCartContainer">
+          {renderSingleDish()}
+          <SingleVendorCartFooter
+            totalPrice={totalPrice}
+            vendorId={vendorId}
           />
-      </div>
-    </>
+        </div>
+      </>
+    ) :
+    <div> Loading ...</div>
+      
   )
 }
 
 
-const mapStateToProps = (state, ownProps) =>{
-  
+const mapStateToProps = (state, ownProps) => {
+
   let vendor = null;
-  if(state.firestore.ordered.vendors) {
-    vendor = state.firestore.ordered.vendors.find(vendor =>  vendor.id === ownProps.vendorId)
+  if (state.firestore.ordered.vendors && state.firestore.ordered.vendors.length > 0) {
+    vendor = state.firestore.ordered.vendors.find(vendor => vendor.id === ownProps.vendorId)
   }
   return {
-    vendor : vendor
+    vendor: vendor
   }
 }
 export default connect(mapStateToProps)(SingleVendorCart)

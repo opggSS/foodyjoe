@@ -90,8 +90,9 @@ const Checkout = props => {
             history,
             userId: user.id,
             deliveryInfo: null,
+            notes: null,
             priceInfo: {
-              orderTotal: totalBeforeTax,
+              orderTotal:  Number((cart.totalPrice).toFixed(2)),
               deliveryFee: Number((vendor.delivery_fee).toFixed(2)),
               tax: tax,
               subtotal: subtotal
@@ -118,6 +119,7 @@ const Checkout = props => {
             history,
             userId: user.id,
             deliveryInfo: null,
+            notes: null,
             priceInfo: {
               orderTotal: totalBeforeTax,
               deliveryFee: 0,
@@ -142,7 +144,7 @@ const Checkout = props => {
         setOrderDetail({
           ...orderDetail,
           deliveryInfo: null,
-          isDelivery:false,
+          isDelivery: false,
           priceInfo: {
             orderTotal: totalBeforeTax,
             deliveryFee: 0,
@@ -151,12 +153,12 @@ const Checkout = props => {
           }
         })
       }
-      else if (!orderDetail.deliveryInfo && isDelivery ) {
+      else if (!orderDetail.deliveryInfo && isDelivery) {
         setOrderDetail({
           ...orderDetail,
           deliveryInfo: null,
-          isDelivery:true,
-          
+          isDelivery: true,
+
           priceInfo: {
             orderTotal: totalBeforeTax,
             deliveryFee: Number((vendor.delivery_fee).toFixed(2)),
@@ -291,6 +293,19 @@ const Checkout = props => {
         </div>
         {/* <div className="infoContainer"> <Remark /></div>
         <div className="infoContainer"> <Agreement /></div> */}
+        <div className="infoContainer">
+          <div className='title'>
+            Notes:
+          </div>
+          <textarea
+            className='notes'
+            placeholder="Delivery Notes ..."
+            onChange={(e) => setOrderDetail({
+              ...orderDetail,
+              notes: e.target.value
+            })}
+          ></textarea>
+        </div>
         <div className="confirmBtn" >
           <div className="left">${orderDetail.priceInfo ? orderDetail.priceInfo.subtotal : 0}</div>
           {(!orderDetail.deliveryInfo && isDelivery) ?

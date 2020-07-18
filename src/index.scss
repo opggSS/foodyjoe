@@ -715,6 +715,17 @@ a {
     padding: 3vw;
     border-radius: 2vw;
     margin: 1vw 0;
+    .title {
+      border-bottom: 1px solid $border-color;
+    }
+    .notes {
+      width: 100%;
+      height: 12vw;
+      line-height: 6vw;
+      // font-size: 4.3vw;
+      border: none;
+      
+    }
     .priceInfoRow {
       line-height: 6vw;
       position: relative;

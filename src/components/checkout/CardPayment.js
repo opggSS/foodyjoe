@@ -62,7 +62,7 @@ const CardPayment = props => {
       });
       console.log(paymentMethodReq)
       const { data: clientSecret } = await axios.post("https://us-central1-foodyjoe-3a05d.cloudfunctions.net/cc", {
-        amount: price * 100
+        amount: price.toFixed(2) * 100
       });
       if (paymentMethodReq.error) {
         setCheckoutError(paymentMethodReq.error.message);
@@ -108,7 +108,7 @@ const CardPayment = props => {
   };
 
   if (!price) return <Redirect to='/'></Redirect>
-  if(orderDetail.completed) {
+  if(!orderDetail) {
     alert('Order placed', '', [
       { text: 'OK', onPress: () => history.push('/orders') } ,
     ])
@@ -118,6 +118,7 @@ const CardPayment = props => {
       <Row>
         <BillingDetailsFields />
       </Row>
+      <div style={{marginLeft: '5.5vw'}}>Use 4242 4242 4242 4242 for testing</div>
       <Row>
         <CardElementContainer  >
           <CardElement

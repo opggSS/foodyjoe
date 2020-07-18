@@ -57,6 +57,7 @@ const SingleOrderDetail = ( {location, order }) => {
         <div className="timeLocation">
           <div> {order.isDelivery ? 'Delivery' : 'Pick Up'}Time: {order.completedAt && order.completedAt.toDate().toLocaleString()}</div>
           <div> {order.isDelivery ? `Delivery Location: ${order.deliveryInfo.address}` : `Pick Up Location : ${vendor.address}`}  </div>
+          <div>{order.notes && `notes: ${order.notes}`} </div>
         </div>
         <div className="divider"></div>
         <div className="orderDetail">

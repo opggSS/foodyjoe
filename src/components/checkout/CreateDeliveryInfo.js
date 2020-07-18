@@ -7,10 +7,9 @@ import { connect } from 'react-redux'
 import { updateUserInfo } from '../../actions/auth/authAction'
 import { GoogleApiWrapper } from "google-maps-react";
 import { Redirect } from "react-router-dom";
-import { Modal } from 'antd-mobile'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
-
+import { Modal } from 'antd-mobile'
 const alert = Modal.alert;
 
 const CreateDeliveryInfo = ({ user, updateUserInfo, google }) => {

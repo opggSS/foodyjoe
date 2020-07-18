@@ -69,7 +69,6 @@ const App =  ({user,setUserInfo}) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.firestore.ordered)
   return {
     user: state.firestore.ordered.users ? state.firestore.ordered.users[0] : null,
     uid: state.firebase.auth.uid,
@@ -100,7 +99,6 @@ export default compose(
         }
       ]
     }
-   
   }))
 (App)
 
