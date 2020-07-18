@@ -20,6 +20,9 @@ const CardElementContainer = styled.div`
   & .StripeElement {
     width: 100%;
     padding: 15px;
+    input {
+      color: #333;
+    }
   }
 `;
 
@@ -60,7 +63,6 @@ const CardPayment = props => {
         card: cardElement,
         billing_details: billingDetails
       });
-      console.log(paymentMethodReq)
       const { data: clientSecret } = await axios.post("https://us-central1-foodyjoe-3a05d.cloudfunctions.net/cc", {
         amount: price.toFixed(2) * 100
       });

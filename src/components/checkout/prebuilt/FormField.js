@@ -16,7 +16,7 @@ const Label = styled.label`
   width: 20%;
   min-width: 70px;
   padding: 11px 0;
-  color: #c4f0ff;
+  color: #aaa;
   overflow: hidden;
   font-size: 4vw;
   text-overflow: ellipsis;

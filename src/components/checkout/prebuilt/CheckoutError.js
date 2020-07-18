@@ -13,14 +13,13 @@ const fade = keyframes`
 `;
 
 const ErrorContainer = styled.div`
-  color: #fff;
+  color: #333;
   display: flex;
   justify-content: center;
-  padding: 0 15px;
-  font-size: 13px;
+  padding: 0 3vw;
+  font-size: 4vw;
   margin: -10px auto 0px auto;
   width: 100%;
-  max-width: 450px;
   opacity: 90;
   animation: ${fade} 150ms ease-out;
   animation-delay: 50ms;
