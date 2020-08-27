@@ -103,7 +103,10 @@ const Account = ({
                     sign in
                 </button>
                 {user.authError && <span className='error'>Login Failed : {user.authError} </span>}
+                <div style={{ textAlign: 'center' }}> use 778-888-8888 for testing</div>
+                <div style={{ textAlign: 'center' }}> verification code : 123123</div>
             </div>
+
         </div>
     ) : (
             <div className="account-info-wrapper">
@@ -212,6 +215,7 @@ const Account = ({
                 >
                     Sign Out
             </div>
+
             </div>
         );
 };

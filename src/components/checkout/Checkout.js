@@ -227,10 +227,12 @@ const Checkout = props => {
         <div className="deliveryInfo infoContainer">
           <div className="location">
             <img src={Location} alt="" className="locationImg" />
+            {console.log(user)}
             {orderDetail.isDelivery ?
-              <Link to={{
-                pathname: `/deliveryInfo`,
-              }}>
+              
+              <Link to={
+                !user.id ? {pathname: '/account'}: {pathname: '/deliveryInfo',}
+              }>
                 {orderDetail.deliveryInfo ?
                   (<div>
                     <div>{orderDetail.deliveryInfo.address}</div>
@@ -312,6 +314,13 @@ const Checkout = props => {
             <div className="right" onClick={placeOrder}>
               Place Order
             </div>
+            : (!user.id) ? 
+            (<Link
+              to='account'>
+              <div className="right" >
+                Place Order
+            </div>
+            </Link>)
             :
             (<Link
               to={{
