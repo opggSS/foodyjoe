@@ -7,6 +7,9 @@ import { decrement } from '../../actions/cart/decrement'
 import { removeItem } from '../../actions/cart/removeItem'
 import { addToCart } from '../../actions/cart/addToCart'
 
+import plus from '../../assets/icons/plus.png'
+import minus from '../../assets/icons/minus.png'
+
 const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, itemId=null, dishQuantity = 0, dish, isCompleteCart }) => {
   const [modalOpen, setModalOpen] = useState(false)
   const [cartItemId, setCartItemId] = useState(itemId)
@@ -65,9 +68,9 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, item
       {dish.selectables.length > 0 ?
         dishQuantity > 0 && isCompleteCart ? (
           <div>
-            <div className="decrement" onClick={handleDecrement}> <span>-</span> </div>
+            <div className="decrement" onClick={handleDecrement}> <img src={minus}/> </div>
             <div className='SingleItemQuantity'> {dishQuantity} </div>
-            <div className="increment" onClick={handleIncrement}> <span>+</span> </div>
+            <div className="increment" onClick={handleIncrement}> <img src={plus}/> </div>
           </div>
         ) :
           (<div className="option"
@@ -101,7 +104,6 @@ const SingleDishAddButton = ({ increment, decrement, removeItem, addToCart, item
 }
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log(ownProps)
   const singleVendorCart = ownProps.dish ? state.cartState[ownProps.dish.vendor] : null
 
   if (ownProps.isVendorMenu) {

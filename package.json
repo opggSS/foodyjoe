@@ -19,7 +19,7 @@
     "firebase": "^7.15.3",
     "gh-pages": "^3.0.0",
     "google-maps-react": "^2.0.6",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "node-sass": "^4.14.1",
     "qrcode.react": "^1.0.0",
     "react": "^16.13.1",
@@ -33,7 +33,7 @@
     "react-spinners": "^0.9.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-firestore": "^0.13.0",
+    "redux-firestore": "^0.15.0",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {

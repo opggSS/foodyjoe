@@ -4,8 +4,6 @@ import SingleVendorCartFooter from './SingleVendorCartFooter.component'
 import { connect } from 'react-redux'
 
 const SingleVendorCart = ({ dishes, vendor, vendorId, totalPrice }) => {
-  console.log(vendor)
-
   const renderSingleDish = () => {
     return dishes.map((dish, index) => {
       let selectableText = ''
@@ -34,7 +32,7 @@ const SingleVendorCart = ({ dishes, vendor, vendorId, totalPrice }) => {
         <div className="vendorRow">
           <img src={vendor.logo} alt={vendor.name} />
           <span>{vendor.name}</span>
-          <span className="dishCategory"> {dishes.length}类商品</span>
+          <span className="dishCategory"> {dishes.length} types of items </span>
         </div>
 
         <div className="dishInCartContainer">

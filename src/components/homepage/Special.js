@@ -1,9 +1,9 @@
 import React from 'react'
 import { Carousel, WingBlank } from 'antd-mobile';
 
-import banner1 from '../../assets/images/banner1.jpg'
-import banner2 from '../../assets/images/banner2.jpg'
-import banner3 from '../../assets/images/banner3.jpg'
+// import banner1 from '../../assets/images/banner1.jpg'
+// import banner2 from '../../assets/images/banner2.jpg'
+// import banner3 from '../../assets/images/banner3.jpg'
 
 export default function Special() {
   return (
@@ -19,7 +19,7 @@ export default function Special() {
           autoplay
           infinite
         >
-          <div>
+          {/* <div>
             <img src={banner1} alt='sdf' />
             <img src={banner2} alt='sdf' />
             <img src={banner3} alt='sdf' />
@@ -33,7 +33,7 @@ export default function Special() {
             <img src={banner1} alt='sdf' />
             <img src={banner2} alt='sdf' />
             <img src={banner3} alt='sdf' />
-          </div>
+          </div> */}
 
         </Carousel>
       </WingBlank>
