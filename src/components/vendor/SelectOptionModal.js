@@ -7,7 +7,6 @@ import { increment } from '../../actions/cart/increment'
 import _ from 'lodash'
 
 const alert = Modal.alert;
-
 const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, increment, vendorId }) => {
 
   const selectedOptions = []
@@ -35,7 +34,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
       }
     })
 
-  }, [dish.selectables, isFinishSelection]);
+  }, [dish.selectables]);
 
   useEffect(() => {
     let isFinish = true;
@@ -48,10 +47,10 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
     setIsDone(isFinish)
   }, [isFinishSelection]);
 
-  const toggleSelection = (e, index, selection, max, min, option, price) => {
+  const toggleSelection = (e, index, selection, max, min, option, price=0) => {
     const elmClasses = e.target.classList
     if (selectedOption[index].option.length === max && !elmClasses.contains('active')) {
-      alert(`${option}You can select at most ${max} selectables!`, '', [
+      alert(`${option} Can't select more than ${max} options!`, '', [
         { text: 'Ok' }
       ])
     }
@@ -95,7 +94,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
         setQuantity(quantity + 1)
       }
       else {
-        alert('Please select', '', [
+        alert('Please complete selection', '', [
           { text: 'Ok' }
         ])
       }
@@ -109,7 +108,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
 
   const optionType = (min, max) => {
     if (min === 0) {
-      return `0~${max}`
+      return `Choose up to ${max}`
     }
 
     else if (min === max) {
@@ -179,7 +178,7 @@ const SelectOptionModal = ({ handleCloseModal, addToCart, dish, sameDishInCart, 
               {option.values.map((selection, i) => {
                 return (
                   <div key={i} className="optionSelection" onClick={(e) => toggleSelection(e, index, selection.name, option.max, option.min, option.name, selection.price)} >
-                    {selection.name}{selection.price !== 0 && '($' + selection.price + ')'}
+                    {selection.name}{selection.price && '($' + selection.price + ')'}
                   </div>
                 )
               })}

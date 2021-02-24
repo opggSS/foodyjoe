@@ -349,6 +349,8 @@ a {
     .dishCategory {
       position: absolute;
       right: 4vw;
+      color: $main-red;
+      font-weight: bold;
     }
     img {
       height: 4vw;
@@ -389,9 +391,7 @@ a {
   right: 16vw;
   bottom: 0;
   width: 8vw;
-  border-radius: 4vw;
   height: 8vw;
-  border: 1px solid $text-grey;
   color: $text-grey;
   span {
     position: absolute;
@@ -399,6 +399,10 @@ a {
     top: -2vw;
     left: 2.2vw;
     font-weight: 200;
+  }
+  img{
+    width:100%  !important;
+    height: 100%  !important;
   }
 }
 .SingleItemQuantity {
@@ -421,9 +425,12 @@ a {
     left: 1.6vw;
     font-weight: 200;
   }
-  border-radius: 4vw;
+
+  img{
+      width:100%  !important;
+      height: 100%  !important;
+  }
   height: 8vw;
-  border: 1px solid $main-blue;
   color: $main-blue;
 }
 // end of add/minus buttons   ///////////////////////////////////
@@ -575,9 +582,12 @@ a {
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: white;
+  overflow-y:scroll;
   .container {
+    padding: 3.5vw;
+    padding-bottom: 25vh;
     .addToCart {
       position: fixed;
       bottom: 0;
@@ -636,7 +646,6 @@ a {
         margin-left: 4vw;
       }
     }
-    padding: 3.5vw;
     .head {
       position: relative;
       text-align: center;
